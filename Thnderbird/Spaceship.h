@@ -9,7 +9,7 @@ class SpaceShip
 	int horizontalSize;
 	int direction = 3;
 	char figure;
-	char arrowKeys[4];
+	char arrowKeys[4] = { 0,1,2,3 };
 	Color color;
 	bool isBlock;
 	Point* mat[2];
