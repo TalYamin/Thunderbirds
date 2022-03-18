@@ -12,12 +12,11 @@ public:
 	{
 		x = _x;
 		y = _y;
+
 	};
-	~Point();
+	~Point() {};
 private:
 
 };
 
-Point::~Point()
-{
-}
+

@@ -1,8 +1,10 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 25
-#include "Point.h";
-#include "Time.h";
+#include "Point.h"
+#include "Time.h"
+
+Point point;
 
 class Board
 {
@@ -30,7 +32,7 @@ public:
 		maxVerticalSize = _maxVerticalSize;
 		timeRemains = _timeRemains;
 	};
-
+	Board() {};
 
 private:
 
