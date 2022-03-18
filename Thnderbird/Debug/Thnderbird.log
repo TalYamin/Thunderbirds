@@ -1,9 +1,0 @@
-﻿  Board.cpp
-C:\Users\ido\Source\Repos\Thunderbirds\Thnderbird\Board.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\ido\Source\Repos\Thunderbirds\Thnderbird\Board.h(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Point.cpp
-  Wall.cpp
-  Generating Code...
-Point.obj : error LNK2005: "public: __thiscall Point::~Point(void)" (??1Point@@QAE@XZ) already defined in Board.obj
-Wall.obj : error LNK2005: "public: __thiscall Point::~Point(void)" (??1Point@@QAE@XZ) already defined in Board.obj
-C:\Users\ido\Source\Repos\Thunderbirds\Debug\Thnderbird.exe : fatal error LNK1169: one or more multiply defined symbols found
