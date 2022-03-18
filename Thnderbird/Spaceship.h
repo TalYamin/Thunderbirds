@@ -35,10 +35,4 @@ private:
 
 };
 
-SpaceShip::SpaceShip()
-{
-}
 
-SpaceShip::~SpaceShip()
-{
-}

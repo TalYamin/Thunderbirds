@@ -4,7 +4,6 @@
 #include "Point.h"
 #include "Time.h"
 
-Point point;
 
 class Board
 {
