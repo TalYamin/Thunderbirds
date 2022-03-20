@@ -1,8 +1,9 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 25
-#include "Point.h";
-#include "Time.h";
+#include "Point.h"
+#include "Time.h"
+
 
 class Board
 {
@@ -13,13 +14,8 @@ class Board
 public:
 	void revertStartUpBoard();
 	Point** initBoard();
-	void setTimeRemains(long timeToSet)
-	{
-		timeRemains = timeToSet;
-	};
-	Time getTimeRemains() {
-		return timeRemains;
-	};
+	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
+	Time getTimeRemains() { return timeRemains; };
 	void setMaxHorizontalSize(int _horizontal) { maxHorizontalSize = _horizontal; };
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
@@ -30,7 +26,7 @@ public:
 		maxVerticalSize = _maxVerticalSize;
 		timeRemains = _timeRemains;
 	};
-
+	Board() {};
 
 private:
 

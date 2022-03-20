@@ -3,7 +3,7 @@
 
 class Player
 {
-	int lives;
+	int lives = 3;
 	Board board;
 public:
 	Player();

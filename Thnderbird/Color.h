@@ -2,7 +2,7 @@
 #ifndef _COLOR_H_
 #define _COLOR_H_
 
-enum Color
+enum class Color
 {
 	BLACK = 0,
 	BLUE = 1,
