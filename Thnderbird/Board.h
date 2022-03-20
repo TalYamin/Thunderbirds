@@ -14,13 +14,8 @@ class Board
 public:
 	void revertStartUpBoard();
 	Point** initBoard();
-	void setTimeRemains(long timeToSet)
-	{
-		timeRemains = timeToSet;
-	};
-	Time getTimeRemains() {
-		return timeRemains;
-	};
+	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
+	Time getTimeRemains() { return timeRemains; };
 	void setMaxHorizontalSize(int _horizontal) { maxHorizontalSize = _horizontal; };
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
