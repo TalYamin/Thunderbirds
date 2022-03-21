@@ -1,5 +1,10 @@
 #pragma once
 
+#include <iostream>
+#include "io_utils.h"
+
+using namespace std;
+
 class Point
 {
 	int x = 1;

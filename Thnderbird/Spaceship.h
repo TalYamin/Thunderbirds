@@ -5,6 +5,7 @@
 class SpaceShip
 {
 	enum class ShipSize { SMALL = 1, BIG = 2 };
+	ShipSize type;
 	int verticalSize;
 	int horizontalSize;
 	int direction = 3;
@@ -22,16 +23,19 @@ public:
 	};
 	void setColor(Color c) { color = c; };
 	void setFigure(const char c) { figure = c; };
-	void move();
+	void move(ShipSize size);
 	int getDirection(char key) { return key; };
 	void setDirection(int dir) { direction = dir; };
 	void setIsBlock() {
 		isBlock == true ? isBlock = false : isBlock = true;
 	};
+	void setMat(ShipSize size);
+	void setType(int typeNum);
+	ShipSize getType();
 	SpaceShip();
 	~SpaceShip();
 
 private:
-
+	void moveSmallShip();
 };
 
