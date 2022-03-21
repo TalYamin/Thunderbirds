@@ -6,22 +6,14 @@ class Player
 	int lives = 3;
 	Board board;
 public:
-	Player();
+	Player() {};
 	Player(Board _board)
 	{
 		board = _board;
 	};
-	~Player();
+	~Player() {};
 	void setLives(int _lives) { lives = _lives; };
 	int getLives() { return lives; };
 private:
 
 };
-
-Player::Player()
-{
-}
-
-Player::~Player()
-{
-}
