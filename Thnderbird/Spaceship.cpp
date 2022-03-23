@@ -1,21 +1,70 @@
 #include "Spaceship.h"
 
-void SpaceShip::move(ShipSize size){
+void SpaceShip::setType(int typeNum) {
+	type = static_cast<ShipSize>(typeNum);
+}
 
-	switch (size)
-	{
-	case ShipSize::SMALL:
-		break;
-	case ShipSize::BIG:
-		break;
-	default:
-		break;
-	}
+SpaceShip::ShipSize SpaceShip::getType() {
+	return type;
+}
+
+void SpaceShip::setVerticalSize(int _verticalSize) {
+	verticalSize = _verticalSize;
+}
+
+int SpaceShip::getVerticalSize() {
+	return verticalSize;
+}
+
+void SpaceShip::setHorizontalSize(int _horizontalSize) {
+	horizontalSize = _horizontalSize;
 }
 
 
-void SpaceShip::moveSmallShip() {
+int SpaceShip::getHorizontalSize() {
+	return horizontalSize;
+}
 
+void SpaceShip::setDirection(int _direction) {
+	direction = _direction;
+}
+
+int SpaceShip::getDirection(char key) {
+	return key; 
+}
+
+void SpaceShip::setFigure(const char c) {
+	figure = c;
+}
+
+char SpaceShip::getFigure() {
+	return figure;
+}
+
+
+void SpaceShip::setArrowKeys(const char* keys) { // "wzad"
+	arrowKeys[0] = keys[0];
+	arrowKeys[1] = keys[1];
+	arrowKeys[2] = keys[2];
+	arrowKeys[3] = keys[3];
+};
+
+
+void SpaceShip::setColor(Color _color) {
+	color = _color;
+}
+
+Color SpaceShip::getColor() {
+	return color;
+}
+
+
+void SpaceShip::setIsBlock() {
+	isBlock == true ? isBlock = false : isBlock = true;
+};
+
+bool SpaceShip::getIsBlock() {
+	return isBlock;
 }
 
 void SpaceShip::setMat(ShipSize size) {
@@ -37,13 +86,33 @@ void SpaceShip::setMat(ShipSize size) {
 
 }
 
-void SpaceShip::setType(int typeNum) {
-	type = static_cast<ShipSize>(typeNum);
+Point** SpaceShip::getMat() {
+	return mat;
 }
 
-SpaceShip::ShipSize SpaceShip::getType() {
-	return type;
+
+void SpaceShip::move(ShipSize size){
+
+	switch (size)
+	{
+	case ShipSize::SMALL:
+		break;
+	case ShipSize::BIG:
+		break;
+	default:
+		break;
+	}
 }
+
+
+void SpaceShip::moveSmallShip() {
+
+}
+
+
+
+
+
 
 SpaceShip::SpaceShip()
 {
