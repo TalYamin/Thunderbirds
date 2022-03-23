@@ -62,12 +62,18 @@ void Game::showInfo() {
 
 void Game::init() {
 	cout << "Game is initialized !" << endl;
-	SpaceShip big;
-	SpaceShip small;
-	big.setType(1); //to check how to represent 1
-	small.setType(2);//to check how to represent 2
-	big.setMat(big.getType());
-	small.setMat(small.getType());
+
+	char bigKeys[4] = { 'W','S', 'A', 'D' };
+	SpaceShip bigShip(2, 2, '#', Color::GREEN);
+	bigShip.setType(2);
+	bigShip.setMat(bigShip.getType());
+	bigShip.setArrowKeys(bigKeys);
+
+	char smallKeys[4] = { 'U','J', 'H', 'K' };
+	SpaceShip smallShip(1, 2, '@', Color::BLUE);
+	smallShip.setType(1);
+	smallShip.setMat(smallShip.getType());
+	smallShip.setArrowKeys(smallKeys);
 
 	
 }

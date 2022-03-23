@@ -4,21 +4,24 @@
 
 class SpaceShip
 {
+
+	//date members 
 	enum class ShipSize { SMALL = 1, BIG = 2 };
 	ShipSize type;
 	int verticalSize;
 	int horizontalSize;
 	int direction = 3;
 	char figure;
-	char arrowKeys[4] = { 0,1,2,3 };
+	char arrowKeys[4];
 	Color color;
-	bool isBlock;
+	bool isBlock = false;
 	Point* mat[2];
 
 public:
 
 	//ctor + dtor
 	SpaceShip();
+	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color);
 	~SpaceShip();
 
 	//getters + setters

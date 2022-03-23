@@ -8,6 +8,14 @@ Point::Point(int _x, int _y)
 
 };
 
+void Point::setX(int _x) {
+	x = _x;
+
+}
+void Point::setY(int _y) {
+	y = _y;
+}
+
 void Point::move(int dir) {
 	switch (dir) {
 	case 0: // UP
