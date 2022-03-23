@@ -49,7 +49,12 @@ void SpaceShip::setDirection(int _direction) {
 }
 
 int SpaceShip::getDirection(char key) {
-	return key; 
+	for (int i = 0; i < 4; i++)
+	{
+		if (key == arrowKeys[i])
+			return i;
+	}
+	return -1;
 }
 
 void SpaceShip::setFigure(const char c) {
@@ -123,6 +128,7 @@ void SpaceShip::move(ShipSize size){
 	switch (size)
 	{
 	case ShipSize::SMALL:
+		moveSmallShip();
 		break;
 	case ShipSize::BIG:
 		break;
@@ -133,7 +139,12 @@ void SpaceShip::move(ShipSize size){
 
 
 void SpaceShip::moveSmallShip() {
-
+	
+	mat[0]->draw(' ');
+	mat[0]->move(direction);
+	mat[1]->move(direction);
+	setTextColor(color);
+	mat[1]->draw(figure);
 
 }
 
