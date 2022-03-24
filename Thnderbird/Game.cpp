@@ -111,23 +111,21 @@ void Game::showInfo() {
 void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
-//	char bigKeys[4] = { 'W','S', 'A', 'D' };
+	//TODO: Move to Board
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
 	bigShip.setMat(bigShip.getType());
 	bigShip.setArrowKeys("wxad");
 	
-	//char smallKeys[4] = { 'U','J', 'H', 'K' };
+	
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
 	smallShip.setMat(smallShip.getType());
 	smallShip.setArrowKeys("wxad");
 
 	smallShip.initDraw(smallShip.getType());
-	//smallShip.move(smallShip.getType());*/
-
 	bigShip.initDraw(bigShip.getType());
-	//bigShip.move(bigShip.getType());
+	
 }
 
 void Game::pause() {

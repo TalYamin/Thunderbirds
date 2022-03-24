@@ -14,9 +14,11 @@ public:
 	void setY(int _y);
 	void draw(char ch);
 	void move(int direction);
-	Point() {};
 	Point(int _x, int _y);
 	~Point() {};
+	Point() = default;
+	Point(const Point & _p) = default;
+	Point& operator=(const Point & _p) = default;
 private:
 
 };
