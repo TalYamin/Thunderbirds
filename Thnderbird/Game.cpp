@@ -1,4 +1,4 @@
-#include <iostream>
+
 
 #include "Game.h"
 
@@ -26,12 +26,12 @@ void Game::makeSelection() {
 	cin >> userSelection;
 	switch (userSelection)
 	{
-	case START:
-		run();
-		break;
 	case INFO:
 		showInfo();
 		break;
+	case START:
+		init();
+		run();
 	case EXIT:
 		cout << "Goodbye !" << endl;
 		break;
@@ -45,9 +45,16 @@ void Game::makeSelection() {
 
 
 void Game::run() {
+
 	cout << "Game is running !" << endl;
-	init();
+	while (!_kbhit() || _getch() != ESC)
+	{
+		
+	}
+	pause(); 
+	//should be handle ship movement too
 }
+
 
 void Game::showInfo() {
 	cout << "Instructions are here !" << endl;
@@ -55,6 +62,20 @@ void Game::showInfo() {
 
 void Game::init() {
 	cout << "Game is initialized !" << endl;
+}
+
+void Game::pause() {
+	char ch;
+	cout << "Game paused, press ESC again to continue or 9 to Exit" << endl;
+	do {
+		ch = _getch();
+	} while (ch != ESC && ch != PAUSE_EXIT);
+	if (ch == ESC){
+		run();
+	}
+	else if (ch == PAUSE_EXIT) {
+		userSelection = EXIT;
+	}
 }
 
 
