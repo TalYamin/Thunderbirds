@@ -85,6 +85,7 @@ void Game::init() {
 	smallShip.setMat(smallShip.getType());
 	smallShip.setArrowKeys("ujhk");
 
+	
 	smallShip.move(smallShip.getType());
 	
 }

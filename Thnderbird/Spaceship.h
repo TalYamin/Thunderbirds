@@ -45,6 +45,7 @@ public:
 
 	//public methods
 	void move(ShipSize size);
+	void initDraw(ShipSize size);
 	
 
 private:
