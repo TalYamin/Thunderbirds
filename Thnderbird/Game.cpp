@@ -1,13 +1,22 @@
-
-
-#include "Game.h"
+﻿#include "Game.h"
 
 using namespace std;
+
 
 void Game::start() {
 
 	printMenu();
 	makeSelection();
+}
+
+void Game::setLives(int _lives)
+{
+	lives = _lives;
+}
+
+int Game::getLives()
+{
+	return lives;
 }
 
 void Game::printMenu() {
@@ -22,7 +31,7 @@ void Game::printMenu() {
 
 
 void Game::makeSelection() {
-	
+
 	cin >> userSelection;
 	switch (userSelection)
 	{
@@ -46,15 +55,18 @@ void Game::makeSelection() {
 
 void Game::run() {
 
-//	cout << "Game is running !" << endl;
+	//	cout << "Game is running !" << endl;
 	char key = 0;
 	int dir;
 	bool isBigMove = true;
 	bool isOnMoving = true;
+	bool isBigStart = false;
+	bool isSmallStart = false;
 	do {
 		if (isBigMove) {
 			if (_kbhit())
 			{
+				isBigStart = true;
 				key = _getch();
 				if (key == 's' || key == 'S') {
 					isBigMove = false;
@@ -69,15 +81,18 @@ void Game::run() {
 						bigShip.setDirection(dir);
 				}
 			}
-			if (isOnMoving) {
+			if (isOnMoving && isBigStart) {
 				bigShip.move(bigShip.getType());
 				Sleep(400);
+				playingBoard.timeDown();
+				printTime(TIME_X, TIME_Y);
 			}
 		}
 		if (!isBigMove)
 		{
 			if (_kbhit())
 			{
+				isSmallStart = true;
 				key = _getch();
 				if (key == 'b' || key == 'B') {
 					isBigMove = true;
@@ -92,14 +107,16 @@ void Game::run() {
 						smallShip.setDirection(dir);
 				}
 			}
-			if (isOnMoving)
+			if (isOnMoving && isSmallStart)
 			{
 				smallShip.move(smallShip.getType());
 				Sleep(400);
+				playingBoard.timeDown();
+				printTime(TIME_X, TIME_Y);
 			}
 		}
 	} while (key != ESC);
-	pause(); 
+	pause();
 	//should be handle ship movement too 
 }
 
@@ -111,16 +128,17 @@ void Game::showInfo() {
 void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
-	Board* board = new Board;
-	board->initBoard();
-	board->draw();
 	//TODO: Move to Board
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
 	bigShip.setMat(bigShip.getType());
 	bigShip.setArrowKeys("wxad");
+
+	playingBoard.initBoard();
+	playingBoard.draw();
 	
-	
+	GameMetadata();
+
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
 	smallShip.setMat(smallShip.getType());
@@ -128,7 +146,7 @@ void Game::init() {
 
 	smallShip.initDraw(smallShip.getType());
 	bigShip.initDraw(bigShip.getType());
-	
+
 }
 
 void Game::pause() {
@@ -137,7 +155,7 @@ void Game::pause() {
 	do {
 		ch = _getch();
 	} while (ch != ESC && ch != PAUSE_EXIT);
-	if (ch == ESC){
+	if (ch == ESC) {
 		run();
 	}
 	else if (ch == PAUSE_EXIT) {
@@ -145,4 +163,48 @@ void Game::pause() {
 	}
 }
 
+void Game::printTime(int x, int y)
+{
+	setTextColor(Color::MAGENTA);
+	gotoxy(x, y);
+	for (int i = 0;i < 5;i++)
+	{
+		cout << ' ';
+	}
+	gotoxy(x, y);
+	cout << playingBoard.getTimeRemains() << endl;
+}
+void Game::printTimeText(int x, int y)
+{
+	setTextColor(Color::WHITE);
+	gotoxy(x, y);
+	cout << "Time Remains: ";
+}
 
+
+void Game::printLives(int x, int y)
+{
+	setTextColor(Color::RED);
+	gotoxy(x, y);
+	for (int i = 0;i < 3;i++)
+	{
+		cout << ' ';
+	}
+	gotoxy(x, y);
+	for (int i = 0;i < 3;i++)
+		cout << "<3";
+}
+void Game::printLivesText(int x, int y)
+{
+	setTextColor(Color::WHITE);
+	gotoxy(x, y);
+	cout << "Lives Remains: ";
+}
+
+void Game::GameMetadata()
+{
+	printLivesText(16, 30);
+	printLives(LIVES_X, LIVES_Y);
+	printTimeText(16, 29);
+	printTime(TIME_X, TIME_Y);
+}
