@@ -2,7 +2,7 @@
 
 class Time
 {
-	long tickTime;
+	long tickTime = 0;
 public:
 	long getTickTime() {
 		return tickTime;
@@ -13,7 +13,7 @@ public:
 	Time(long _tickTime) {
 		tickTime = _tickTime;
 	};
-	Time();
+	Time() {};
 
 private:
 
