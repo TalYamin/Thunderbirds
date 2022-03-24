@@ -96,22 +96,22 @@ void SpaceShip::setMat(ShipSize size) {
 	switch (size)
 	{
 	case ShipSize::SMALL:
-		mat[0] = new Point(3,3); //free is needed
-		mat[1] = new Point(4,3); //free is needed
+		mat[0] = new Point(2,2); //free is needed
+		mat[1] = new Point(3,2); //free is needed
 
 		break;
 	case ShipSize::BIG:
 		mat[0] = new Point[2];
 		 //free is needed
 		mat[0][0].setX(77);
-		mat[0][0].setY(3);
+		mat[0][0].setY(2);
 		mat[0][1].setX(78);
-		mat[0][1].setY(3);
+		mat[0][1].setY(2);
 		mat[1] = new Point[2]; //free is needed
 		mat[1][0].setX(77);
-		mat[1][0].setY(4);
+		mat[1][0].setY(3);
 		mat[1][1].setX(78);
-		mat[1][1].setY(4);
+		mat[1][1].setY(3);
 		break;
 	default:
 		break;

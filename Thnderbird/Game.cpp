@@ -50,6 +50,7 @@ void Game::run() {
 	char key = 0;
 	int dir;
 	bool isBigMove = true;
+	bool isOnMoving = true;
 	do {
 		if (isBigMove) {
 			if (_kbhit())
@@ -58,6 +59,9 @@ void Game::run() {
 				if (key == 's' || key == 'S') {
 					isBigMove = false;
 				}
+				else if (key == 'b' || key == 'B') {
+					isOnMoving = !isOnMoving;
+				}
 				else {
 					if ((dir = bigShip.getDirection(key)) != -1)
 						bigShip.setDirection(dir);
@@ -65,8 +69,10 @@ void Game::run() {
 						bigShip.setDirection(dir);
 				}
 			}
-			bigShip.move(bigShip.getType());
-			Sleep(400);
+			if (isOnMoving) {
+				bigShip.move(bigShip.getType());
+				Sleep(400);
+			}
 		}
 		if (!isBigMove)
 		{
@@ -76,6 +82,9 @@ void Game::run() {
 				if (key == 'b' || key == 'B') {
 					isBigMove = true;
 				}
+				else if (key == 's' || key == 'S') {
+					isOnMoving = !isOnMoving;
+				}
 				else {
 					if ((dir = smallShip.getDirection(key)) != -1)
 						smallShip.setDirection(dir);
@@ -83,8 +92,11 @@ void Game::run() {
 						smallShip.setDirection(dir);
 				}
 			}
-			smallShip.move(smallShip.getType());
-			Sleep(400);
+			if (isOnMoving)
+			{
+				smallShip.move(smallShip.getType());
+				Sleep(400);
+			}
 		}
 	} while (key != ESC);
 	pause(); 
