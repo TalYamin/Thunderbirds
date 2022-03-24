@@ -120,7 +120,7 @@ void SpaceShip::move(ShipSize size) {
 	switch (size)
 	{
 	case ShipSize::SMALL:
-		checkSmallBlockedWall();
+		checkSmalldWallCollision();
 		if (!isBlock){
 			moveSmallShip();
 		}
@@ -183,7 +183,7 @@ void SpaceShip::moveSmallShip() {
 
 }
 
-void SpaceShip::checkSmallBlockedWall() {
+void SpaceShip::checkSmalldWallCollision() {
 
 	Point p1, p2;
 

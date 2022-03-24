@@ -56,6 +56,7 @@ private:
 	//private methods
 	void moveBigShip();
 	void moveSmallShip();
-	void checkSmallBlockedWall();
+	void checkSmalldWallCollision();
+//	void checkSBigdWallCollision();
 };
 
