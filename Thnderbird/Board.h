@@ -7,13 +7,13 @@
 
 class Board
 {
-	Point* mat[HORIZONTAL_SIZE] = { 0 };
-	int maxHorizontalSize;
-	int maxVerticalSize;
-	Time timeRemains;
+	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE] = { {} };
+	int maxHorizontalSize = HORIZONTAL_SIZE;
+	int maxVerticalSize = VERTICAL_SIZE;
+	Time timeRemains = { 100000 };
 public:
 	void revertStartUpBoard();
-	Point** initBoard();
+	void initBoard();
 	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
 	Time getTimeRemains() { return timeRemains; };
 	void setMaxHorizontalSize(int _horizontal) { maxHorizontalSize = _horizontal; };
@@ -21,12 +21,15 @@ public:
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
 	int getMaxVerticalSize() { return maxVerticalSize; };
 	void draw();
+	void setMatrixPoint(int _x, int _y, Point* _p);
 	Board(int _maxHorizontalSize, int _maxVerticalSize, Time _timeRemains) {
 		maxHorizontalSize = _maxHorizontalSize;
 		maxVerticalSize = _maxVerticalSize;
 		timeRemains = _timeRemains;
 	};
 	Board() {};
+	Board(const Board& _board) = default;
+	Board& operator=(const Board& _board) = default;
 
 private:
 

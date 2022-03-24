@@ -140,12 +140,12 @@ void SpaceShip::move(ShipSize size){
 
 void SpaceShip::moveSmallShip() {
 	
-	mat[0]->draw('@');
-	mat[1]->draw('@');
+	mat[0]->draw();
+	mat[1]->draw();
 	mat[1]->move(direction);
 	mat[0]->move(direction);
 	setTextColor(color);
-	mat[1]->draw(figure);
+	mat[1]->draw();
 
 }
 

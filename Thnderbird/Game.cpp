@@ -73,6 +73,9 @@ void Game::showInfo() {
 void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
+	Board* board = new Board;
+	board->initBoard();
+	board->draw();
 	char bigKeys[4] = { 'W','S', 'A', 'D' };
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
