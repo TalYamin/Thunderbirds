@@ -1,11 +1,5 @@
 #include "Point.h"
-//
-//void Point::draw(char ch)
-//{
-//}
-//
-//void Point::move(int direction)
-//{
+
 
 Point::Point(int _x, int _y)
 {
@@ -13,3 +7,33 @@ Point::Point(int _x, int _y)
 	y = _y;
 
 };
+
+void Point::setX(int _x) {
+	x = _x;
+
+}
+void Point::setY(int _y) {
+	y = _y;
+}
+
+void Point::move(int dir) {
+	switch (dir) {
+	case 0: // UP
+		--y;
+		break;
+	case 1: // DOWN
+		++y;
+		break;
+	case 2: // LEFT
+		--x;
+		break;
+	case 3: // RIGHT
+		++x;
+		break;
+	}
+}
+
+void Point::draw(char ch) {
+	gotoxy(x, y);
+	cout << ch << endl;
+}

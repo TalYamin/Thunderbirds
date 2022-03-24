@@ -46,13 +46,23 @@ void Game::makeSelection() {
 
 void Game::run() {
 
-	cout << "Game is running !" << endl;
-	while (!_kbhit() || _getch() != ESC)
-	{
-		
-	}
+//	cout << "Game is running !" << endl;
+	char key = 0;
+	int dir;
+	do {
+		if (_kbhit())
+		{
+			key = _getch();
+			if ((dir = smallShip.getDirection(key)) != -1)
+				smallShip.setDirection(dir);
+			else if ((dir = smallShip.getDirection(key)) != -1)
+				smallShip.setDirection(dir);	
+		}
+		smallShip.move(smallShip.getType());
+		Sleep(1000);
+	} while (key != ESC);
 	pause(); 
-	//should be handle ship movement too
+	//should be handle ship movement too 
 }
 
 
@@ -62,6 +72,22 @@ void Game::showInfo() {
 
 void Game::init() {
 	cout << "Game is initialized !" << endl;
+	clear_screen();
+	char bigKeys[4] = { 'W','S', 'A', 'D' };
+	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
+	bigShip.setType(2);
+	bigShip.setMat(bigShip.getType());
+	bigShip.setArrowKeys(bigKeys);
+
+	//char smallKeys[4] = { 'U','J', 'H', 'K' };
+	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
+	smallShip.setType(1);
+	smallShip.setMat(smallShip.getType());
+	smallShip.setArrowKeys("ujhk");
+
+	
+	smallShip.move(smallShip.getType());
+	
 }
 
 void Game::pause() {
