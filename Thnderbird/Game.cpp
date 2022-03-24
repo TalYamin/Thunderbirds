@@ -114,7 +114,6 @@ void Game::init() {
 	Board* board = new Board;
 	board->initBoard();
 	board->draw();
-	char bigKeys[4] = { 'W','S', 'A', 'D' };
 	//TODO: Move to Board
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);

@@ -152,10 +152,10 @@ void  SpaceShip::initDraw(ShipSize size) {
 
 void SpaceShip::moveBigShip() {
 
-	mat[0][0].draw(' '); //
-	mat[0][1].draw(' '); //
-	mat[1][0].draw(' '); //
-	mat[1][1].draw(' '); //
+	mat[0][0].draw(' ');
+	mat[0][1].draw(' ');
+	mat[1][0].draw(' ');
+	mat[1][1].draw(' ');
 	mat[0][0].move(direction);
 	mat[0][1].move(direction);
 	mat[1][0].move(direction);
@@ -170,8 +170,8 @@ void SpaceShip::moveBigShip() {
 
 void SpaceShip::moveSmallShip() {
 
-	mat[0]->draw(' ');//
-	mat[1]->draw(' ');//
+	mat[0]->draw(' ');
+	mat[1]->draw(' ');
 	mat[0]->move(direction);
 	mat[1]->move(direction);
 	setTextColor(color);
