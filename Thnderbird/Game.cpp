@@ -111,6 +111,9 @@ void Game::showInfo() {
 void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
+	Board* board = new Board;
+	board->initBoard();
+	board->draw();
 	//TODO: Move to Board
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);

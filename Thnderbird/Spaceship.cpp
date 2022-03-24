@@ -6,12 +6,12 @@ SpaceShip::SpaceShip()
 }
 
 SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color) {
-	
+
 	verticalSize = _verticalSize;
 	horizontalSize = _horizontalSize;
 	figure = _figure;
 	color = _color;
-	
+
 }
 
 SpaceShip::~SpaceShip()
@@ -96,13 +96,13 @@ void SpaceShip::setMat(ShipSize size) {
 	switch (size)
 	{
 	case ShipSize::SMALL:
-		mat[0] = new Point(2,2); //free is needed
-		mat[1] = new Point(3,2); //free is needed
+		mat[0] = new Point(2, 2, figure); //free is needed
+		mat[1] = new Point(3, 2, figure); //free is needed
 
 		break;
 	case ShipSize::BIG:
-		mat[0] = new Point[2]{ {77,2},{78,2}}; //free is needed
-		mat[1] = new Point[2]{ {77,3},{78,3} };//free is needed
+		mat[0] = new Point[2]{ {77,2,figure},{78,2,figure} }; //free is needed
+		mat[1] = new Point[2]{ {77,3,figure},{78,3,figure} };//free is needed
 		break;
 	default:
 		break;
@@ -115,7 +115,7 @@ Point** SpaceShip::getMat() {
 }
 
 
-void SpaceShip::move(ShipSize size){
+void SpaceShip::move(ShipSize size) {
 
 	switch (size)
 	{
@@ -135,15 +135,15 @@ void  SpaceShip::initDraw(ShipSize size) {
 	{
 	case ShipSize::SMALL:
 		setTextColor(color);
-		mat[0]->draw(figure);
-		mat[1]->draw(figure);
+		mat[0]->draw();
+		mat[1]->draw();
 		break;
 	case ShipSize::BIG:
 		setTextColor(color);
-		mat[0][0].draw(figure);
-		mat[0][1].draw(figure);
-		mat[1][0].draw(figure);
-		mat[1][1].draw(figure);
+		mat[0][0].draw();
+		mat[0][1].draw();
+		mat[1][0].draw();
+		mat[1][1].draw();
 		break;
 	default:
 		break;
@@ -161,22 +161,22 @@ void SpaceShip::moveBigShip() {
 	mat[1][0].move(direction);
 	mat[1][1].move(direction);
 	setTextColor(color);
-	mat[0][0].draw(figure);
-	mat[0][1].draw(figure);
-	mat[1][0].draw(figure);
-	mat[1][1].draw(figure);
+	mat[0][0].draw();
+	mat[0][1].draw();
+	mat[1][0].draw();
+	mat[1][1].draw();
 
 }
 
 void SpaceShip::moveSmallShip() {
-	
+
 	mat[0]->draw(' ');
 	mat[1]->draw(' ');
 	mat[0]->move(direction);
 	mat[1]->move(direction);
 	setTextColor(color);
-	mat[0]->draw(figure);
-	mat[1]->draw(figure);
+	mat[0]->draw();
+	mat[1]->draw();
 
 }
 
