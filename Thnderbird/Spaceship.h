@@ -10,7 +10,7 @@ class SpaceShip
 	ShipSize type;
 	int verticalSize;
 	int horizontalSize;
-	int direction = 3;
+	int direction;
 	char figure;
 	char arrowKeys[4];
 	Color color;
@@ -51,6 +51,8 @@ public:
 private:
 
 	//private methods
+	void moveBigShip();
 	void moveSmallShip();
+
 };
 
