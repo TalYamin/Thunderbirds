@@ -71,7 +71,7 @@ void Game::run() {
 			}
 			if (isOnMoving) {
 				bigShip.move(bigShip.getType());
-				Sleep(400);
+				Sleep(100);
 			}
 		}
 		if (!isBigMove)
@@ -95,7 +95,7 @@ void Game::run() {
 			if (isOnMoving)
 			{
 				smallShip.move(smallShip.getType());
-				Sleep(400);
+				Sleep(100);
 			}
 		}
 	} while (key != ESC);

@@ -57,6 +57,6 @@ private:
 	void moveBigShip();
 	void moveSmallShip();
 	void checkSmalldWallCollision();
-//	void checkSBigdWallCollision();
+	void checkSBigdWallCollision();
 };
 
