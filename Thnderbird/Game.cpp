@@ -50,7 +50,7 @@ void Game::run() {
 	char key = 0;
 	int dir;
 	do {
-		if (_kbhit())
+		/*if (_kbhit())
 		{
 			key = _getch();
 			if ((dir = smallShip.getDirection(key)) != -1)
@@ -59,6 +59,16 @@ void Game::run() {
 				smallShip.setDirection(dir);	
 		}
 		smallShip.move(smallShip.getType());
+		Sleep(400);*/
+		if (_kbhit())
+		{
+			key = _getch();
+			if ((dir = bigShip.getDirection(key)) != -1)
+				bigShip.setDirection(dir);
+			else if ((dir = bigShip.getDirection(key)) != -1)
+				bigShip.setDirection(dir);
+		}
+		bigShip.move(bigShip.getType());
 		Sleep(400);
 	} while (key != ESC);
 	pause(); 
@@ -73,12 +83,12 @@ void Game::showInfo() {
 void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
-	char bigKeys[4] = { 'W','S', 'A', 'D' };
+//	char bigKeys[4] = { 'W','S', 'A', 'D' };
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
 	bigShip.setMat(bigShip.getType());
-	bigShip.setArrowKeys(bigKeys);
-
+	bigShip.setArrowKeys("wsad");
+	
 	//char smallKeys[4] = { 'U','J', 'H', 'K' };
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
@@ -86,8 +96,10 @@ void Game::init() {
 	smallShip.setArrowKeys("ujhk");
 
 	smallShip.initDraw(smallShip.getType());
-	smallShip.move(smallShip.getType());
-	
+	//smallShip.move(smallShip.getType());*/
+
+	bigShip.initDraw(bigShip.getType());
+	//bigShip.move(bigShip.getType());
 }
 
 void Game::pause() {

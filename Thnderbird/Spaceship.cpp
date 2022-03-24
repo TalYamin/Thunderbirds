@@ -132,6 +132,7 @@ void SpaceShip::move(ShipSize size){
 		moveSmallShip();
 		break;
 	case ShipSize::BIG:
+		moveBigShip();
 		break;
 	default:
 		break;
@@ -143,16 +144,38 @@ void  SpaceShip::initDraw(ShipSize size) {
 	{
 	case ShipSize::SMALL:
 		setTextColor(color);
-		mat[0]->draw('@');
-		mat[1]->draw('@');
+		mat[0]->draw(figure);
+		mat[1]->draw(figure);
 		break;
 	case ShipSize::BIG:
+		setTextColor(color);
+		mat[0][0].draw(figure);
+		mat[0][1].draw(figure);
+		mat[1][0].draw(figure);
+		mat[1][1].draw(figure);
 		break;
 	default:
 		break;
 	}
 }
 
+void SpaceShip::moveBigShip() {
+
+	mat[0][0].draw(' ');
+	mat[0][1].draw(' ');
+	mat[1][0].draw(' ');
+	mat[1][1].draw(' ');
+	mat[0][0].move(direction);
+	mat[0][1].move(direction);
+	mat[1][0].move(direction);
+	mat[1][1].move(direction);
+	setTextColor(color);
+	mat[0][0].draw(figure);
+	mat[0][1].draw(figure);
+	mat[1][0].draw(figure);
+	mat[1][1].draw(figure);
+
+}
 
 void SpaceShip::moveSmallShip() {
 	
