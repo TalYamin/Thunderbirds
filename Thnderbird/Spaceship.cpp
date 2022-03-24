@@ -96,21 +96,13 @@ void SpaceShip::setMat(ShipSize size) {
 	switch (size)
 	{
 	case ShipSize::SMALL:
-		mat[0] = new Point(3,3); //free is needed
-		mat[1] = new Point(3,4); //free is needed
+		mat[0] = new Point(2,2); //free is needed
+		mat[1] = new Point(3,2); //free is needed
 
 		break;
 	case ShipSize::BIG:
-		mat[0] = new Point[2]; //free is needed
-		mat[0][0].setX(3);
-		mat[0][0].setY(77);
-		mat[0][1].setX(3);
-		mat[0][1].setY(78);
-		mat[1] = new Point[2]; //free is needed
-		mat[1][0].setX(4);
-		mat[1][0].setY(77);
-		mat[1][1].setX(4);
-		mat[1][1].setY(78);
+		mat[0] = new Point[2]{ {77,2},{78,2}}; //free is needed
+		mat[1] = new Point[2]{ {77,3},{78,3} };//free is needed
 		break;
 	default:
 		break;
@@ -131,20 +123,59 @@ void SpaceShip::move(ShipSize size){
 		moveSmallShip();
 		break;
 	case ShipSize::BIG:
+		moveBigShip();
 		break;
 	default:
 		break;
 	}
 }
 
+void  SpaceShip::initDraw(ShipSize size) {
+	switch (size)
+	{
+	case ShipSize::SMALL:
+		setTextColor(color);
+		mat[0]->draw(figure);
+		mat[1]->draw(figure);
+		break;
+	case ShipSize::BIG:
+		setTextColor(color);
+		mat[0][0].draw(figure);
+		mat[0][1].draw(figure);
+		mat[1][0].draw(figure);
+		mat[1][1].draw(figure);
+		break;
+	default:
+		break;
+	}
+}
+
+void SpaceShip::moveBigShip() {
+
+	mat[0][0].draw(' ');
+	mat[0][1].draw(' ');
+	mat[1][0].draw(' ');
+	mat[1][1].draw(' ');
+	mat[0][0].move(direction);
+	mat[0][1].move(direction);
+	mat[1][0].move(direction);
+	mat[1][1].move(direction);
+	setTextColor(color);
+	mat[0][0].draw(figure);
+	mat[0][1].draw(figure);
+	mat[1][0].draw(figure);
+	mat[1][1].draw(figure);
+
+}
 
 void SpaceShip::moveSmallShip() {
 	
-	mat[0]->draw('@');
-	mat[1]->draw('@');
-	mat[1]->move(direction);
+	mat[0]->draw(' ');
+	mat[1]->draw(' ');
 	mat[0]->move(direction);
+	mat[1]->move(direction);
 	setTextColor(color);
+	mat[0]->draw(figure);
 	mat[1]->draw(figure);
 
 }

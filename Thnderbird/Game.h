@@ -5,7 +5,6 @@
 #include "Spaceship.h"
 #include "io_utils.h"
 
-
 class Game
 {
 	//data members
