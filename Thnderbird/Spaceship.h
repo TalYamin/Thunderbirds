@@ -1,6 +1,9 @@
 #pragma once
 #include "Color.h"
 #include "Point.h"
+#include "Board.h"
+
+class Board;
 
 class SpaceShip
 {
@@ -16,12 +19,13 @@ class SpaceShip
 	Color color;
 	bool isBlock = false;
 	Point* mat[2];
+	Board* board;
 
 public:
 
 	//ctor + dtor
 	SpaceShip();
-	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color);
+	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, Board* _board);
 	~SpaceShip();
 
 	//getters + setters
@@ -46,13 +50,12 @@ public:
 	//public methods
 	void move(ShipSize size);
 	void initDraw(ShipSize size);
-	
 
 private:
 
 	//private methods
 	void moveBigShip();
 	void moveSmallShip();
-
+	void checkSmallBlockedWall();
 };
 

@@ -100,7 +100,6 @@ void Game::run() {
 		}
 	} while (key != ESC);
 	pause(); 
-	//should be handle ship movement too 
 }
 
 
@@ -115,13 +114,13 @@ void Game::init() {
 	board->initBoard();
 	board->draw();
 	//TODO: Move to Board
-	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
+	bigShip = SpaceShip(2, 2, '#', Color::GREEN, board);
 	bigShip.setType(2);
 	bigShip.setMat(bigShip.getType());
 	bigShip.setArrowKeys("wxad");
 	
 	
-	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
+	smallShip = SpaceShip(1, 2, '@', Color::BLUE,board);
 	smallShip.setType(1);
 	smallShip.setMat(smallShip.getType());
 	smallShip.setArrowKeys("wxad");

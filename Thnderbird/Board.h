@@ -3,7 +3,9 @@
 #define VERTICAL_SIZE 25
 #include "Point.h"
 #include "Time.h"
+#include "Spaceship.h"
 
+class Spaceship;
 
 class Board
 {
@@ -20,6 +22,7 @@ public:
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
 	int getMaxVerticalSize() { return maxVerticalSize; };
+	Point (*getMat())[VERTICAL_SIZE] {return mat; };
 	void draw();
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	Board(int _maxHorizontalSize, int _maxVerticalSize, Time _timeRemains) {

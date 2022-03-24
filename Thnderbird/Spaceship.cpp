@@ -5,13 +5,13 @@ SpaceShip::SpaceShip()
 {
 }
 
-SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color) {
+SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, Board* _board) {
 
 	verticalSize = _verticalSize;
 	horizontalSize = _horizontalSize;
 	figure = _figure;
 	color = _color;
-
+	board = _board;
 }
 
 SpaceShip::~SpaceShip()
@@ -120,7 +120,10 @@ void SpaceShip::move(ShipSize size) {
 	switch (size)
 	{
 	case ShipSize::SMALL:
-		moveSmallShip();
+		checkSmallBlockedWall();
+		if (!isBlock){
+			moveSmallShip();
+		}
 		break;
 	case ShipSize::BIG:
 		moveBigShip();
@@ -179,6 +182,53 @@ void SpaceShip::moveSmallShip() {
 	mat[1]->draw();
 
 }
+
+void SpaceShip::checkSmallBlockedWall() {
+
+	Point p1, p2;
+
+	switch (direction) {
+	case 0: // UP
+		p2 = *mat[1];
+		p2.setY(p2.getY() - 1);
+		if ((board->getMat()[mat[0]->getX()][mat[0]->getY()-1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() == '+')) {
+			isBlock = true;
+		}
+		else {
+			isBlock = false;
+		}
+		break;
+	case 1: // DOWN
+		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() + 1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() + 1].getFigure() == '+')) {
+			isBlock = true;
+		}else {
+			isBlock = false;
+		}
+		break;
+	case 2: // LEFT
+		if ((board->getMat()[mat[0]->getX()-1][mat[0]->getY()].getFigure() == '+')) {
+			isBlock = true;
+		}
+		else {
+			isBlock = false;
+		}
+		break;
+	case 3: // RIGHT
+		p2 = *mat[1];
+		p2.setX(p2.getX() + 1);
+		if ((board->getMat()[mat[1]->getX() + 1][mat[1]->getY()].getFigure() == '+')) {
+			isBlock = true;
+		}
+		else {
+			isBlock = false;
+		}
+		break;
+	default:
+		isBlock = false;
+		break;
+	}
+}
+
 
 
 
