@@ -189,8 +189,6 @@ void SpaceShip::checkSmallBlockedWall() {
 
 	switch (direction) {
 	case 0: // UP
-		p2 = *mat[1];
-		p2.setY(p2.getY() - 1);
 		if ((board->getMat()[mat[0]->getX()][mat[0]->getY()-1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() == '+')) {
 			isBlock = true;
 		}
@@ -214,8 +212,6 @@ void SpaceShip::checkSmallBlockedWall() {
 		}
 		break;
 	case 3: // RIGHT
-		p2 = *mat[1];
-		p2.setX(p2.getX() + 1);
 		if ((board->getMat()[mat[1]->getX() + 1][mat[1]->getY()].getFigure() == '+')) {
 			isBlock = true;
 		}
