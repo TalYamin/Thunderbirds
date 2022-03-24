@@ -16,6 +16,7 @@ public:
 	int getX();
 	int getY();
 	void draw();
+	void draw(char _fig);
 	void move(int direction);
 	char getFigure();
 	Point(int _x, int _y);

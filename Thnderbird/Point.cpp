@@ -59,3 +59,9 @@ void Point::draw() {
 	gotoxy(x, y);
 	cout << figure << endl;
 }
+
+void Point::draw(char _fig)
+{
+	gotoxy(x, y);
+	cout << _fig << endl;
+}
