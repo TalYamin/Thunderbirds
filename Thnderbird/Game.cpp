@@ -59,7 +59,7 @@ void Game::run() {
 				smallShip.setDirection(dir);	
 		}
 		smallShip.move(smallShip.getType());
-		Sleep(1000);
+		Sleep(400);
 	} while (key != ESC);
 	pause(); 
 	//should be handle ship movement too 
@@ -85,7 +85,7 @@ void Game::init() {
 	smallShip.setMat(smallShip.getType());
 	smallShip.setArrowKeys("ujhk");
 
-	
+	smallShip.initDraw(smallShip.getType());
 	smallShip.move(smallShip.getType());
 	
 }
