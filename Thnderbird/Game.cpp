@@ -181,7 +181,7 @@ void Game::printTime(int x, int y)
 	gotoxy(x, y);
 	cout << playingBoard.getTimeRemains() << endl;
 }
-void Game::printTextDescription(int x, int y,const char* text)
+void Game::printTextDescription(int x, int y, const char* text)
 {
 	setTextColor(Color::WHITE);
 	gotoxy(x, y);
@@ -228,10 +228,7 @@ bool Game::timeoutHandler()
 
 void Game::drawIcon(SpaceShip ship)
 {
-	setTextColor(Color::WHITE);
-	const char* text = "playing ship is: ";
-	gotoxy(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y);
-	cout << text;
+	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
 	setTextColor(ship.getColor());
 	for (int j = 0;j < ship.getVerticalSize(); j++)
 	{
