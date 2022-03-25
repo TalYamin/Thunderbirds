@@ -83,7 +83,7 @@ void Game::run() {
 			}
 			if (isOnMoving && isBigStart) {
 				bigShip.move(bigShip.getType());
-				Sleep(400);
+				Sleep(100);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
@@ -110,7 +110,7 @@ void Game::run() {
 			if (isOnMoving && isSmallStart)
 			{
 				smallShip.move(smallShip.getType());
-				Sleep(400);
+				Sleep(100);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
@@ -136,8 +136,8 @@ void Game::init() {
 
 	playingBoard.initBoard();
 	playingBoard.draw();
-	
-	GameMetadata();
+
+	gameMetadata();
 
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
@@ -201,10 +201,24 @@ void Game::printLivesText(int x, int y)
 	cout << "Lives Remains: ";
 }
 
-void Game::GameMetadata()
+void Game::gameMetadata()
 {
 	printLivesText(16, 30);
 	printLives(LIVES_X, LIVES_Y);
 	printTimeText(16, 29);
 	printTime(TIME_X, TIME_Y);
+}
+
+//Delete heart in case of dead
+void Game::deadHandler()
+{
+	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
+	gotoxy(heartIndexToDelete, LIVES_Y);
+	cout << "  ";
+
+}
+
+bool Game::timeoutHandler()
+{
+	return playingBoard.getTimeRemains() > 0;
 }

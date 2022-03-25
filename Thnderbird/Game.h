@@ -40,5 +40,8 @@ private:
 	void printTimeText(int x, int y);
 	void printLivesText(int x, int y);
 	void printLives(int x, int y);
-	void GameMetadata();
+	void gameMetadata();
+	void deadHandler();
+	bool isGameFinish();
+	bool timeoutHandler();
 };
