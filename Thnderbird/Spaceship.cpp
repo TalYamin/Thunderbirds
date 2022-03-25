@@ -5,13 +5,13 @@ SpaceShip::SpaceShip()
 {
 }
 
-SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, Board* _board) {
+SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color) {
 
 	verticalSize = _verticalSize;
 	horizontalSize = _horizontalSize;
 	figure = _figure;
 	color = _color;
-	board = _board;
+	
 }
 
 SpaceShip::~SpaceShip()
@@ -115,18 +115,18 @@ Point** SpaceShip::getMat() {
 }
 
 
-void SpaceShip::move(ShipSize size) {
+void SpaceShip::move(ShipSize size, Board* board) {
 
 	switch (size)
 	{
 	case ShipSize::SMALL:
-		checkSmalldWallCollision();
+		checkSmalldWallCollision(board);
 		if (!isBlock) {
 			moveSmallShip();
 		}
 		break;
 	case ShipSize::BIG:
-		checkSBigdWallCollision();
+		checkSBigdWallCollision(board);
 		if (!isBlock) {
 			moveBigShip();
 		}
@@ -200,7 +200,7 @@ void SpaceShip::moveSmallShip() {
 
 }
 
-void SpaceShip::checkSBigdWallCollision() {
+void SpaceShip::checkSBigdWallCollision(Board* board) {
 
 	switch (direction) {
 	case 0: // UP
@@ -241,7 +241,7 @@ void SpaceShip::checkSBigdWallCollision() {
 	}
 }
 
-void SpaceShip::checkSmalldWallCollision() {
+void SpaceShip::checkSmalldWallCollision(Board* board) {
 	switch (direction) {
 	case 0: // UP
 		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() - 1].getFigure() != ' ') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() != ' ')) {

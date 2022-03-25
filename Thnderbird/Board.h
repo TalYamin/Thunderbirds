@@ -15,7 +15,7 @@ class Spaceship;
 
 class Board
 {
-	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE] = { {} };
+	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE];
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = 10000;

@@ -8,7 +8,7 @@ void Board::revertStartUpBoard()
 
 void Board::initBoard()
 {
-	int boardLen;
+	size_t boardLen;
 	int row = 0;
 	int col = 0;
 	const char* boardData = R""""(++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

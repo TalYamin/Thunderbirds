@@ -10,22 +10,22 @@ class SpaceShip
 {
 
 	//date members 
-	ShipSize type;
+	ShipSize type = ShipSize:: UNDEFINED;
 	int verticalSize;
 	int horizontalSize;
-	int direction;
-	char figure;
+	int direction = 3;
+	char figure = ' ';
 	char arrowKeys[4];
 	Color color;
 	bool isBlock = false;
 	Point* mat[2];
-	Board* board;
+	
 
 public:
 
 	//ctor + dtor
 	SpaceShip();
-	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, Board* _board);
+	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color);
 	~SpaceShip();
 
 	//getters + setters
@@ -48,7 +48,7 @@ public:
 	Point** getMat();
 
 	//public methods
-	void move(ShipSize size);
+	void move(ShipSize size, Board* board);
 	void initDraw(ShipSize size);
 
 private:
@@ -56,7 +56,7 @@ private:
 	//private methods
 	void moveBigShip();
 	void moveSmallShip();
-	void checkSmalldWallCollision();
-	void checkSBigdWallCollision();
+	void checkSmalldWallCollision(Board* board);
+	void checkSBigdWallCollision(Board* board);
 };
 

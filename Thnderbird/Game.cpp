@@ -85,7 +85,7 @@ void Game::run() {
 				}
 			}
 			if (isOnMoving && isBigStart) {
-				bigShip.move(bigShip.getType());
+				bigShip.move(bigShip.getType(),&playingBoard);
 				Sleep(100);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
@@ -114,7 +114,7 @@ void Game::run() {
 			}
 			if (isOnMoving && isSmallStart)
 			{
-				smallShip.move(smallShip.getType());
+				smallShip.move(smallShip.getType(),&playingBoard);
 				Sleep(100);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
@@ -133,7 +133,7 @@ void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
 	//TODO: Move to Board
-	bigShip = SpaceShip(2, 2, '#', Color::GREEN, board);
+	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
 	bigShip.setMat(bigShip.getType());
 	bigShip.setArrowKeys("wxad");
