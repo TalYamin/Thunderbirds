@@ -181,11 +181,11 @@ void Game::printTime(int x, int y)
 	gotoxy(x, y);
 	cout << playingBoard.getTimeRemains() << endl;
 }
-void Game::printTimeText(int x, int y)
+void Game::printTextDescription(int x, int y,const char* text)
 {
 	setTextColor(Color::WHITE);
 	gotoxy(x, y);
-	cout << "Time Remains: ";
+	cout << text;
 }
 
 
@@ -201,18 +201,13 @@ void Game::printLives(int x, int y)
 	for (int i = 0;i < 3;i++)
 		cout << "<3";
 }
-void Game::printLivesText(int x, int y)
-{
-	setTextColor(Color::WHITE);
-	gotoxy(x, y);
-	cout << "Lives Remains: ";
-}
+
 
 void Game::gameMetadata(SpaceShip ship)
 {
-	printLivesText(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y);
+	printTextDescription(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y, "Lives Remains: ");
 	printLives(LIVES_X, LIVES_Y);
-	printTimeText(TIME_X - SPACE_BETWEEN_METADATA, TIME_Y);
+	printTextDescription(TIME_X - SPACE_BETWEEN_METADATA, TIME_Y, "Time Remains: ");
 	printTime(TIME_X, TIME_Y);
 	drawIcon(ship);
 }

@@ -38,8 +38,7 @@ private:
 	void init();
 	void pause();
 	void printTime(int x, int y);
-	void printTimeText(int x, int y);
-	void printLivesText(int x, int y);
+	void printTextDescription(int x, int y,const char* text);
 	void printLives(int x, int y);
 	void gameMetadata(SpaceShip ship);
 	void deadHandler();
