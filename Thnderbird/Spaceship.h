@@ -1,6 +1,7 @@
 #pragma once
 #include "Color.h"
 #include "Point.h"
+#include "ShipSize.h"
 #include "Board.h"
 
 class Board;
@@ -9,7 +10,6 @@ class SpaceShip
 {
 
 	//date members 
-	enum class ShipSize { SMALL = 1, BIG = 2 };
 	ShipSize type;
 	int verticalSize;
 	int horizontalSize;
