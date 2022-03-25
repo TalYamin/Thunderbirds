@@ -162,6 +162,13 @@ void SpaceShip::moveBigShip() {
 	mat[0][1].draw(' ');
 	mat[1][0].draw(' ');
 	mat[1][1].draw(' ');
+	/*for (int i = 0; i < verticalSize; i++)
+	{
+		for (int j = 0; j < horizontalSize; j++) {
+			mat[mat[i][j].getX()][mat[i][j].getY()].setFigure(' ');
+			board->setMatrixPoint(mat[i][j].getX(), mat[i][j].getY(), &mat[i][j]);
+		}
+	}*/
 	mat[0][0].move(direction);
 	mat[0][1].move(direction);
 	mat[1][0].move(direction);
@@ -171,7 +178,14 @@ void SpaceShip::moveBigShip() {
 	mat[0][1].draw();
 	mat[1][0].draw();
 	mat[1][1].draw();
+	//for (int i = 0; i < verticalSize; i++)
+	//{
+	//	for (int j = 0; j < horizontalSize; j++) {
 
+	//		board->setMatrixPoint( mat[i][j].getX(), mat[i][j].getY(), &mat[i][j]);
+	//	}
+	//}
+	
 }
 
 void SpaceShip::moveSmallShip() {
@@ -186,11 +200,11 @@ void SpaceShip::moveSmallShip() {
 
 }
 
-void SpaceShip::checkSmalldWallCollision() {
+void SpaceShip::checkSBigdWallCollision() {
 
 	switch (direction) {
 	case 0: // UP
-		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() - 1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() == '+')) {
+		if ((board->getMat()[mat[0][0].getX()][mat[0][1].getY() - 1].getFigure() != ' ') || (board->getMat()[mat[0][1].getX()][mat[0][1].getY() - 1].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -198,7 +212,7 @@ void SpaceShip::checkSmalldWallCollision() {
 		}
 		break;
 	case 1: // DOWN
-		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() + 1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() + 1].getFigure() == '+')) {
+		if ((board->getMat()[mat[1][0].getX()][mat[1][0].getY() + 1].getFigure() != ' ') || (board->getMat()[mat[1][1].getX()][mat[1][1].getY() + 1].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -206,7 +220,7 @@ void SpaceShip::checkSmalldWallCollision() {
 		}
 		break;
 	case 2: // LEFT
-		if ((board->getMat()[mat[0]->getX() - 1][mat[0]->getY()].getFigure() == '+')) {
+		if ((board->getMat()[mat[0][0].getX() - 1][mat[0][0].getY()].getFigure() != ' ') || (board->getMat()[mat[1][0].getX()-1][mat[1][0].getY()].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -214,7 +228,7 @@ void SpaceShip::checkSmalldWallCollision() {
 		}
 		break;
 	case 3: // RIGHT
-		if ((board->getMat()[mat[1]->getX() + 1][mat[1]->getY()].getFigure() == '+')) {
+		if ((board->getMat()[mat[0][1].getX() + 1][mat[0][1].getY()].getFigure() != ' ') || (board->getMat()[mat[1][1].getX() + 1][mat[1][1].getY()].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -227,10 +241,10 @@ void SpaceShip::checkSmalldWallCollision() {
 	}
 }
 
-void SpaceShip::checkSBigdWallCollision() {
+void SpaceShip::checkSmalldWallCollision() {
 	switch (direction) {
 	case 0: // UP
-		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() - 1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() == '+')) {
+		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() - 1].getFigure() != ' ') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -238,7 +252,7 @@ void SpaceShip::checkSBigdWallCollision() {
 		}
 		break;
 	case 1: // DOWN
-		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() + 1].getFigure() == '+') || (board->getMat()[mat[1]->getX()][mat[1]->getY() + 1].getFigure() == '+')) {
+		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() + 1].getFigure() != ' ') || (board->getMat()[mat[1]->getX()][mat[1]->getY() + 1].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -246,7 +260,7 @@ void SpaceShip::checkSBigdWallCollision() {
 		}
 		break;
 	case 2: // LEFT
-		if ((board->getMat()[mat[0]->getX() - 1][mat[0]->getY()].getFigure() == '+') || (board->getMat()[mat[1]->getX() - 1][mat[1]->getY()].getFigure() == '+')) {
+		if ((board->getMat()[mat[0]->getX() - 1][mat[0]->getY()].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {
@@ -254,7 +268,7 @@ void SpaceShip::checkSBigdWallCollision() {
 		}
 		break;
 	case 3: // RIGHT
-		if ((board->getMat()[mat[0]->getX() + 1][mat[0]->getY()].getFigure() == '+') || (board->getMat()[mat[1]->getX() + 1][mat[1]->getY()].getFigure() == '+')) {
+		if ((board->getMat()[mat[1]->getX() + 1][mat[1]->getY()].getFigure() != ' ')) {
 			isBlock = true;
 		}
 		else {

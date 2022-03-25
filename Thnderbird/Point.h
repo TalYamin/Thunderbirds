@@ -19,6 +19,7 @@ public:
 	void draw(char _fig);
 	void move(int direction);
 	char getFigure();
+	void setFigure(char _figure);
 	Point(int _x, int _y);
 	Point(int _x, int _y, char _fig);
 	~Point() {};
