@@ -1,11 +1,16 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 25
-#include "Point.h"
-#define TIME_X 30
-#define TIME_Y 30
 #define LIVES_X 30
 #define LIVES_Y 29
+#define TIME_X 30
+#define TIME_Y 30
+#define SHIP_ICON_X 30
+#define SHIP_ICON_Y 31
+#define SPACE_BETWEEN_METADATA 20
+
+#include "Point.h"
+
 
 class Board
 {

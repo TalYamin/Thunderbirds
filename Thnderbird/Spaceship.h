@@ -1,12 +1,11 @@
 #pragma once
 #include "Color.h"
 #include "Point.h"
-
+#include "ShipSize.h"
 class SpaceShip
 {
 
 	//date members 
-	enum class ShipSize { SMALL = 1, BIG = 2 };
 	ShipSize type;
 	int verticalSize;
 	int horizontalSize;
@@ -46,7 +45,7 @@ public:
 	//public methods
 	void move(ShipSize size);
 	void initDraw(ShipSize size);
-	
+
 
 private:
 

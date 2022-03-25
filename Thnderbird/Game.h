@@ -5,6 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 
+
 class Game
 {
 	//data members
@@ -40,8 +41,10 @@ private:
 	void printTimeText(int x, int y);
 	void printLivesText(int x, int y);
 	void printLives(int x, int y);
-	void gameMetadata();
+	void gameMetadata(SpaceShip ship);
 	void deadHandler();
 	bool isGameFinish();
 	bool timeoutHandler();
+	void drawIcon(SpaceShip ship);
+	void deleteIcon(SpaceShip ship);
 };

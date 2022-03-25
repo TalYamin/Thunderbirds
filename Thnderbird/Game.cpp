@@ -66,9 +66,12 @@ void Game::run() {
 		if (isBigMove) {
 			if (_kbhit())
 			{
+
 				isBigStart = true;
 				key = _getch();
 				if (key == 's' || key == 'S') {
+					deleteIcon(bigShip);
+					drawIcon(smallShip);
 					isBigMove = false;
 				}
 				else if (key == 'b' || key == 'B') {
@@ -88,14 +91,18 @@ void Game::run() {
 				printTime(TIME_X, TIME_Y);
 			}
 		}
-		if (!isBigMove)
+		if (!isBigMove) // is small move
 		{
 			if (_kbhit())
 			{
+
+
 				isSmallStart = true;
 				key = _getch();
 				if (key == 'b' || key == 'B') {
 					isBigMove = true;
+					deleteIcon(smallShip);
+					drawIcon(bigShip);
 				}
 				else if (key == 's' || key == 'S') {
 					isOnMoving = !isOnMoving;
@@ -137,7 +144,7 @@ void Game::init() {
 	playingBoard.initBoard();
 	playingBoard.draw();
 
-	gameMetadata();
+	gameMetadata(bigShip);
 
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
@@ -201,12 +208,13 @@ void Game::printLivesText(int x, int y)
 	cout << "Lives Remains: ";
 }
 
-void Game::gameMetadata()
+void Game::gameMetadata(SpaceShip ship)
 {
-	printLivesText(16, 30);
+	printLivesText(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y);
 	printLives(LIVES_X, LIVES_Y);
-	printTimeText(16, 29);
+	printTimeText(TIME_X - SPACE_BETWEEN_METADATA, TIME_Y);
 	printTime(TIME_X, TIME_Y);
+	drawIcon(ship);
 }
 
 //Delete heart in case of dead
@@ -221,4 +229,33 @@ void Game::deadHandler()
 bool Game::timeoutHandler()
 {
 	return playingBoard.getTimeRemains() > 0;
+}
+
+void Game::drawIcon(SpaceShip ship)
+{
+	setTextColor(Color::WHITE);
+	const char* text = "playing ship is: ";
+	gotoxy(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y);
+	cout << text;
+	setTextColor(ship.getColor());
+	for (int j = 0;j < ship.getVerticalSize(); j++)
+	{
+		for (int i = 0;i < ship.getHorizontalSize();i++)
+		{
+			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
+			cout << ship.getFigure();
+		}
+	}
+}
+
+void Game::deleteIcon(SpaceShip ship)
+{
+	for (int j = 0;j < ship.getVerticalSize(); j++)
+	{
+		for (int i = 0;i < ship.getHorizontalSize();i++)
+		{
+			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
+			cout << ' ';
+		}
+	}
 }
