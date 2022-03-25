@@ -218,7 +218,7 @@ void Game::deadHandler()
 	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
 	gotoxy(heartIndexToDelete, LIVES_Y);
 	cout << "  ";
-
+	lives--;
 }
 
 bool Game::timeoutHandler()
