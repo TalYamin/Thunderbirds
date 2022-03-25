@@ -23,7 +23,7 @@ void SpaceShip::setType(int typeNum) {
 	type = static_cast<ShipSize>(typeNum);
 }
 
-SpaceShip::ShipSize SpaceShip::getType() {
+ShipSize SpaceShip::getType() {
 	return type;
 }
 

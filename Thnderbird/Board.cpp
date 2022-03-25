@@ -1,6 +1,7 @@
 #include "Board.h"
 #define FIGURE ' '
 
+
 void Board::revertStartUpBoard()
 {
 }
@@ -47,7 +48,6 @@ void Board::initBoard()
 			Point* point = new Point(col, row, boardData[i]);
 			setMatrixPoint(col, row, point);
 			col++;
-			mat;
 		}
 	}
 }
@@ -69,5 +69,4 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 {
 	mat[_x][_y] = *_p;
 }
-
 
