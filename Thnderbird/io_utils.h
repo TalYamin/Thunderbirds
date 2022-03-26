@@ -7,11 +7,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#define HORIZONTAL_SIZE 80
+
 
 void gotoxy(int x, int y);
 void setTextColor(Color);
 void hideCursor();
 void clear_screen();
+void claer_line(int y);
 
 #ifndef WINDOWS	
 int _getch(void);

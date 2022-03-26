@@ -4,7 +4,7 @@
 #include "Spaceship.h"
 #include "io_utils.h"
 #include "Board.h"
-
+#include "ShipStatus.h"
 
 class Game
 {
@@ -17,7 +17,7 @@ class Game
 	int lives = 3;
 
 public:
-
+	static GameStatus gameStatus;
 	//ctors + dtors
 	Game() {};
 	~Game() {};
@@ -37,13 +37,15 @@ private:
 	void showInfo();
 	void init();
 	void pause();
+	void pauseCheck(int logY);
 	void printTime(int x, int y);
-	void printTextDescription(int x, int y,const char* text);
+	void printTextDescription(int x, int y, const char* text);
 	void printLives(int x, int y);
 	void gameMetadata(SpaceShip ship);
-	void deadHandler();
-	bool isGameFinish();
+	void deadHeartHandler();
+	bool isDie();
 	bool timeoutHandler();
 	void drawIcon(SpaceShip ship);
 	void deleteIcon(SpaceShip ship);
+	bool bulkSmash();
 };

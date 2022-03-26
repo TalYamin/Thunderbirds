@@ -8,6 +8,8 @@
 #define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
+#define LOG_X 30
+#define LOG_Y 33
 
 #include "Point.h"
 
