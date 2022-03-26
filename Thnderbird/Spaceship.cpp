@@ -122,13 +122,13 @@ void SpaceShip::move(ShipSize size, Board* board) {
 	case ShipSize::SMALL:
 		checkSmalldWallCollision(board);
 		if (!isBlock) {
-			moveSmallShip();
+			moveSmallShip(board);
 		}
 		break;
 	case ShipSize::BIG:
 		checkSBigdWallCollision(board);
 		if (!isBlock) {
-			moveBigShip();
+			moveBigShip(board);
 		}
 		break;
 	default:
@@ -156,43 +156,35 @@ void  SpaceShip::initDraw(ShipSize size) {
 	}
 }
 
-void SpaceShip::moveBigShip() {
+void SpaceShip::moveBigShip(Board* board) {
 
-	mat[0][0].draw(' ');
-	mat[0][1].draw(' ');
-	mat[1][0].draw(' ');
-	mat[1][1].draw(' ');
-	/*for (int i = 0; i < verticalSize; i++)
+	for (int i = 0; i < BIG_HORIZONTAL_SIZE; i++)
 	{
-		for (int j = 0; j < horizontalSize; j++) {
-			mat[mat[i][j].getX()][mat[i][j].getY()].setFigure(' ');
-			board->setMatrixPoint(mat[i][j].getX(), mat[i][j].getY(), &mat[i][j]);
+		for (int j = 0; j < BIG_VERTICAL_SIZE; j++){
+			mat[i][j].draw((char)BoardFigure::EMPTY);
+			board->getMat()[mat[i][j].getX()][mat[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
+			mat[i][j].move(direction);
+			board->setMatrixPoint(mat[i][j].getX(), mat[i][j].getY(), mat[i]);
 		}
-	}*/
-	mat[0][0].move(direction);
-	mat[0][1].move(direction);
-	mat[1][0].move(direction);
-	mat[1][1].move(direction);
-	setTextColor(color);
-	mat[0][0].draw();
-	mat[0][1].draw();
-	mat[1][0].draw();
-	mat[1][1].draw();
-	//for (int i = 0; i < verticalSize; i++)
-	//{
-	//	for (int j = 0; j < horizontalSize; j++) {
+	}
 
-	//		board->setMatrixPoint( mat[i][j].getX(), mat[i][j].getY(), &mat[i][j]);
-	//	}
-	//}
+	setTextColor(color);
+	for (int i = 0; i < BIG_HORIZONTAL_SIZE; i++)
+	{
+		for (int j = 0; j < BIG_VERTICAL_SIZE; j++) {
+			mat[i][j].draw();
+		}
+	}
 	
 }
 
-void SpaceShip::moveSmallShip() {
+void SpaceShip::moveSmallShip(Board* board) {
 
 	for (int i = 0; i < SMALL_HORIZONTAL_SIZE; i++){
 		mat[i]->draw((char)BoardFigure::EMPTY);
+		board->getMat()[mat[i]->getX()][mat[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 		mat[i]->move(direction);
+		board->setMatrixPoint(mat[i]->getX(), mat[i]->getY(), mat[i]);
 	}
 
 	setTextColor(color);

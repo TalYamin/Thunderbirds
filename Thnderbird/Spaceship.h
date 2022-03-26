@@ -10,8 +10,6 @@
 #define SMALL_VERTICAL_SIZE 1
 
 
-class Board;
-
 class SpaceShip
 {
 
@@ -60,8 +58,8 @@ public:
 private:
 
 	//private methods
-	void moveBigShip();
-	void moveSmallShip();
+	void moveBigShip(Board* board);
+	void moveSmallShip(Board* board);
 	void checkSmalldWallCollision(Board* board);
 	void checkSBigdWallCollision(Board* board);
 	
