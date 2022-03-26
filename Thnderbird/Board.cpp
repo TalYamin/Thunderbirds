@@ -71,3 +71,10 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 	mat[_x][_y] = *_p;
 }
 
+bool Board::isEmptyPoint(int x, int y) {
+
+	if (this->getMat()[x][y].getFigure() == ' ')
+		return true;
+	else
+		return false;
+}

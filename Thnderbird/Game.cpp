@@ -87,8 +87,8 @@ void Game::run() {
 				}
 			}
 			if (isOnMoving && isBigStart) {
-				bigShip.move(bigShip.getType());
-				Sleep(100);
+				bigShip.move(bigShip.getType(), &playingBoard);
+				Sleep(400);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
@@ -117,8 +117,8 @@ void Game::run() {
 			}
 			if (isOnMoving && isSmallStart)
 			{
-				smallShip.move(smallShip.getType());
-				Sleep(100);
+				smallShip.move(smallShip.getType(), &playingBoard);
+				Sleep(400);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
@@ -171,13 +171,13 @@ void Game::pause() {
 		{
 			cout << "You have " << lives << " more lives! " << endl;
 			Sleep(500);
-			gotoxy(LOG_X, ++logY);
 		}
 		else {
 			cout << "Game Over, Try your luck next time :)" << endl;
 			gameStatus = GameStatus::GAMEOVER;
-		}
 
+		}
+		gotoxy(LOG_X, ++logY);
 	}
 	else
 	{

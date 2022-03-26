@@ -204,36 +204,32 @@ void SpaceShip::checkSBigdWallCollision(Board* board) {
 
 	switch (direction) {
 	case 0: // UP
-		if ((board->getMat()[mat[0][0].getX()][mat[0][1].getY() - 1].getFigure() != ' ') || (board->getMat()[mat[0][1].getX()][mat[0][1].getY() - 1].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[0][0].getX(), mat[0][0].getY() - 1)) && (board->isEmptyPoint(mat[0][1].getX(), mat[0][1].getY() - 1))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	case 1: // DOWN
-		if ((board->getMat()[mat[1][0].getX()][mat[1][0].getY() + 1].getFigure() != ' ') || (board->getMat()[mat[1][1].getX()][mat[1][1].getY() + 1].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[1][0].getX(), mat[1][0].getY() + 1)) && (board->isEmptyPoint(mat[1][1].getX(), mat[1][1].getY() + 1))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	case 2: // LEFT
-		if ((board->getMat()[mat[0][0].getX() - 1][mat[0][0].getY()].getFigure() != ' ') || (board->getMat()[mat[1][0].getX()-1][mat[1][0].getY()].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[0][0].getX()-1, mat[0][0].getY())) && (board->isEmptyPoint(mat[1][0].getX()-1, mat[1][0].getY()))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	case 3: // RIGHT
-		if ((board->getMat()[mat[0][1].getX() + 1][mat[0][1].getY()].getFigure() != ' ') || (board->getMat()[mat[1][1].getX() + 1][mat[1][1].getY()].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[0][1].getX() + 1, mat[0][1].getY())) && (board->isEmptyPoint(mat[1][1].getX() + 1, mat[1][1].getY()))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	default:
 		isBlock = false;
@@ -241,39 +237,37 @@ void SpaceShip::checkSBigdWallCollision(Board* board) {
 	}
 }
 
+
+
 void SpaceShip::checkSmalldWallCollision(Board* board) {
 	switch (direction) {
 	case 0: // UP
-		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() - 1].getFigure() != ' ') || (board->getMat()[mat[1]->getX()][mat[1]->getY() - 1].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[0]->getX(), mat[0]->getY() - 1)) && (board->isEmptyPoint(mat[1]->getX(), mat[1]->getY() - 1))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	case 1: // DOWN
-		if ((board->getMat()[mat[0]->getX()][mat[0]->getY() + 1].getFigure() != ' ') || (board->getMat()[mat[1]->getX()][mat[1]->getY() + 1].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[0]->getX(), mat[0]->getY() + 1)) && (board->isEmptyPoint(mat[1]->getX(), mat[1]->getY() + 1))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	case 2: // LEFT
-		if ((board->getMat()[mat[0]->getX() - 1][mat[0]->getY()].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[0]->getX() - 1, mat[0]->getY()))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	case 3: // RIGHT
-		if ((board->getMat()[mat[1]->getX() + 1][mat[1]->getY()].getFigure() != ' ')) {
-			isBlock = true;
-		}
-		else {
+		if ((board->isEmptyPoint(mat[1]->getX() + 1, mat[1]->getY()))) {
 			isBlock = false;
 		}
+		else
+			isBlock = true;
 		break;
 	default:
 		isBlock = false;

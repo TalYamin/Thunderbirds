@@ -58,5 +58,6 @@ private:
 	void moveSmallShip();
 	void checkSmalldWallCollision(Board* board);
 	void checkSBigdWallCollision(Board* board);
+	
 };
 

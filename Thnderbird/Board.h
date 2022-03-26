@@ -23,6 +23,7 @@ class Board
 	long timeRemains = 10000;
 
 public:
+	bool isEmptyPoint(int x, int y);
 	void revertStartUpBoard();
 	void initBoard();
 	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
@@ -45,6 +46,8 @@ public:
 	Board& operator=(const Board& _board) = default;
 
 private:
+
+
 
 };
 
