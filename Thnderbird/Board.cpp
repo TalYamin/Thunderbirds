@@ -8,6 +8,7 @@ void Board::revertStartUpBoard()
 
 void Board::initBoard()
 {
+	timeRemains = 10000;
 	int boardLen;
 	int row = 0;
 	int col = 0;
