@@ -23,7 +23,7 @@ class Board
 	long timeRemains = 10000;
 
 public:
-	bool isEmptyPoint(int x, int y);
+	bool isNotEmptyPoint(int x, int y);
 	void revertStartUpBoard();
 	void initBoard();
 	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };

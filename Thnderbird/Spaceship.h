@@ -3,6 +3,12 @@
 #include "Point.h"
 #include "ShipSize.h"
 #include "Board.h"
+#include "BoardFigure.h"
+#define BIG_HORIZONTAL_SIZE 2
+#define BIG_VERTICAL_SIZE 2
+#define SMALL_HORIZONTAL_SIZE 2
+#define SMALL_VERTICAL_SIZE 1
+
 
 class Board;
 
