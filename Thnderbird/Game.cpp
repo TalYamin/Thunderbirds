@@ -2,7 +2,6 @@
 
 using namespace std;
 
-GameStatus Game::gameStatus = GameStatus::RUNNING;
 
 void Game::start() {
 
@@ -44,6 +43,7 @@ void Game::makeSelection() {
 		init();
 		run();
 	case GameStatus::EXIT:
+		setTextColor(Color::DARKGREY);
 		cout << "Goodbye !" << endl;
 		break;
 	default:
@@ -181,6 +181,7 @@ void Game::pause() {
 	}
 	else
 	{
+		setTextColor(Color::LIGHTBLUE);
 		cout << "Game paused ";
 	}
 	pauseCheck(logY);

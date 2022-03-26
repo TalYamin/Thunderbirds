@@ -9,6 +9,7 @@
 class Game
 {
 	//data members
+	GameStatus gameStatus=GameStatus::NO_SELECTION;
 	GameStatus userSelection = GameStatus::NO_SELECTION;
 	SpaceShip bigShip; //for testing
 	SpaceShip smallShip; //for testing
@@ -16,7 +17,6 @@ class Game
 	int lives = 3;
 
 public:
-	static GameStatus gameStatus;
 	//ctors + dtors
 	Game() {};
 	~Game() {};
