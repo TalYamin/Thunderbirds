@@ -214,7 +214,7 @@ void Game::pauseCheck(int logY)
 			run();
 
 		}
-		if (ch == (int)GameStatus::PAUSE_EXIT) {
+		else if (ch == (int)GameStatus::PAUSE_EXIT) {
 			setTextColor(Color::DARKGREY);
 			gotoxy(LOG_X, ++logY);
 			userSelection = GameStatus::EXIT;
