@@ -9,8 +9,7 @@
 class Game
 {
 	//data members
-	enum { NO_SELECTION = 0, START = 1, INFO = 8, EXIT = 9, PAUSE_EXIT = 57, ESC = 27 };
-	int userSelection = NO_SELECTION;
+	GameStatus userSelection = GameStatus::NO_SELECTION;
 	SpaceShip bigShip; //for testing
 	SpaceShip smallShip; //for testing
 	Board playingBoard;

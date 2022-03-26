@@ -32,17 +32,18 @@ void Game::printMenu() {
 
 
 void Game::makeSelection() {
-
-	cin >> userSelection;
+	int userInput;
+	cin >> userInput;
+	userSelection = static_cast<GameStatus>(userInput);
 	switch (userSelection)
 	{
-	case INFO:
+	case GameStatus::INFO:
 		showInfo();
 		break;
-	case START:
+	case GameStatus::START:
 		init();
 		run();
-	case EXIT:
+	case GameStatus::EXIT:
 		cout << "Goodbye !" << endl;
 		break;
 	default:
@@ -122,7 +123,7 @@ void Game::run() {
 				printTime(TIME_X, TIME_Y);
 			}
 		}
-	} while (key != ESC && !isDie());
+	} while (key != (int)GameStatus::ESC && !isDie());
 	pause();
 	//should be handle ship movement too 
 }
@@ -201,21 +202,21 @@ void Game::pauseCheck(int logY)
 		do {
 			ch = _getch();
 		} while (ch != (int)GameStatus::ESC && ch != (int)GameStatus::PAUSE_EXIT);
-		if (ch == ESC) {
+		if (ch == (int)GameStatus::ESC) {
 			claer_line(logY);
 			setTextColor(Color::WHITE);
 			if (gameStatus == GameStatus::DIE)
 			{
 				init();
 			}
-			run();
 			gameStatus = GameStatus::RUNNING;
+			run();
 
 		}
-		if (ch == PAUSE_EXIT) {
+		if (ch == (int)GameStatus::PAUSE_EXIT) {
 			setTextColor(Color::DARKGREY);
 			gotoxy(LOG_X, ++logY);
-			userSelection = EXIT;
+			userSelection = GameStatus::EXIT;
 		}
 	}
 	}
@@ -288,7 +289,7 @@ bool Game::isDie()
 
 bool Game::timeoutHandler()
 {
-	return playingBoard.getTimeRemains() < 9990;
+	return playingBoard.getTimeRemains() <= 0;
 }
 
 void Game::drawIcon(SpaceShip ship)
