@@ -31,17 +31,19 @@ void Game::printMenu() {
 
 
 void Game::makeSelection() {
-
-	cin >> userSelection;
+	int userInput;
+	cin >> userInput;
+	userSelection = static_cast<GameStatus>(userInput);
 	switch (userSelection)
 	{
-	case INFO:
+	case GameStatus::INFO:
 		showInfo();
 		break;
-	case START:
+	case GameStatus::START:
 		init();
 		run();
-	case EXIT:
+	case GameStatus::EXIT:
+		setTextColor(Color::DARKGREY);
 		cout << "Goodbye !" << endl;
 		break;
 	default:
@@ -85,7 +87,7 @@ void Game::run() {
 				}
 			}
 			if (isOnMoving && isBigStart) {
-				bigShip.move(bigShip.getType(),&playingBoard);
+				bigShip.move(bigShip.getType());
 				Sleep(100);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
@@ -95,6 +97,7 @@ void Game::run() {
 		{
 			if (_kbhit())
 			{
+
 				isSmallStart = true;
 				key = _getch();
 				if (key == 'b' || key == 'B') {
@@ -114,14 +117,15 @@ void Game::run() {
 			}
 			if (isOnMoving && isSmallStart)
 			{
-				smallShip.move(smallShip.getType(),&playingBoard);
+				smallShip.move(smallShip.getType());
 				Sleep(100);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
 		}
-	} while (key != ESC);
-	pause(); 
+	} while (key != (int)GameStatus::ESC && !isDie());
+	pause();
+	//should be handle ship movement too 
 }
 
 
@@ -155,15 +159,67 @@ void Game::init() {
 
 void Game::pause() {
 	char ch;
-	cout << "Game paused, press ESC again to continue or 9 to Exit" << endl;
-	do {
-		ch = _getch();
-	} while (ch != ESC && ch != PAUSE_EXIT);
-	if (ch == ESC) {
-		run();
+	int logY = LOG_Y;
+	gotoxy(LOG_X, logY);
+	if (gameStatus == GameStatus::DIE)
+	{
+		lives--;
+		setTextColor(Color::YELLOW);
+		cout << "You dead " << endl;
+		gotoxy(LOG_X, ++logY);
+		if (lives > 0)
+		{
+			cout << "You have " << lives << " more lives! " << endl;
+			Sleep(500);
+			gotoxy(LOG_X, ++logY);
+		}
+		else {
+			cout << "Game Over, Try your luck next time :)" << endl;
+			gameStatus = GameStatus::GAMEOVER;
+		}
+
 	}
-	else if (ch == PAUSE_EXIT) {
-		userSelection = EXIT;
+	else
+	{
+		setTextColor(Color::LIGHTBLUE);
+		cout << "Game paused ";
+	}
+	pauseCheck(logY);
+}
+
+void Game::pauseCheck(int logY)
+{
+	char ch;
+	switch (gameStatus)
+	{
+	case GameStatus::GAMEOVER:
+	{
+		gameStatus = GameStatus::PAUSE_EXIT;
+		break;
+	}
+	default:
+	{
+		cout << "press ESC to continue or 9 to Exit" << endl;
+		do {
+			ch = _getch();
+		} while (ch != (int)GameStatus::ESC && ch != (int)GameStatus::PAUSE_EXIT);
+		if (ch == (int)GameStatus::ESC) {
+			claer_line(logY);
+			setTextColor(Color::WHITE);
+			if (gameStatus == GameStatus::DIE)
+			{
+				init();
+			}
+			gameStatus = GameStatus::RUNNING;
+			run();
+
+		}
+		else if (ch == (int)GameStatus::PAUSE_EXIT) {
+			setTextColor(Color::DARKGREY);
+			gotoxy(LOG_X, ++logY);
+			userSelection = GameStatus::EXIT;
+		}
+	}
 	}
 }
 
@@ -190,12 +246,12 @@ void Game::printLives(int x, int y)
 {
 	setTextColor(Color::RED);
 	gotoxy(x, y);
-	for (int i = 0;i < 3;i++)
+	for (int i = 0;i < lives;i++)
 	{
 		cout << ' ';
 	}
 	gotoxy(x, y);
-	for (int i = 0;i < 3;i++)
+	for (int i = 0;i < lives;i++)
 		cout << "<3";
 }
 
@@ -210,7 +266,7 @@ void Game::gameMetadata(SpaceShip ship)
 }
 
 //Delete heart in case of dead
-void Game::deadHandler()
+void Game::deadHeartHandler()
 {
 	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
 	gotoxy(heartIndexToDelete, LIVES_Y);
@@ -218,9 +274,23 @@ void Game::deadHandler()
 	lives--;
 }
 
+bool Game::isDie()
+{
+	if (timeoutHandler()) {
+		gameStatus = GameStatus::DIE;
+		return true;
+	}
+	if (bulkSmash()) {
+		gameStatus = GameStatus::DIE;
+		return true;
+	}
+	return false;
+}
+
+
 bool Game::timeoutHandler()
 {
-	return playingBoard.getTimeRemains() > 0;
+	return playingBoard.getTimeRemains() <= 0;
 }
 
 void Game::drawIcon(SpaceShip ship)
@@ -247,4 +317,9 @@ void Game::deleteIcon(SpaceShip ship)
 			cout << ' ';
 		}
 	}
+}
+
+bool Game::bulkSmash()
+{
+	return false;
 }
