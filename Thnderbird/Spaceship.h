@@ -48,20 +48,20 @@ public:
 	Color getColor();
 	void setIsBlock();
 	bool getIsBlock();
-	void setMat(ShipSize size, Board* board);
+	void setMat(Board* board);
 	Point** getMat();
 
 	//public methods
-	void move(ShipSize size, Board* board);
-	void initDraw(ShipSize size);
+	void move(Board* board);
+	void initDraw();
 
 private:
 
 	//private methods
 	void moveBigShip(Board* board);
 	void moveSmallShip(Board* board);
-	void checkSmalldWallCollision(Board* board);
-	void checkSBigdWallCollision(Board* board);
+	void checkSmallCollision(Board* board);
+	void checkSBigCollision(Board* board);
 	
 };
 

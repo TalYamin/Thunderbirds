@@ -87,7 +87,7 @@ void Game::run() {
 				}
 			}
 			if (isOnMoving && isBigStart) {
-				bigShip.move(bigShip.getType(), &playingBoard);
+				bigShip.move(&playingBoard);
 				Sleep(200);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
@@ -117,7 +117,7 @@ void Game::run() {
 			}
 			if (isOnMoving && isSmallStart)
 			{
-				smallShip.move(smallShip.getType(), &playingBoard);
+				smallShip.move(&playingBoard);
 				Sleep(200);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
@@ -140,7 +140,7 @@ void Game::init() {
 	
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
-	bigShip.setMat(bigShip.getType(), &playingBoard);
+	bigShip.setMat(&playingBoard);
 	bigShip.setArrowKeys("wxad");
 
 	playingBoard.draw();
@@ -148,11 +148,11 @@ void Game::init() {
 
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
-	smallShip.setMat(smallShip.getType(), &playingBoard);
+	smallShip.setMat(&playingBoard);
 	smallShip.setArrowKeys("wxad");
 
-	smallShip.initDraw(smallShip.getType());
-	bigShip.initDraw(bigShip.getType());
+	smallShip.initDraw();
+	bigShip.initDraw();
 
 }
 
