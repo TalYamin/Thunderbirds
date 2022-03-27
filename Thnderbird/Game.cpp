@@ -140,7 +140,7 @@ void Game::init() {
 	
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
-	bigShip.setMat(&playingBoard);
+	bigShip.setShipMat(&playingBoard);
 	bigShip.setArrowKeys("wxad");
 
 	playingBoard.draw();
@@ -148,7 +148,7 @@ void Game::init() {
 
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
-	smallShip.setMat(&playingBoard);
+	smallShip.setShipMat(&playingBoard);
 	smallShip.setArrowKeys("wxad");
 
 	smallShip.initDraw();

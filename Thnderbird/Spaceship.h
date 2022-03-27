@@ -48,8 +48,8 @@ public:
 	Color getColor();
 	void setIsBlock();
 	bool getIsBlock();
-	void setMat(Board* board);
-	Point** getMat();
+	void setShipMat(Board* board);
+	auto getShipMat();
 
 	//public methods
 	void move(Board* board);

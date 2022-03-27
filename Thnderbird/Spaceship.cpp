@@ -91,7 +91,7 @@ bool SpaceShip::getIsBlock() {
 	return isBlock;
 }
 
-void SpaceShip::setMat(Board* board) {
+void SpaceShip::setShipMat(Board* board) {
 
 	switch (type)
 	{
@@ -117,7 +117,7 @@ void SpaceShip::setMat(Board* board) {
 
 }
 
-Point** SpaceShip::getMat() {
+auto SpaceShip::getShipMat() {
 	return shipMat;
 }
 
