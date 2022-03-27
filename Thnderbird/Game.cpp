@@ -88,7 +88,7 @@ void Game::run() {
 			}
 			if (isOnMoving && isBigStart) {
 				bigShip.move(&playingBoard);
-				Sleep(200);
+				Sleep(GAME_SPEED);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
@@ -118,7 +118,7 @@ void Game::run() {
 			if (isOnMoving && isSmallStart)
 			{
 				smallShip.move(&playingBoard);
-				Sleep(200);
+				Sleep(GAME_SPEED);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
