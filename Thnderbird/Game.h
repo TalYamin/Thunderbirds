@@ -8,6 +8,9 @@
 #define GAME_SPEED 200
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
+#define BIG_SWITCH_KEY 'B'
+#define SMALL_SWITCH_KEY 'S'
+
 
 class Game
 {
@@ -18,6 +21,10 @@ class Game
 	SpaceShip smallShip; //for testing
 	Board playingBoard;
 	bool isBigMove = true;
+	bool isBigOnMoving = true;
+	bool isSmallOnMoving = true;
+	bool isBigStart = false;
+	bool isSmallStart = false;
 	int lives = 3;
 
 public:
@@ -51,4 +58,5 @@ private:
 	void drawIcon(SpaceShip ship);
 	void deleteIcon(SpaceShip ship);
 	bool bulkSmash();
+	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char switchKey, char switchKeyToStop);
 };
