@@ -13,7 +13,6 @@
 
 #include "Point.h"
 
-class Spaceship;
 
 class Board
 {
@@ -46,8 +45,6 @@ public:
 	Board& operator=(const Board& _board) = default;
 
 private:
-
-
 
 };
 
