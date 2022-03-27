@@ -2,19 +2,29 @@
 #include "Color.h"
 #include "Point.h"
 #include "ShipSize.h"
+#include "Board.h"
+#include "BoardFigure.h"
+#define BIG_HORIZONTAL_SIZE 2
+#define BIG_VERTICAL_SIZE 2
+#define SMALL_HORIZONTAL_SIZE 2
+#define SMALL_VERTICAL_SIZE 1
+#define NUM_ARROW_KEYS 4
+
+
 class SpaceShip
 {
 
 	//date members 
-	ShipSize type;
+	ShipSize type = ShipSize:: UNDEFINED;
 	int verticalSize;
 	int horizontalSize;
-	int direction;
-	char figure;
+	int direction = 3;
+	char figure = ' ';
 	char arrowKeys[4];
 	Color color;
 	bool isBlock = false;
-	Point* mat[2];
+	Point* shipMat[2];
+	
 
 public:
 
@@ -39,19 +49,20 @@ public:
 	Color getColor();
 	void setIsBlock();
 	bool getIsBlock();
-	void setMat(ShipSize size);
-	Point** getMat();
+	void setShipMat(Board* board);
+	auto getShipMat();
 
 	//public methods
-	void move(ShipSize size);
-	void initDraw(ShipSize size);
-
+	void move(Board* board);
+	void initDraw();
 
 private:
 
 	//private methods
-	void moveBigShip();
-	void moveSmallShip();
-
+	void moveBigShip(Board* board);
+	void moveSmallShip(Board* board);
+	void checkSmallCollision(Board* board);
+	void checkSBigCollision(Board* board);
+	
 };
 

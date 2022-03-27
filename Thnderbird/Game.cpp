@@ -87,8 +87,8 @@ void Game::run() {
 				}
 			}
 			if (isOnMoving && isBigStart) {
-				bigShip.move(bigShip.getType());
-				Sleep(100);
+				bigShip.move(&playingBoard);
+				Sleep(GAME_SPEED);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
@@ -117,15 +117,14 @@ void Game::run() {
 			}
 			if (isOnMoving && isSmallStart)
 			{
-				smallShip.move(smallShip.getType());
-				Sleep(100);
+				smallShip.move(&playingBoard);
+				Sleep(GAME_SPEED);
 				playingBoard.timeDown();
 				printTime(TIME_X, TIME_Y);
 			}
 		}
 	} while (key != (int)GameStatus::ESC && !isDie());
 	pause();
-	//should be handle ship movement too 
 }
 
 
@@ -137,23 +136,23 @@ void Game::init() {
 	cout << "Game is initialized !" << endl;
 	clear_screen();
 	//TODO: Move to Board
+	playingBoard.initBoard();
+	
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
-	bigShip.setMat(bigShip.getType());
+	bigShip.setShipMat(&playingBoard);
 	bigShip.setArrowKeys("wxad");
 
-	playingBoard.initBoard();
 	playingBoard.draw();
-
 	gameMetadata(bigShip);
 
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
 	smallShip.setType(1);
-	smallShip.setMat(smallShip.getType());
+	smallShip.setShipMat(&playingBoard);
 	smallShip.setArrowKeys("wxad");
 
-	smallShip.initDraw(smallShip.getType());
-	bigShip.initDraw(bigShip.getType());
+	smallShip.initDraw();
+	bigShip.initDraw();
 
 }
 
@@ -170,14 +169,14 @@ void Game::pause() {
 		if (lives > 0)
 		{
 			cout << "You have " << lives << " more lives! " << endl;
-			Sleep(500);
-			gotoxy(LOG_X, ++logY);
+			Sleep(TIME_TO_PAUSE);
 		}
 		else {
 			cout << "Game Over, Try your luck next time :)" << endl;
 			gameStatus = GameStatus::GAMEOVER;
-		}
 
+		}
+		gotoxy(LOG_X, ++logY);
 	}
 	else
 	{

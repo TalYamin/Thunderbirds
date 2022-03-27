@@ -9,9 +9,9 @@ void Board::revertStartUpBoard()
 void Board::initBoard()
 {
 	timeRemains = 10000;
-	int boardLen;
-	int row = 0;
-	int col = 0;
+	size_t boardLen;
+	int y = 0;
+	int x = 0;
 	const char* boardData = R""""(++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++                          +                       +                     +
 +                                +                       +                     +
@@ -41,14 +41,14 @@ void Board::initBoard()
 	for (int i = 0;i < boardLen;i++)
 	{
 		if (boardData[i] == '\n') {
-			row++;
-			col = 0;
+			y++;
+			x = 0;
 		}
 		else
 		{
-			Point* point = new Point(col, row, boardData[i]);
-			setMatrixPoint(col, row, point);
-			col++;
+			Point* point = new Point(x, y, boardData[i]);
+			setMatrixPoint(x, y, point);
+			x++;
 		}
 	}
 }
@@ -71,4 +71,10 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 	mat[_x][_y] = *_p;
 }
 
+bool Board::isNotEmptyPoint(int x, int y) {
 
+	if (this->getMat()[x][y].getFigure() == ' ')
+		return false;
+	else
+		return true;
+}

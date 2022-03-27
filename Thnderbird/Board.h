@@ -16,12 +16,13 @@
 
 class Board
 {
-	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE] = { {} };
+	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE];
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = 10000;
 
 public:
+	bool isNotEmptyPoint(int x, int y);
 	void revertStartUpBoard();
 	void initBoard();
 	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
@@ -31,6 +32,7 @@ public:
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
 	int getMaxVerticalSize() { return maxVerticalSize; };
+	auto getMat() {return mat; };
 	void draw();
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
