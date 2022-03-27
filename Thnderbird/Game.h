@@ -7,6 +7,7 @@
 #include "ShipStatus.h"
 #define GAME_SPEED 200
 #define TIME_TO_PAUSE 500
+#define NO_DIRECTION -1
 
 class Game
 {
@@ -16,6 +17,7 @@ class Game
 	SpaceShip bigShip; //for testing
 	SpaceShip smallShip; //for testing
 	Board playingBoard;
+	bool isBigMove = true;
 	int lives = 3;
 
 public:

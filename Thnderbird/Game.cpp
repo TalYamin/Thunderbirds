@@ -57,11 +57,10 @@ void Game::makeSelection() {
 
 void Game::run() {
 
-	//	cout << "Game is running !" << endl;
 	char key = 0;
 	int dir;
-	bool isBigMove = true;
-	bool isOnMoving = true;
+	bool isBigOnMoving = true;
+	bool isSmallOnMoving = true;
 	bool isBigStart = false;
 	bool isSmallStart = false;
 	do {
@@ -72,21 +71,23 @@ void Game::run() {
 				isBigStart = true;
 				key = _getch();
 				if (key == 's' || key == 'S') {
+					isBigMove = false;
+					isSmallOnMoving = true;
 					deleteIcon(bigShip);
 					drawIcon(smallShip);
-					isBigMove = false;
+					bigShip.setDirection(NO_DIRECTION);
 				}
 				else if (key == 'b' || key == 'B') {
-					isOnMoving = !isOnMoving;
+					isBigOnMoving = !isBigOnMoving;
 				}
 				else {
-					if ((dir = bigShip.getDirection(key)) != -1)
+					if ((dir = bigShip.getDirection(key)) != NO_DIRECTION)
 						bigShip.setDirection(dir);
-					else if ((dir = bigShip.getDirection(key)) != -1)
+					else if ((dir = bigShip.getDirection(key)) != NO_DIRECTION)
 						bigShip.setDirection(dir);
 				}
 			}
-			if (isOnMoving && isBigStart) {
+			if (isBigOnMoving && isBigStart) {
 				bigShip.move(&playingBoard);
 				Sleep(GAME_SPEED);
 				playingBoard.timeDown();
@@ -102,20 +103,22 @@ void Game::run() {
 				key = _getch();
 				if (key == 'b' || key == 'B') {
 					isBigMove = true;
+					isBigOnMoving = true;
 					deleteIcon(smallShip);
 					drawIcon(bigShip);
+					smallShip.setDirection(NO_DIRECTION);
 				}
 				else if (key == 's' || key == 'S') {
-					isOnMoving = !isOnMoving;
+					isSmallOnMoving = !isSmallOnMoving;
 				}
 				else {
-					if ((dir = smallShip.getDirection(key)) != -1)
+					if ((dir = smallShip.getDirection(key)) != NO_DIRECTION)
 						smallShip.setDirection(dir);
-					else if ((dir = smallShip.getDirection(key)) != -1)
+					else if ((dir = smallShip.getDirection(key)) != NO_DIRECTION)
 						smallShip.setDirection(dir);
 				}
 			}
-			if (isOnMoving && isSmallStart)
+			if (isSmallOnMoving && isSmallStart)
 			{
 				smallShip.move(&playingBoard);
 				Sleep(GAME_SPEED);
