@@ -12,6 +12,8 @@ Block::Block(Point* _list_points, char _figure, Color _color, bool _isBlock, int
 	size = _size;
 };
 
+
+
 Block::~Block()
 {
 }

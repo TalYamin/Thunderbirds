@@ -71,3 +71,4 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 	mat[_x][_y] = *_p;
 }
 
+
