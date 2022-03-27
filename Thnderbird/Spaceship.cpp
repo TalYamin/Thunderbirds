@@ -11,7 +11,7 @@ SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color
 	horizontalSize = _horizontalSize;
 	figure = _figure;
 	color = _color;
-
+	
 }
 
 SpaceShip::~SpaceShip()
@@ -67,10 +67,10 @@ char SpaceShip::getFigure() {
 
 
 void SpaceShip::setArrowKeys(const char* keys) { // "wzad"
-	arrowKeys[0] = keys[0];
-	arrowKeys[1] = keys[1];
-	arrowKeys[2] = keys[2];
-	arrowKeys[3] = keys[3];
+	for (int i = 0; i < NUM_ARROW_KEYS; i++)
+	{
+		arrowKeys[i] = keys[i];
+	}
 };
 
 
@@ -91,18 +91,25 @@ bool SpaceShip::getIsBlock() {
 	return isBlock;
 }
 
-void SpaceShip::setMat(ShipSize size) {
+void SpaceShip::setShipMat(Board* board) {
 
-	switch (size)
+	switch (type)
 	{
 	case ShipSize::SMALL:
-		mat[0] = new Point(2, 2, figure); //free is needed
-		mat[1] = new Point(3, 2, figure); //free is needed
-
+		shipMat[0] = new Point(2, 2, figure); //free is needed
+		shipMat[1] = new Point(3, 2, figure); //free is needed
+		board->setMatrixPoint(shipMat[0]->getX(), shipMat[0]->getY(), shipMat[0]);
+		board->setMatrixPoint(shipMat[1]->getX(), shipMat[1]->getY(), shipMat[1]);
 		break;
 	case ShipSize::BIG:
-		mat[0] = new Point[2]{ {77,2,figure},{78,2,figure} }; //free is needed
-		mat[1] = new Point[2]{ {77,3,figure},{78,3,figure} };//free is needed
+		shipMat[0] = new Point[2]{ {77,2,figure},{78,2,figure} }; //free is needed
+		shipMat[1] = new Point[2]{ {77,3,figure},{78,3,figure} };//free is needed
+		for (int i = 0; i < verticalSize; i++)
+		{
+			for (int j = 0; j < horizontalSize; j++) {
+				board->setMatrixPoint(shipMat[i][j].getX(), shipMat[i][j].getY(), &shipMat[i][j]);
+			}
+		}
 		break;
 	default:
 		break;
@@ -110,75 +117,138 @@ void SpaceShip::setMat(ShipSize size) {
 
 }
 
-Point** SpaceShip::getMat() {
-	return mat;
+auto SpaceShip::getShipMat() {
+	return shipMat;
 }
 
 
-void SpaceShip::move(ShipSize size) {
+void SpaceShip::move(Board* board) {
 
-	switch (size)
+	switch (type)
 	{
 	case ShipSize::SMALL:
-		moveSmallShip();
+		checkSmallCollision(board);
+		if (!isBlock) {
+			moveSmallShip(board);
+		}
 		break;
 	case ShipSize::BIG:
-		moveBigShip();
+		checkSBigCollision(board);
+		if (!isBlock) {
+			moveBigShip(board);
+		}
 		break;
 	default:
 		break;
 	}
 }
 
-void  SpaceShip::initDraw(ShipSize size) {
-	switch (size)
+void  SpaceShip::initDraw() {
+	switch (type)
 	{
 	case ShipSize::SMALL:
 		setTextColor(color);
-		mat[0]->draw();
-		mat[1]->draw();
+		for (int i = 0; i < horizontalSize; i++){
+			shipMat[i]->draw();
+		}
 		break;
 	case ShipSize::BIG:
 		setTextColor(color);
-		mat[0][0].draw();
-		mat[0][1].draw();
-		mat[1][0].draw();
-		mat[1][1].draw();
+		for (int i = 0; i < verticalSize; i++){
+			for (int j = 0; j < horizontalSize; j++) {
+				shipMat[i][j].draw();
+			}
+		}
 		break;
 	default:
 		break;
 	}
 }
 
-void SpaceShip::moveBigShip() {
+void SpaceShip::moveBigShip(Board* board) {
 
-	mat[0][0].draw(' ');
-	mat[0][1].draw(' ');
-	mat[1][0].draw(' ');
-	mat[1][1].draw(' ');
-	mat[0][0].move(direction);
-	mat[0][1].move(direction);
-	mat[1][0].move(direction);
-	mat[1][1].move(direction);
+
+	for (int i = 0; i < verticalSize; i++)
+	{
+
+		for (int j = 0; j < horizontalSize; j++) {
+			shipMat[i][j].draw((char)BoardFigure::EMPTY);
+			board->getMat()[shipMat[i][j].getX()][shipMat[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
+		}
+	}
+
+
 	setTextColor(color);
-	mat[0][0].draw();
-	mat[0][1].draw();
-	mat[1][0].draw();
-	mat[1][1].draw();
+	for (int i = 0; i < verticalSize; i++)
+	{
+		for (int j = 0; j < horizontalSize; j++) {
+			shipMat[i][j].move(direction);
+			shipMat[i][j].draw();
+			board->getMat()[shipMat[i][j].getX()][shipMat[i][j].getY()].setFigure(figure);
+		}
+	}
 
 }
 
-void SpaceShip::moveSmallShip() {
+void SpaceShip::moveSmallShip(Board* board) {
 
-	mat[0]->draw(' ');
-	mat[1]->draw(' ');
-	mat[0]->move(direction);
-	mat[1]->move(direction);
+	for (int i = 0; i < horizontalSize; i++){
+		shipMat[i]->draw((char)BoardFigure::EMPTY);
+		board->getMat()[shipMat[i]->getX()][shipMat[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+	}
+
 	setTextColor(color);
-	mat[0]->draw();
-	mat[1]->draw();
+	for (int i = 0; i < horizontalSize; i++) {
+		shipMat[i]->move(direction);
+		shipMat[i]->draw();
+		board->getMat()[shipMat[i]->getX()][shipMat[i]->getY()].setFigure(figure);
+	}
 
 }
+
+void SpaceShip::checkSBigCollision(Board* board) {
+
+	switch (direction) {
+	case 0: // UP
+		isBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1));
+		break;
+	case 1: // DOWN
+		isBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1));
+		break;
+	case 2: // LEFT
+		isBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY())) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY()));
+		break;
+	case 3: // RIGHT
+		isBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY())) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY()));
+		break;
+	default:
+		isBlock = false;
+		break;
+	}
+}
+
+
+
+void SpaceShip::checkSmallCollision(Board* board) {
+	switch (direction) {
+	case 0: // UP
+		isBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() - 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() - 1));
+		break;
+	case 1: // DOWN
+		isBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() + 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() + 1));
+		break;
+	case 2: // LEFT
+		isBlock = board->isNotEmptyPoint(shipMat[0]->getX() - 1, shipMat[0]->getY());
+		break;
+	case 3: // RIGHT
+		isBlock = board->isNotEmptyPoint(shipMat[1]->getX() + 1, shipMat[1]->getY());
+		break;
+	default:
+		isBlock = false;
+		break;
+	}
+}
+
 
 
 

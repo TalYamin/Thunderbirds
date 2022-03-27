@@ -5,6 +5,8 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "ShipStatus.h"
+#define GAME_SPEED 200
+#define TIME_TO_PAUSE 500
 
 class Game
 {
