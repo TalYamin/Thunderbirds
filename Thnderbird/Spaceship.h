@@ -48,7 +48,7 @@ public:
 	Color getColor();
 	void setIsBlock();
 	bool getIsBlock();
-	void setMat(ShipSize size);
+	void setMat(ShipSize size, Board* board);
 	Point** getMat();
 
 	//public methods

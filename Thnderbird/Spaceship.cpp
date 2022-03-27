@@ -91,18 +91,25 @@ bool SpaceShip::getIsBlock() {
 	return isBlock;
 }
 
-void SpaceShip::setMat(ShipSize size) {
+void SpaceShip::setMat(ShipSize size, Board* board) {
 
 	switch (size)
 	{
 	case ShipSize::SMALL:
 		mat[0] = new Point(2, 2, figure); //free is needed
 		mat[1] = new Point(3, 2, figure); //free is needed
-
+		board->setMatrixPoint(mat[0]->getX(), mat[0]->getY(), mat[0]);
+		board->setMatrixPoint(mat[1]->getX(), mat[1]->getY(), mat[1]);
 		break;
 	case ShipSize::BIG:
 		mat[0] = new Point[2]{ {77,2,figure},{78,2,figure} }; //free is needed
 		mat[1] = new Point[2]{ {77,3,figure},{78,3,figure} };//free is needed
+		for (int i = 0; i < BIG_HORIZONTAL_SIZE; i++)
+		{
+			for (int j = 0; j < BIG_VERTICAL_SIZE; j++) {
+				board->setMatrixPoint(mat[i][j].getX(), mat[i][j].getY(), &mat[i][j]);
+			}
+		}
 		break;
 	default:
 		break;
@@ -164,7 +171,7 @@ void SpaceShip::moveBigShip(Board* board) {
 			mat[i][j].draw((char)BoardFigure::EMPTY);
 			board->getMat()[mat[i][j].getX()][mat[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
 			mat[i][j].move(direction);
-			board->setMatrixPoint(mat[i][j].getX(), mat[i][j].getY(), mat[i]);
+			board->setMatrixPoint(mat[i][j].getX(), mat[i][j].getY(), &mat[i][j]);
 		}
 	}
 
