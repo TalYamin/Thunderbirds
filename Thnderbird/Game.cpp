@@ -125,7 +125,6 @@ void Game::run() {
 		}
 	} while (key != (int)GameStatus::ESC && !isDie());
 	pause();
-	//should be handle ship movement too 
 }
 
 

@@ -22,7 +22,7 @@ class SpaceShip
 	char arrowKeys[4];
 	Color color;
 	bool isBlock = false;
-	Point* mat[2];
+	Point* shipMat[2];
 	
 
 public:

@@ -33,7 +33,7 @@ public:
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
 	int getMaxVerticalSize() { return maxVerticalSize; };
-	Point (*getMat())[VERTICAL_SIZE] {return mat; };
+	auto getMat() {return mat; };
 	void draw();
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
