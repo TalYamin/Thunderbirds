@@ -1,27 +1,30 @@
 #pragma once
 #include "Point.h"
 #include "Color.h"
+#include "Board.h"
 
 class Block
 {
-	Point* list_points;
+	Point** list_points;
 	char figure = 'B';
-	Color color;
-	bool isBlock;
-	int size;
+	Color color = Color::RED;
+	bool isBlock = false;
+	int size = 0;
 public:
 	~Block();
-	Block(Point* _list_points, char _figure, Color _color, bool _isBlock, int _size);
+	Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size);
+	Block(Point** _list_points, int size);
+	Block() = default;
+
 	void move();
-	void setFigure(char fig) { figure = fig; };
-	void setIsBlock() {
-		isBlock == true ? isBlock = false : isBlock = true;
-	};
-	void setColor(Color c) {
-		color = c;
-	};
-	void setSize() { sizeof(Point) / sizeof(list_points[0]); };
+	void initBlock();
+	void setFigure(char fig);
+	void setIsBlock();
+	void setColor(Color c);
+	int getSize();
 private:
+	void drawBlock();
+	int calculateSize();
 	void fall();
 };
 
