@@ -67,7 +67,7 @@ char SpaceShip::getFigure() {
 
 
 void SpaceShip::setArrowKeys(const char* keys) { // "wzad"
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < NUM_ARROW_KEYS; i++)
 	{
 		arrowKeys[i] = keys[i];
 	}
@@ -104,9 +104,9 @@ void SpaceShip::setShipMat(Board* board) {
 	case ShipSize::BIG:
 		shipMat[0] = new Point[2]{ {77,2,figure},{78,2,figure} }; //free is needed
 		shipMat[1] = new Point[2]{ {77,3,figure},{78,3,figure} };//free is needed
-		for (int i = 0; i < BIG_HORIZONTAL_SIZE; i++)
+		for (int i = 0; i < verticalSize; i++)
 		{
-			for (int j = 0; j < BIG_VERTICAL_SIZE; j++) {
+			for (int j = 0; j < horizontalSize; j++) {
 				board->setMatrixPoint(shipMat[i][j].getX(), shipMat[i][j].getY(), &shipMat[i][j]);
 			}
 		}

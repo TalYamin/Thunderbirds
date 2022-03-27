@@ -169,7 +169,7 @@ void Game::pause() {
 		if (lives > 0)
 		{
 			cout << "You have " << lives << " more lives! " << endl;
-			Sleep(500);
+			Sleep(TIME_TO_PAUSE);
 		}
 		else {
 			cout << "Game Over, Try your luck next time :)" << endl;
