@@ -192,13 +192,13 @@ void SpaceShip::moveBigShip(Board* board) {
 
 void SpaceShip::moveSmallShip(Board* board) {
 
-	for (int i = 0; i < SMALL_HORIZONTAL_SIZE; i++){
+	for (int i = 0; i < horizontalSize; i++){
 		shipMat[i]->draw((char)BoardFigure::EMPTY);
 		board->getMat()[shipMat[i]->getX()][shipMat[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 	}
 
 	setTextColor(color);
-	for (int i = 0; i < SMALL_HORIZONTAL_SIZE; i++) {
+	for (int i = 0; i < horizontalSize; i++) {
 		shipMat[i]->move(direction);
 		shipMat[i]->draw();
 		board->getMat()[shipMat[i]->getX()][shipMat[i]->getY()].setFigure(figure);
