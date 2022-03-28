@@ -9,7 +9,7 @@
 #define SMALL_HORIZONTAL_SIZE 2
 #define SMALL_VERTICAL_SIZE 1
 #define NUM_ARROW_KEYS 4
-
+#define NO_DIRECTION -1
 
 class SpaceShip
 {

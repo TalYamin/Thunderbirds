@@ -49,12 +49,12 @@ void SpaceShip::setDirection(int _direction) {
 }
 
 int SpaceShip::getDirection(char key) {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < NUM_ARROW_KEYS; i++)
 	{
-		if (key == arrowKeys[i])
+		if (key == tolower(arrowKeys[i]) || key == toupper(arrowKeys[i]))
 			return i;
 	}
-	return -1;
+	return NO_DIRECTION;
 }
 
 void SpaceShip::setFigure(const char c) {

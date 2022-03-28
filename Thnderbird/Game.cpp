@@ -57,74 +57,49 @@ void Game::makeSelection() {
 
 void Game::run() {
 
-	//	cout << "Game is running !" << endl;
 	char key = 0;
 	int dir;
-	bool isBigMove = true;
-	bool isOnMoving = true;
-	bool isBigStart = false;
-	bool isSmallStart = false;
 	do {
 		if (isBigMove) {
-			if (_kbhit())
-			{
-
-				isBigStart = true;
-				key = _getch();
-				if (key == 's' || key == 'S') {
-					deleteIcon(bigShip);
-					drawIcon(smallShip);
-					isBigMove = false;
-				}
-				else if (key == 'b' || key == 'B') {
-					isOnMoving = !isOnMoving;
-				}
-				else {
-					if ((dir = bigShip.getDirection(key)) != -1)
-						bigShip.setDirection(dir);
-					else if ((dir = bigShip.getDirection(key)) != -1)
-						bigShip.setDirection(dir);
-				}
-			}
-			if (isOnMoving && isBigStart) {
-				bigShip.move(&playingBoard);
-				Sleep(GAME_SPEED);
-				playingBoard.timeDown();
-				printTime(TIME_X, TIME_Y);
-			}
+			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip,BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
 		}
-		if (!isBigMove) // is small move
-		{
-			if (_kbhit())
-			{
-
-				isSmallStart = true;
-				key = _getch();
-				if (key == 'b' || key == 'B') {
-					isBigMove = true;
-					deleteIcon(smallShip);
-					drawIcon(bigShip);
-				}
-				else if (key == 's' || key == 'S') {
-					isOnMoving = !isOnMoving;
-				}
-				else {
-					if ((dir = smallShip.getDirection(key)) != -1)
-						smallShip.setDirection(dir);
-					else if ((dir = smallShip.getDirection(key)) != -1)
-						smallShip.setDirection(dir);
-				}
-			}
-			if (isOnMoving && isSmallStart)
-			{
-				smallShip.move(&playingBoard);
-				Sleep(GAME_SPEED);
-				playingBoard.timeDown();
-				printTime(TIME_X, TIME_Y);
-			}
+		if (!isBigMove){ // is small move
+			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY ,BIG_SWITCH_KEY);
 		}
 	} while (key != (int)GameStatus::ESC && !isDie());
 	pause();
+}
+
+char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey) {
+	char key = 0;
+	int dir;
+	if (_kbhit())
+	{
+
+		isStart = true;
+		key = _getch();
+		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
+			isBigMove = !isBigMove;
+			isOnMoving = true;
+			deleteIcon(shipToMove);
+			drawIcon(shipToSwitch);
+			shipToMove.setDirection(NO_DIRECTION);
+		}
+		else if (key == tolower(curShipswitchKey) || key == toupper(curShipswitchKey)) {
+			isOnMoving = !isOnMoving;
+		}
+		else {
+			if ((dir = shipToMove.getDirection(key)) != NO_DIRECTION)
+				shipToMove.setDirection(dir);
+		}
+	}
+	if (isOnMoving && isStart) {
+		shipToMove.move(&playingBoard);
+		Sleep(GAME_SPEED);
+		playingBoard.timeDown();
+		printTime(TIME_X, TIME_Y);
+	}
+	return key;
 }
 
 
