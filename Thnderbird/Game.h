@@ -58,5 +58,5 @@ private:
 	void drawIcon(SpaceShip ship);
 	void deleteIcon(SpaceShip ship);
 	bool bulkSmash();
-	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char switchKey, char switchKeyToStop);
+	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 };

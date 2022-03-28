@@ -70,7 +70,7 @@ void Game::run() {
 	pause();
 }
 
-char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char switchKeyToMove, char switchKeyToStop) {
+char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey) {
 	char key = 0;
 	int dir;
 	if (_kbhit())
@@ -78,14 +78,14 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 
 		isStart = true;
 		key = _getch();
-		if (key == tolower(switchKeyToStop) || key == toupper(switchKeyToStop)) {
+		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
 			isBigMove = !isBigMove;
 			isOnMoving = true;
 			deleteIcon(shipToMove);
 			drawIcon(shipToSwitch);
 			shipToMove.setDirection(NO_DIRECTION);
 		}
-		else if (key == tolower(switchKeyToMove) || key == toupper(switchKeyToMove)) {
+		else if (key == tolower(curShipswitchKey) || key == toupper(curShipswitchKey)) {
 			isOnMoving = !isOnMoving;
 		}
 		else {

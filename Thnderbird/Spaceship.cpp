@@ -51,7 +51,7 @@ void SpaceShip::setDirection(int _direction) {
 int SpaceShip::getDirection(char key) {
 	for (int i = 0; i < NUM_ARROW_KEYS; i++)
 	{
-		if (key == arrowKeys[i])
+		if (key == tolower(arrowKeys[i]) || key == toupper(arrowKeys[i]))
 			return i;
 	}
 	return NO_DIRECTION;
