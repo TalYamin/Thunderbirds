@@ -38,6 +38,9 @@ void Game::makeSelection() {
 	{
 	case GameStatus::INFO:
 		showInfo();
+		system("pause");
+		cout << endl;
+		start();
 		break;
 	case GameStatus::START:
 		init();
@@ -104,7 +107,24 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 
 
 void Game::showInfo() {
-	cout << "Instructions are here !" << endl;
+	setTextColor(Color::YELLOW);
+	cout << endl;
+	cout << "Instructions: " << endl;
+	setTextColor(Color::WHITE);
+	cout << "Two “ships” are trapped inside an ancient Egyptian tomb." << endl << "A big one and a small one." << endl << "The big ship can move or carry blocks of total size 6." << endl << "The small ship can move or carry blocks of total size 2." << endl << "You should make them reaching the exit point in time." << endl << endl;
+	setTextColor(Color::YELLOW);
+	cout << "Arrow Keys: " << endl;
+	setTextColor(Color::WHITE);
+	cout << "LEFT:  a or A " << endl;
+	cout << "RIGHT: d or D " << endl;
+	cout << "UP:    w or W " << endl;
+	cout << "DOWN:  x or X " << endl << endl;
+	setTextColor(Color::YELLOW);
+	cout << "Switch keys:" << endl; 
+	cout << "(If we were with the this ship already, just STOP the movement of this ship)" << endl;
+	setTextColor(Color::WHITE);
+	cout << "Switched to the Big Ship:   b or B " << endl;
+	cout << "Switched to the Small Ship: s or S " << endl << endl;
 }
 
 void Game::init() {
