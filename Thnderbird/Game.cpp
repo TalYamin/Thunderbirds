@@ -2,9 +2,11 @@
 
 using namespace std;
 
-
 void Game::start() {
 
+	printColorMenu();
+	selectColorMode();
+	clear_screen();
 	printMenu();
 	makeSelection();
 }
@@ -17,6 +19,28 @@ void Game::setLives(int _lives)
 int Game::getLives()
 {
 	return lives;
+}
+
+void Game::printColorMenu() {
+	cout << "Select your color mode:" << endl;
+	cout << "(1) Colorful" << endl;
+	cout << "(2) Black and White" << endl;
+}
+
+void Game::selectColorMode() {
+	
+	int userInput;
+	cin >> userInput;
+	switch (userInput)
+	{
+	case COLORFUL:
+		isBlackAndWhite = false;
+		break;
+	case BLACK_WHITE:
+		isBlackAndWhite = true;
+	default:
+		break;
+	}
 }
 
 void Game::printMenu() {

@@ -10,7 +10,10 @@
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
 #define SMALL_SWITCH_KEY 'S'
+#define COLORFUL 1
+#define BLACK_WHITE 2
 
+extern bool isBlackAndWhite;
 
 class Game
 {
@@ -41,6 +44,8 @@ public:
 private:
 
 	//private methods
+	void printColorMenu();
+	void selectColorMode();
 	void printMenu();
 	void makeSelection();
 	void run();
