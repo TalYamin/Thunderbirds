@@ -36,6 +36,7 @@ public:
 	~Game() {};
 
 	//public methods
+	void selectColorMode();
 	void start();
 	void setLives(int _lives);
 	int getLives();
@@ -45,7 +46,7 @@ private:
 
 	//private methods
 	void printColorMenu();
-	void selectColorMode();
+	void setColorMode();
 	void printMenu();
 	void makeSelection();
 	void run();

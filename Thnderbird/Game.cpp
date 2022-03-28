@@ -2,11 +2,14 @@
 
 using namespace std;
 
+void Game::selectColorMode() {
+	printColorMenu();
+	setColorMode();
+	clear_screen();
+}
+
 void Game::start() {
 
-	printColorMenu();
-	selectColorMode();
-	clear_screen();
 	printMenu();
 	makeSelection();
 }
@@ -27,7 +30,7 @@ void Game::printColorMenu() {
 	cout << "(2) Black and White" << endl;
 }
 
-void Game::selectColorMode() {
+void Game::setColorMode() {
 	
 	int userInput;
 	cin >> userInput;
@@ -63,7 +66,7 @@ void Game::makeSelection() {
 	case GameStatus::INFO:
 		showInfo();
 		system("pause");
-		cout << endl;
+		clear_screen();
 		start();
 		break;
 	case GameStatus::START:
