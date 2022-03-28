@@ -24,8 +24,8 @@ class Game
 	SpaceShip smallShip; //for testing
 	Board playingBoard;
 	bool isBigMove = true;
-	bool isBigOnMoving = true;
-	bool isSmallOnMoving = true;
+	bool isBigOnMoving = false;
+	bool isSmallOnMoving = false;
 	bool isBigStart = false;
 	bool isSmallStart = false;
 	int lives = 3;

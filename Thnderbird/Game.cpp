@@ -120,6 +120,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		}
 		else {
 			if ((dir = shipToMove.getDirection(key)) != NO_DIRECTION)
+				isOnMoving = true;
 				shipToMove.setDirection(dir);
 		}
 	}
@@ -155,7 +156,6 @@ void Game::showInfo() {
 }
 
 void Game::init() {
-	cout << "Game is initialized !" << endl;
 	clear_screen();
 	//TODO: Move to Board
 	playingBoard.initBoard();
