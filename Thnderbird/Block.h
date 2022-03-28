@@ -17,13 +17,15 @@ public:
 	Block() = default;
 
 	void move();
-	void initBlock();
 	void setFigure(char fig);
 	void setIsBlock();
 	void setColor(Color c);
 	int getSize();
-private:
+	Point** getListPoints();
 	void drawBlock();
+	
+
+private:
 	int calculateSize();
 	void fall();
 };

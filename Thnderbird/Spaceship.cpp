@@ -11,7 +11,7 @@ SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color
 	horizontalSize = _horizontalSize;
 	figure = _figure;
 	color = _color;
-	
+
 }
 
 SpaceShip::~SpaceShip()
@@ -96,14 +96,14 @@ void SpaceShip::setShipMat(Board* board) {
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		shipMat[0] = new Point(2, 2, figure); //free is needed
-		shipMat[1] = new Point(3, 2, figure); //free is needed
+		shipMat[0] = new Point(2, 2, figure, color); //free is needed
+		shipMat[1] = new Point(3, 2, figure, color); //free is needed
 		board->setMatrixPoint(shipMat[0]->getX(), shipMat[0]->getY(), shipMat[0]);
 		board->setMatrixPoint(shipMat[1]->getX(), shipMat[1]->getY(), shipMat[1]);
 		break;
 	case ShipSize::BIG:
-		shipMat[0] = new Point[2]{ {77,2,figure},{78,2,figure} }; //free is needed
-		shipMat[1] = new Point[2]{ {77,3,figure},{78,3,figure} };//free is needed
+		shipMat[0] = new Point[2]{ {77,2,figure,color},{78,2,figure,color} }; //free is needed
+		shipMat[1] = new Point[2]{ {77,3,figure,color},{78,3,figure,color} };//free is needed
 		for (int i = 0; i < verticalSize; i++)
 		{
 			for (int j = 0; j < horizontalSize; j++) {
@@ -147,14 +147,12 @@ void  SpaceShip::initDraw() {
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		setTextColor(color);
-		for (int i = 0; i < horizontalSize; i++){
+		for (int i = 0; i < horizontalSize; i++) {
 			shipMat[i]->draw();
 		}
 		break;
 	case ShipSize::BIG:
-		setTextColor(color);
-		for (int i = 0; i < verticalSize; i++){
+		for (int i = 0; i < verticalSize; i++) {
 			for (int j = 0; j < horizontalSize; j++) {
 				shipMat[i][j].draw();
 			}
@@ -178,7 +176,6 @@ void SpaceShip::moveBigShip(Board* board) {
 	}
 
 
-	setTextColor(color);
 	for (int i = 0; i < verticalSize; i++)
 	{
 		for (int j = 0; j < horizontalSize; j++) {
@@ -192,12 +189,11 @@ void SpaceShip::moveBigShip(Board* board) {
 
 void SpaceShip::moveSmallShip(Board* board) {
 
-	for (int i = 0; i < horizontalSize; i++){
+	for (int i = 0; i < horizontalSize; i++) {
 		shipMat[i]->draw((char)BoardFigure::EMPTY);
 		board->getMat()[shipMat[i]->getX()][shipMat[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 	}
 
-	setTextColor(color);
 	for (int i = 0; i < horizontalSize; i++) {
 		shipMat[i]->move(direction);
 		shipMat[i]->draw();
