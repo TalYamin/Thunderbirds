@@ -90,21 +90,21 @@ void Game::run() {
 	char key = 0;
 	int dir;
 	do {
-		if (isBigMove && !isBigExit) {
+		if (isBigMove && !bigShip.getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
-			checkVictory(bigShip, isBigExit);
-			if (isBigExit){
+			checkVictory(bigShip);
+			if (bigShip.getIsExit() && gameStatus != GameStatus::VICTORY){
 				switchShip(isBigOnMoving, smallShip, bigShip);
 			}
 		}
-		if (!isBigMove && !isSmallExit) { // is small move
+		if (!isBigMove && !smallShip.getIsExit()) { // is small move
 			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
-			checkVictory(smallShip, isSmallExit);
-			if (isSmallExit){
+			checkVictory(smallShip);
+			if (smallShip.getIsExit() && gameStatus != GameStatus::VICTORY){
 				switchShip(isSmallOnMoving, bigShip, smallShip);
 			}
 		}
-	} while (key != (int)GameStatus::ESC && !isDie());
+	} while (key != (int)GameStatus::ESC && !isDie() && gameStatus != GameStatus::VICTORY);
 	pause();
 }
 
@@ -211,6 +211,11 @@ void Game::pause() {
 		}
 		gotoxy(LOG_X, ++logY);
 	}
+	else if (gameStatus == GameStatus::VICTORY) {
+		setTextColor(Color::YELLOW);
+		cout << "You win !" << endl;
+		gotoxy(LOG_X, ++logY);
+	}
 	else
 	{
 		setTextColor(Color::LIGHTBLUE);
@@ -224,11 +229,14 @@ void Game::pauseCheck(int logY)
 	char ch;
 	switch (gameStatus)
 	{
-	case GameStatus::GAMEOVER:
+		case GameStatus::GAMEOVER:
 	{
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
 	}
+		case GameStatus::VICTORY:
+			gameStatus = GameStatus::PAUSE_EXIT;
+			break;
 	default:
 	{
 		cout << "press ESC to continue or 9 to Exit" << endl;
@@ -359,10 +367,12 @@ bool Game::bulkSmash()
 }
 
 
-void Game::checkVictory(SpaceShip ship, bool& isExit) {
+void Game::checkVictory(SpaceShip& ship) {
 	
-	if (!isExit){
-		isExit = playingBoard.checkExit(ship);
+	if (!ship.getIsExit()){
+		ship.setIsExit(playingBoard.checkExit(ship));
 	}
-
+	if (bigShip.getIsExit() == true && smallShip.getIsExit()== true){
+		gameStatus = GameStatus::VICTORY;
+	}
 }

@@ -91,6 +91,14 @@ bool SpaceShip::getIsBlock() {
 	return isBlock;
 }
 
+void SpaceShip::setIsExit(bool _isExit) {
+	isExit = _isExit;
+};
+
+bool SpaceShip::getIsExit() {
+	return isExit;
+}
+
 void SpaceShip::setShipMat(Board* board) {
 
 	switch (type)

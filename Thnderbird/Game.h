@@ -28,8 +28,6 @@ class Game
 	bool isSmallOnMoving = false;
 	bool isBigStart = false;
 	bool isSmallStart = false;
-	bool isBigExit = false;
-	bool isSmallExit = false;
 	int lives = 3;
 
 public:
@@ -67,6 +65,6 @@ private:
 	void deleteIcon(SpaceShip ship);
 	bool bulkSmash();
 	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
-	void checkVictory(SpaceShip ship, bool& isExit);
+	void checkVictory(SpaceShip& ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 };

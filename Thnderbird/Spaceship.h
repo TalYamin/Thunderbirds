@@ -25,6 +25,7 @@ class SpaceShip
 	char arrowKeys[4];
 	Color color;
 	bool isBlock = false;
+	bool isExit = false;
 	Point* shipMat[2];
 	
 
@@ -51,6 +52,8 @@ public:
 	Color getColor();
 	void setIsBlock();
 	bool getIsBlock();
+	void setIsExit(bool _isExit);
+	bool getIsExit();
 	void setShipMat(Board* board);
 	Point** getShipMat();
 
