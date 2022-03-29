@@ -10,9 +10,16 @@
 #define SPACE_BETWEEN_METADATA 20
 #define LOG_X 30
 #define LOG_Y 33
+#define EXIT_Y 25
+#define EXIT_X1 42
+#define EXIT_X2 43
+#define EXIT_X3 44
+
 
 #include "Point.h"
+#include "Spaceship.h"
 
+class SpaceShip;
 
 class Board
 {
@@ -22,6 +29,7 @@ class Board
 	long timeRemains = 10000;
 
 public:
+	bool checkExit(SpaceShip ship);
 	bool isNotEmptyPoint(int x, int y);
 	void revertStartUpBoard();
 	void initBoard();

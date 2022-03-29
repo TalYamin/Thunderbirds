@@ -73,8 +73,40 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 
 bool Board::isNotEmptyPoint(int x, int y) {
 
-	if (this->getMat()[x][y].getFigure() == ' ')
+	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
-	else
+	}
+	else if (this->getMat()[x][y].getFigure() == ' ') {
+		return false;
+	}
+	else {
 		return true;
+	}
+}
+
+bool Board::checkExit(SpaceShip ship) {
+
+	switch (ship.getType())
+	{
+	case ShipSize::BIG:
+
+			if ((ship.getShipMat()[0][0].getX() == EXIT_X1 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X2 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X3 && ship.getShipMat()[0][0].getY() == EXIT_Y)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		
+		break;
+	case ShipSize::SMALL:
+			if ((ship.getShipMat()[0]->getX() == EXIT_X1 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X2 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X3 && ship.getShipMat()[0]->getY() == EXIT_Y)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		break;
+	default:
+		break;
+	}
 }

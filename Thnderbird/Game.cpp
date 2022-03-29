@@ -31,7 +31,7 @@ void Game::printColorMenu() {
 }
 
 void Game::setColorMode() {
-	
+
 	int userInput;
 	cin >> userInput;
 	switch (userInput)
@@ -91,10 +91,12 @@ void Game::run() {
 	int dir;
 	do {
 		if (isBigMove) {
-			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip,BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
+			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
+			checkVictory(bigShip, isBigExit);
 		}
-		if (!isBigMove){ // is small move
-			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY ,BIG_SWITCH_KEY);
+		if (!isBigMove) { // is small move
+			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
+			checkVictory(smallShip, isSmallExit);
 		}
 	} while (key != (int)GameStatus::ESC && !isDie());
 	pause();
@@ -118,7 +120,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		else if (key == tolower(curShipswitchKey) || key == toupper(curShipswitchKey)) {
 			isOnMoving = !isOnMoving;
 		}
-		else if ((dir = shipToMove.getDirection(key)) != NO_DIRECTION){
+		else if ((dir = shipToMove.getDirection(key)) != NO_DIRECTION) {
 			isOnMoving = true;
 			shipToMove.setDirection(dir);
 		}
@@ -147,7 +149,7 @@ void Game::showInfo() {
 	cout << "UP:    w or W " << endl;
 	cout << "DOWN:  x or X " << endl << endl;
 	setTextColor(Color::YELLOW);
-	cout << "Switch keys:" << endl; 
+	cout << "Switch keys:" << endl;
 	cout << "(If we were with the this ship already, just STOP the movement of this ship)" << endl;
 	setTextColor(Color::WHITE);
 	cout << "Switched to the Big Ship:   b or B " << endl;
@@ -158,7 +160,7 @@ void Game::init() {
 	clear_screen();
 	//TODO: Move to Board
 	playingBoard.initBoard();
-	
+
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
 	bigShip.setShipMat(&playingBoard);
@@ -249,7 +251,7 @@ void Game::printTime(int x, int y)
 {
 	setTextColor(Color::MAGENTA);
 	gotoxy(x, y);
-	for (int i = 0;i < 5;i++)
+	for (int i = 0; i < 5; i++)
 	{
 		cout << ' ';
 	}
@@ -268,12 +270,12 @@ void Game::printLives(int x, int y)
 {
 	setTextColor(Color::RED);
 	gotoxy(x, y);
-	for (int i = 0;i < lives;i++)
+	for (int i = 0; i < lives; i++)
 	{
 		cout << ' ';
 	}
 	gotoxy(x, y);
-	for (int i = 0;i < lives;i++)
+	for (int i = 0; i < lives; i++)
 		cout << "<3";
 }
 
@@ -319,9 +321,9 @@ void Game::drawIcon(SpaceShip ship)
 {
 	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
 	setTextColor(ship.getColor());
-	for (int j = 0;j < ship.getVerticalSize(); j++)
+	for (int j = 0; j < ship.getVerticalSize(); j++)
 	{
-		for (int i = 0;i < ship.getHorizontalSize();i++)
+		for (int i = 0; i < ship.getHorizontalSize(); i++)
 		{
 			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
 			cout << ship.getFigure();
@@ -331,9 +333,9 @@ void Game::drawIcon(SpaceShip ship)
 
 void Game::deleteIcon(SpaceShip ship)
 {
-	for (int j = 0;j < ship.getVerticalSize(); j++)
+	for (int j = 0; j < ship.getVerticalSize(); j++)
 	{
-		for (int i = 0;i < ship.getHorizontalSize();i++)
+		for (int i = 0; i < ship.getHorizontalSize(); i++)
 		{
 			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
 			cout << ' ';
@@ -344,4 +346,13 @@ void Game::deleteIcon(SpaceShip ship)
 bool Game::bulkSmash()
 {
 	return false;
+}
+
+
+void Game::checkVictory(SpaceShip ship, bool& isExit) {
+	
+	if (!isExit){
+		isExit = playingBoard.checkExit(ship);
+	}
+
 }

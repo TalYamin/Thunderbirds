@@ -117,7 +117,7 @@ void SpaceShip::setShipMat(Board* board) {
 
 }
 
-auto SpaceShip::getShipMat() {
+Point** SpaceShip::getShipMat() {
 	return shipMat;
 }
 

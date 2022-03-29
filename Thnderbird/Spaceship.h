@@ -11,6 +11,8 @@
 #define NUM_ARROW_KEYS 4
 #define NO_DIRECTION -1
 
+class Board;
+
 class SpaceShip
 {
 
@@ -50,7 +52,7 @@ public:
 	void setIsBlock();
 	bool getIsBlock();
 	void setShipMat(Board* board);
-	auto getShipMat();
+	Point** getShipMat();
 
 	//public methods
 	void move(Board* board);
