@@ -231,6 +231,8 @@ void Game::pauseCheck(int logY)
 				init();
 			}
 			gameStatus = GameStatus::RUNNING;
+			isBigOnMoving = false;
+			isSmallOnMoving = false;
 			run();
 
 		}
