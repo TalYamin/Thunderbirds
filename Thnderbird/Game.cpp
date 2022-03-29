@@ -90,13 +90,19 @@ void Game::run() {
 	char key = 0;
 	int dir;
 	do {
-		if (isBigMove) {
+		if (isBigMove && !isBigExit) {
 			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
 			checkVictory(bigShip, isBigExit);
+			if (isBigExit){
+				switchShip(isBigOnMoving, smallShip, bigShip);
+			}
 		}
-		if (!isBigMove) { // is small move
+		if (!isBigMove && !isSmallExit) { // is small move
 			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
 			checkVictory(smallShip, isSmallExit);
+			if (isSmallExit){
+				switchShip(isSmallOnMoving, bigShip, smallShip);
+			}
 		}
 	} while (key != (int)GameStatus::ESC && !isDie());
 	pause();
@@ -111,11 +117,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		isStart = true;
 		key = _getch();
 		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
-			isBigMove = !isBigMove;
-			isOnMoving = true;
-			deleteIcon(shipToMove);
-			drawIcon(shipToSwitch);
-			shipToMove.setDirection(NO_DIRECTION);
+			switchShip(isOnMoving, shipToSwitch, shipToMove);
 		}
 		else if (key == tolower(curShipswitchKey) || key == toupper(curShipswitchKey)) {
 			isOnMoving = !isOnMoving;
@@ -134,6 +136,14 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	return key;
 }
 
+
+void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
+	isBigMove = !isBigMove;
+	isOnMoving = true;
+	deleteIcon(shipToMove);
+	drawIcon(shipToSwitch);
+	shipToMove.setDirection(NO_DIRECTION);
+}
 
 void Game::showInfo() {
 	setTextColor(Color::YELLOW);

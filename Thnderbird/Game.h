@@ -68,4 +68,5 @@ private:
 	bool bulkSmash();
 	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 	void checkVictory(SpaceShip ship, bool& isExit);
+	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 };

@@ -91,6 +91,7 @@ bool Board::checkExit(SpaceShip ship) {
 	case ShipSize::BIG:
 
 			if ((ship.getShipMat()[0][0].getX() == EXIT_X1 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X2 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X3 && ship.getShipMat()[0][0].getY() == EXIT_Y)) {
+				removeShipFromBoard(ship);
 				return true;
 			}
 			else {
@@ -100,6 +101,7 @@ bool Board::checkExit(SpaceShip ship) {
 		break;
 	case ShipSize::SMALL:
 			if ((ship.getShipMat()[0]->getX() == EXIT_X1 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X2 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X3 && ship.getShipMat()[0]->getY() == EXIT_Y)) {
+				removeShipFromBoard(ship);
 				return true;
 			}
 			else {
@@ -109,4 +111,29 @@ bool Board::checkExit(SpaceShip ship) {
 	default:
 		break;
 	}
+}
+
+void Board::removeShipFromBoard(SpaceShip ship) {
+
+	switch (ship.getType())
+	{
+	case ShipSize::BIG:
+		for (int i = 0; i < ship.getVerticalSize(); i++)
+		{
+			for (int j = 0; j < ship.getHorizontalSize(); j++) {
+				ship.getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
+				mat[ship.getShipMat()[i][j].getX()][ship.getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
+			}
+		}
+		break;
+	case ShipSize::SMALL:
+		for (int i = 0; i < ship.getHorizontalSize(); i++) {
+			ship.getShipMat()[i]->draw((char)BoardFigure::EMPTY);
+			mat[ship.getShipMat()[i]->getX()][ship.getShipMat()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+		}
+		break;
+	default:
+		break;
+	}
+
 }

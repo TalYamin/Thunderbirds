@@ -29,6 +29,7 @@ class Board
 	long timeRemains = 10000;
 
 public:
+	void removeShipFromBoard(SpaceShip ship);
 	bool checkExit(SpaceShip ship);
 	bool isNotEmptyPoint(int x, int y);
 	void revertStartUpBoard();
