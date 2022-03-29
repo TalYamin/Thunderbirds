@@ -117,7 +117,10 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		isStart = true;
 		key = _getch();
 		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
-			switchShip(isOnMoving, shipToSwitch, shipToMove);
+			if (shipToSwitch.getIsExit() == false)
+			{
+				switchShip(isOnMoving, shipToSwitch, shipToMove);
+			}
 		}
 		else if (key == tolower(curShipswitchKey) || key == toupper(curShipswitchKey)) {
 			isOnMoving = !isOnMoving;
