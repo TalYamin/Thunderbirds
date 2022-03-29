@@ -119,8 +119,8 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			isOnMoving = !isOnMoving;
 		}
 		else {
+			isOnMoving = true;
 			if ((dir = shipToMove.getDirection(key)) != NO_DIRECTION)
-				isOnMoving = true;
 				shipToMove.setDirection(dir);
 		}
 	}
