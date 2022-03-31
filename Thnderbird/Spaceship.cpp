@@ -104,14 +104,14 @@ void SpaceShip::setShipMat(Board* board) {
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		shipMat[0] = new Point(2, 2, figure, color); //free is needed
-		shipMat[1] = new Point(3, 2, figure, color); //free is needed
+		shipMat[0] = new Point(2, 2, figure, color, (int)ObjectId::SMALL); //free is needed
+		shipMat[1] = new Point(3, 2, figure, color, (int)ObjectId::SMALL); //free is needed
 		board->setMatrixPoint(shipMat[0]->getX(), shipMat[0]->getY(), shipMat[0]);
 		board->setMatrixPoint(shipMat[1]->getX(), shipMat[1]->getY(), shipMat[1]);
 		break;
 	case ShipSize::BIG:
-		shipMat[0] = new Point[2]{ {77,2,figure,color},{78,2,figure,color} }; //free is needed
-		shipMat[1] = new Point[2]{ {77,3,figure,color},{78,3,figure,color} };//free is needed
+		shipMat[0] = new Point[2]{ {77,2,figure,color,(int)ObjectId::BIG},{78,2,figure,color,(int)ObjectId::BIG} }; //free is needed
+		shipMat[1] = new Point[2]{ {77,3,figure,color,(int)ObjectId::BIG},{78,3,figure,color,(int)ObjectId::BIG} };//free is needed
 		for (int i = 0; i < verticalSize; i++)
 		{
 			for (int j = 0; j < horizontalSize; j++) {

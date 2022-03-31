@@ -36,11 +36,13 @@ class Board
 	int blocksAmount = 0;
 
 public:
+	Block* getBlockById(int objectId);
 	void removeShipFromBoard(SpaceShip ship);
 	bool checkExit(SpaceShip ship);
 	bool isNotEmptyPoint(int x, int y);
 	void revertStartUpBoard();
 	void initBoard();
+	int CheckObjectId(char ch);
 	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
 	long getTimeRemains() { return timeRemains; };
 	void timeDown() { timeRemains--; };

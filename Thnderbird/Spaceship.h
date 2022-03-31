@@ -4,6 +4,7 @@
 #include "ShipSize.h"
 #include "Board.h"
 #include "BoardFigure.h"
+#include "ObjectId.h"
 #define BIG_HORIZONTAL_SIZE 2
 #define BIG_VERTICAL_SIZE 2
 #define SMALL_HORIZONTAL_SIZE 2
