@@ -1,5 +1,4 @@
 #include "Board.h"
-
 #define FIGURE ' '
 
 
@@ -9,7 +8,7 @@ void Board::revertStartUpBoard()
 
 void Board::initBoard()
 {
-	timeRemains = 10000;
+	timeRemains = MAX_TIME;
 	size_t boardLen;
 	int y = 0;
 	int x = 0;
@@ -39,7 +38,7 @@ void Board::initBoard()
 +                                +                       +                     +
 ++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
 	boardLen = strlen(boardData);
-	for (int i = 0;i < boardLen;i++)
+	for (int i = 0; i < boardLen; i++)
 	{
 		if (boardData[i] == '\n') {
 			y++;
@@ -52,13 +51,14 @@ void Board::initBoard()
 			x++;
 		}
 	}
+	initBlocks();
 }
 
 void Board::draw()
 {
-	for (int i = 0;i < maxVerticalSize;i++)
+	for (int i = 0; i < maxVerticalSize; i++)
 	{
-		for (int j = 0;j < maxHorizontalSize;j++)
+		for (int j = 0; j < maxHorizontalSize; j++)
 		{
 			mat[j][i].draw();
 		}
@@ -75,14 +75,20 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 
 bool Board::isNotEmptyPoint(int x, int y) {
 
-	if (this->getMat()[x][y].getFigure() == ' ')
+	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
-	else
+	}
+	else if (this->getMat()[x][y].getFigure() == ' ') {
+		return false;
+	}
+	else {
 		return true;
+	}
 }
 
 void Board::initBlocks()
 {
+	blocksAmount = 0;
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
 	int thiredBlockSize = 3;
@@ -119,11 +125,11 @@ void Board::placeBlocksOnBoard()
 {
 	int blockSize;
 	Block* block;
-	for (int i = 0;i < blocksAmount;i++)
+	for (int i = 0; i < blocksAmount; i++)
 	{
 		block = allBlocks[i];
 		blockSize = block->getSize();
-		for (int j = 0;j < blockSize;j++)
+		for (int j = 0; j < blockSize; j++)
 		{
 			Point* blockPoint = block->getListPoints()[j];
 			setMatrixPoint(blockPoint->getX(), blockPoint->getY(), blockPoint);
@@ -140,6 +146,60 @@ void Board::insertNewBlock(Block* block)
 
 Board::Board()
 {
-	initBoard();
-	initBlocks();
+
+}
+
+
+bool Board::checkExit(SpaceShip ship) {
+
+	switch (ship.getType())
+	{
+	case ShipSize::BIG:
+
+		if ((ship.getShipMat()[0][0].getX() == EXIT_X1 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X2 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X3 && ship.getShipMat()[0][0].getY() == EXIT_Y)) {
+			removeShipFromBoard(ship);
+			return true;
+		}
+		else {
+			return false;
+		}
+
+		break;
+	case ShipSize::SMALL:
+		if ((ship.getShipMat()[0]->getX() == EXIT_X1 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X2 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X3 && ship.getShipMat()[0]->getY() == EXIT_Y)) {
+			removeShipFromBoard(ship);
+			return true;
+		}
+		else {
+			return false;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void Board::removeShipFromBoard(SpaceShip ship) {
+
+	switch (ship.getType())
+	{
+	case ShipSize::BIG:
+		for (int i = 0; i < ship.getVerticalSize(); i++)
+		{
+			for (int j = 0; j < ship.getHorizontalSize(); j++) {
+				ship.getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
+				mat[ship.getShipMat()[i][j].getX()][ship.getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
+			}
+		}
+		break;
+	case ShipSize::SMALL:
+		for (int i = 0; i < ship.getHorizontalSize(); i++) {
+			ship.getShipMat()[i]->draw((char)BoardFigure::EMPTY);
+			mat[ship.getShipMat()[i]->getX()][ship.getShipMat()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+		}
+		break;
+	default:
+		break;
+	}
+
 }

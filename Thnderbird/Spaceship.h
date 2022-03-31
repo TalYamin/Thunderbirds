@@ -11,6 +11,8 @@
 #define NUM_ARROW_KEYS 4
 #define NO_DIRECTION -1
 
+class Board;
+
 class SpaceShip
 {
 
@@ -23,6 +25,7 @@ class SpaceShip
 	char arrowKeys[4];
 	Color color;
 	bool isBlock = false;
+	bool isExit = false;
 	Point* shipMat[2];
 	
 
@@ -49,8 +52,10 @@ public:
 	Color getColor();
 	void setIsBlock();
 	bool getIsBlock();
+	void setIsExit(bool _isExit);
+	bool getIsExit();
 	void setShipMat(Board* board);
-	auto getShipMat();
+	Point** getShipMat();
 
 	//public methods
 	void move(Board* board);
