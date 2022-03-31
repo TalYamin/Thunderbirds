@@ -8,7 +8,7 @@ class Block
 	Point** list_points;
 	char figure = 'B';
 	Color color = Color::RED;
-	bool isBlock = false;
+	bool isShipBlock = false;
 	int size = 0;
 public:
 	~Block();
@@ -16,14 +16,14 @@ public:
 	Block(Point** _list_points, int size);
 	Block() = default;
 
-	void move();
+	void move(Board* board, int direction);
 	void setFigure(char fig);
 	void setIsBlock();
 	void setColor(Color c);
 	int getSize();
 	Point** getListPoints();
 	void drawBlock();
-	
+
 
 private:
 	int calculateSize();

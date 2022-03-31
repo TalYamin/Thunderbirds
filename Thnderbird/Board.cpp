@@ -78,13 +78,49 @@ bool Board::isNotEmptyPoint(int x, int y) {
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
 	}
-	else if (this->getMat()[x][y].getFigure() == ' ') {
+	else if (this->getMat()[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
+	}
+	else if (this->getMat()[x][y].getFigure() == (char)BoardFigure::BLOCK)
+	{
+		//int BlockId=this->getMat()[x][y].getId()
+		//Block block= getBlockById(BlockId)
+		//if(isBlockCanMove(block,direction));
+		//{
+		//	block.move(direction));
+		//}
 	}
 	else {
 		return true;
 	}
 }
+
+
+
+bool Board::isBlockCanMove(Block* block, int direction)
+{
+	if (direction == 2)//LEFT
+	{
+		for (int i = 0;i < block->getSize();i++)
+		{
+			Point* point = block->getListPoints()[i];
+			if (mat[point->getX() - 1][point->getY()].getId() != int(BoardFigure::EMPTY) && mat[point->getX() - 1][point->getY()].getId() != block->getId())
+				return false;
+		}
+	}
+	if (direction == 3)//RIGHT
+	{
+		for (int i = 0;i < block->getSize();i++)
+		{
+			Point* point = block->getListPoints()[i];
+
+			if (mat[point->getX() + 1][point->getY()].getId() != int(BoardFigure::EMPTY) && mat[point->getX() + 1][point->getY()].getId() != block->getId())
+				return false;
+		}
+	}
+}
+
+
 
 void Board::initBlocks()
 {

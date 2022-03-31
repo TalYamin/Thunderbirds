@@ -59,6 +59,8 @@ public:
 	Board();
 	Board(const Board& _board) = default;
 	Board& operator=(const Board& _board) = default;
+	Block* getBlockById(int id);
+	bool isBlockCanMove(Block* block, int direction);
 
 private:
 	void initBlocks();

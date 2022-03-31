@@ -84,11 +84,11 @@ Color SpaceShip::getColor() {
 
 
 void SpaceShip::setIsBlock() {
-	isBlock == true ? isBlock = false : isBlock = true;
+	isShipBlock == true ? isShipBlock = false : isShipBlock = true;
 };
 
 bool SpaceShip::getIsBlock() {
-	return isBlock;
+	return isShipBlock;
 }
 
 void SpaceShip::setIsExit(bool _isExit) {
@@ -136,13 +136,13 @@ void SpaceShip::move(Board* board) {
 	{
 	case ShipSize::SMALL:
 		checkSmallCollision(board);
-		if (!isBlock) {
+		if (!isShipBlock) {
 			moveSmallShip(board);
 		}
 		break;
 	case ShipSize::BIG:
-		checkSBigCollision(board);
-		if (!isBlock) {
+		checkBigCollision(board);
+		if (!isShipBlock) {
 			moveBigShip(board);
 		}
 		break;
@@ -210,23 +210,23 @@ void SpaceShip::moveSmallShip(Board* board) {
 
 }
 
-void SpaceShip::checkSBigCollision(Board* board) {
+void SpaceShip::checkBigCollision(Board* board) {
 
 	switch (direction) {
 	case 0: // UP
-		isBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1));
 		break;
 	case 1: // DOWN
-		isBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1));
 		break;
 	case 2: // LEFT
-		isBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY())) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY()));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY())) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY()));
 		break;
 	case 3: // RIGHT
-		isBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY())) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY()));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY())) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY()));
 		break;
 	default:
-		isBlock = false;
+		isShipBlock = false;
 		break;
 	}
 }
@@ -236,19 +236,19 @@ void SpaceShip::checkSBigCollision(Board* board) {
 void SpaceShip::checkSmallCollision(Board* board) {
 	switch (direction) {
 	case 0: // UP
-		isBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() - 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() - 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() - 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() - 1));
 		break;
 	case 1: // DOWN
-		isBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() + 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() + 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() + 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() + 1));
 		break;
 	case 2: // LEFT
-		isBlock = board->isNotEmptyPoint(shipMat[0]->getX() - 1, shipMat[0]->getY());
+		isShipBlock = board->isNotEmptyPoint(shipMat[0]->getX() - 1, shipMat[0]->getY());
 		break;
 	case 3: // RIGHT
-		isBlock = board->isNotEmptyPoint(shipMat[1]->getX() + 1, shipMat[1]->getY());
+		isShipBlock = board->isNotEmptyPoint(shipMat[1]->getX() + 1, shipMat[1]->getY());
 		break;
 	default:
-		isBlock = false;
+		isShipBlock = false;
 		break;
 	}
 }

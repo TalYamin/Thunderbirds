@@ -9,7 +9,7 @@ Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, in
 	}
 	figure = _figure;
 	color = _color;
-	isBlock = _isBlock;
+	isShipBlock = _isBlock;
 	size = _size;
 }
 Block::Block(Point** _list_points, int _size)
@@ -23,13 +23,30 @@ Block::Block(Point** _list_points, int _size)
 }
 
 
+void Block::move(Board* board, int direction)
+{
+
+	for (int i = 0; size; i++) {
+
+		list_points[i]->draw((char)BoardFigure::EMPTY);
+		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+	}
+
+	for (int i = 0; i < size; i++) {
+		list_points[i]->move(direction);
+		list_points[i]->draw();
+		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(figure);
+	}
+
+}
+
 void Block::setFigure(char fig) {
 	figure = fig;
 }
 
 void Block::setIsBlock()
 {
-	isBlock == true ? isBlock = false : isBlock = true;
+	isShipBlock == true ? isShipBlock = false : isShipBlock = true;
 };
 
 void Block::setColor(Color c)
