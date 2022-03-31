@@ -12,6 +12,7 @@
 #define SMALL_SWITCH_KEY 'S'
 #define COLORFUL 1
 #define BLACK_WHITE 2
+#define TIME_LEN 5
 
 extern bool isBlackAndWhite;
 

@@ -275,7 +275,7 @@ void Game::printTime(int x, int y)
 {
 	setTextColor(Color::MAGENTA);
 	gotoxy(x, y);
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < TIME_LEN; i++)
 	{
 		cout << ' ';
 	}
