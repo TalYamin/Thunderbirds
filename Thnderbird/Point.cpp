@@ -5,7 +5,6 @@ Point::Point(int _x, int _y)
 {
 	x = _x;
 	y = _y;
-
 };
 
 Point::Point(int _x, int _y, char _fig)
@@ -14,12 +13,13 @@ Point::Point(int _x, int _y, char _fig)
 	y = _y;
 	figure = _fig;
 }
-Point::Point(int _x, int _y, char _fig, Color _color)
+Point::Point(int _x, int _y, char _fig, Color _color, int _objectId)
 {
 	x = _x;
 	y = _y;
 	figure = _fig;
 	color = _color;
+	objectId = _objectId;
 }
 ;
 
@@ -77,4 +77,12 @@ void Point::draw(char _fig)
 
 void  Point::setFigure(char _figure) {
 	figure = _figure;
+}
+
+void Point::setObjecId(int _objectId) {
+	objectId = _objectId;
+}
+
+int Point::getObjecId() {
+	return objectId;
 }

@@ -1,7 +1,7 @@
 #include "Block.h"
 
 
-Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size) {
+Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size, int _blockId) {
 	list_points = (Point**)malloc(sizeof(Point*) * size);
 	for (int i = 0; i < size; i++)
 	{
@@ -11,8 +11,9 @@ Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, in
 	color = _color;
 	isBlock = _isBlock;
 	size = _size;
+	blockId = _blockId;
 }
-Block::Block(Point** _list_points, int _size)
+Block::Block(Point** _list_points, int _size, int _blockId)
 {
 	list_points = (Point**)malloc(sizeof(Point*) * _size);
 	for (int i = 0; i < _size; i++)
@@ -20,8 +21,8 @@ Block::Block(Point** _list_points, int _size)
 		list_points[i] = _list_points[i];
 	}
 	size = _size;
+	blockId = _blockId;
 }
-
 
 void Block::setFigure(char fig) {
 	figure = fig;
@@ -49,10 +50,15 @@ Point** Block::getListPoints()
 
 void Block::drawBlock()
 {
-	for (int i = 0;i < size;i++)
+	for (int i = 0; i < size; i++)
 	{
 		list_points[i]->draw();
 	}
+}
+
+int Block::getblockId()
+{
+	return blockId;
 }
 
 
