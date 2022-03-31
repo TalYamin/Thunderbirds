@@ -2,6 +2,11 @@
 
 using namespace std;
 
+void Game::selectColorMode() {
+	printColorMenu();
+	setColorMode();
+	clear_screen();
+}
 
 void Game::start() {
 
@@ -17,6 +22,30 @@ void Game::setLives(int _lives)
 int Game::getLives()
 {
 	return lives;
+}
+
+void Game::printColorMenu() {
+	cout << "Select your color mode:" << endl;
+	cout << "(1) Colorful" << endl;
+	cout << "(2) Black and White" << endl;
+}
+
+void Game::setColorMode() {
+	
+	int userInput;
+	cin >> userInput;
+	switch (userInput)
+	{
+	case COLORFUL:
+		isBlackAndWhite = false;
+		break;
+	case BLACK_WHITE:
+		isBlackAndWhite = true;
+	default:
+		cout << "Wrong input, please try again !" << endl << endl;
+		selectColorMode();
+		break;
+	}
 }
 
 void Game::printMenu() {
@@ -38,6 +67,9 @@ void Game::makeSelection() {
 	{
 	case GameStatus::INFO:
 		showInfo();
+		system("pause");
+		clear_screen();
+		start();
 		break;
 	case GameStatus::START:
 		init();
@@ -104,7 +136,24 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 
 
 void Game::showInfo() {
-	cout << "Instructions are here !" << endl;
+	setTextColor(Color::YELLOW);
+	cout << endl;
+	cout << "Instructions: " << endl;
+	setTextColor(Color::WHITE);
+	cout << "Two “ships” are trapped inside an ancient Egyptian tomb." << endl << "A big one and a small one." << endl << "The big ship can move or carry blocks of total size 6." << endl << "The small ship can move or carry blocks of total size 2." << endl << "You should make them reaching the exit point in time." << endl << endl;
+	setTextColor(Color::YELLOW);
+	cout << "Arrow Keys: " << endl;
+	setTextColor(Color::WHITE);
+	cout << "LEFT:  a or A " << endl;
+	cout << "RIGHT: d or D " << endl;
+	cout << "UP:    w or W " << endl;
+	cout << "DOWN:  x or X " << endl << endl;
+	setTextColor(Color::YELLOW);
+	cout << "Switch keys:" << endl; 
+	cout << "(If we were with the this ship already, just STOP the movement of this ship)" << endl;
+	setTextColor(Color::WHITE);
+	cout << "Switched to the Big Ship:   b or B " << endl;
+	cout << "Switched to the Small Ship: s or S " << endl << endl;
 }
 
 void Game::init() {

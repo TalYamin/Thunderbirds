@@ -3,6 +3,8 @@
 
 using namespace std;
 
+bool isBlackAndWhite;
+
 #ifndef WINDOWS
 void gotoxy(int x, int y) {}
 int _getch(void) { return 0; }
@@ -27,7 +29,9 @@ void gotoxy(int x, int y)
 }
 
 void setTextColor(Color colorToSet) {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
+	if (!isBlackAndWhite){
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
+	}
 }
 
 void hideCursor()

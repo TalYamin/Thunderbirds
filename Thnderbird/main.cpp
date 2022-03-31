@@ -4,6 +4,7 @@ int main()
 {
 
 	Game game;
+	game.selectColorMode();
 	game.start();
 
 
