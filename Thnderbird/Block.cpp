@@ -1,7 +1,7 @@
 #include "Block.h"
 
 
-Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size) {
+Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size, int _blockId) {
 	list_points = (Point**)malloc(sizeof(Point*) * size);
 	for (int i = 0; i < size; i++)
 	{
@@ -9,10 +9,11 @@ Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, in
 	}
 	figure = _figure;
 	color = _color;
-	isShipBlock = _isBlock;
+	isBlock = _isBlock;
 	size = _size;
+	blockId = _blockId;
 }
-Block::Block(Point** _list_points, int _size)
+Block::Block(Point** _list_points, int _size, int _blockId)
 {
 	list_points = (Point**)malloc(sizeof(Point*) * _size);
 	for (int i = 0; i < _size; i++)
@@ -20,24 +21,7 @@ Block::Block(Point** _list_points, int _size)
 		list_points[i] = _list_points[i];
 	}
 	size = _size;
-}
-
-
-void Block::move(Board* board, int direction)
-{
-
-	for (int i = 0; size; i++) {
-
-		list_points[i]->draw((char)BoardFigure::EMPTY);
-		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
-	}
-
-	for (int i = 0; i < size; i++) {
-		list_points[i]->move(direction);
-		list_points[i]->draw();
-		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(figure);
-	}
-
+	blockId = _blockId;
 }
 
 void Block::setFigure(char fig) {
@@ -46,7 +30,7 @@ void Block::setFigure(char fig) {
 
 void Block::setIsBlock()
 {
-	isShipBlock == true ? isShipBlock = false : isShipBlock = true;
+	isBlock == true ? isBlock = false : isBlock = true;
 };
 
 void Block::setColor(Color c)
@@ -66,10 +50,15 @@ Point** Block::getListPoints()
 
 void Block::drawBlock()
 {
-	for (int i = 0;i < size;i++)
+	for (int i = 0; i < size; i++)
 	{
 		list_points[i]->draw();
 	}
+}
+
+int Block::getblockId()
+{
+	return blockId;
 }
 
 
