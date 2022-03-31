@@ -1,7 +1,6 @@
 #include "Board.h"
 #define FIGURE ' '
 
-class Block;
 
 void Board::revertStartUpBoard()
 {
@@ -104,8 +103,6 @@ void Board::fallBlocksIfNoFloor()
 
 bool Board::isPointNoFloor(int x, int y, int bulkId) {
 	Point point = mat[x][y];
-	bool x11 = mat[x][y].getObjecId() == (int)ObjectId::EMPTY;
-	bool y11 = mat[x][y].getObjecId() == bulkId;
 	if (mat[x][y].getObjecId() == (int)ObjectId::EMPTY || mat[x][y].getObjecId() == bulkId)
 		return true;
 	return false;
