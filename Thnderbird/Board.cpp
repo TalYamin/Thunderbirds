@@ -38,7 +38,7 @@ void Board::initBoard()
 +                                +                       +                     +
 ++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
 	boardLen = strlen(boardData);
-	for (int i = 0;i < boardLen;i++)
+	for (int i = 0; i < boardLen; i++)
 	{
 		if (boardData[i] == '\n') {
 			y++;
@@ -51,13 +51,14 @@ void Board::initBoard()
 			x++;
 		}
 	}
+	initBlocks();
 }
 
 void Board::draw()
 {
-	for (int i = 0;i < maxVerticalSize;i++)
+	for (int i = 0; i < maxVerticalSize; i++)
 	{
-		for (int j = 0;j < maxHorizontalSize;j++)
+		for (int j = 0; j < maxHorizontalSize; j++)
 		{
 			mat[j][i].draw();
 		}
@@ -82,10 +83,12 @@ bool Board::isNotEmptyPoint(int x, int y) {
 	}
 	else {
 		return true;
+	}
 }
 
 void Board::initBlocks()
 {
+	blocksAmount = 0;
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
 	int thiredBlockSize = 3;
@@ -106,13 +109,13 @@ void Board::initBlocks()
 	Block* block2 = new Block(blockList2, secondBlockSize);
 	insertNewBlock(block2);
 
-	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
+	/*Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
 	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED);
 	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED);
 
 	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
 	Block* block3 = new Block(blockList3, thiredBlockSize);
-	insertNewBlock(block3);
+	insertNewBlock(block3);*/
 
 	placeBlocksOnBoard();
 
@@ -122,11 +125,11 @@ void Board::placeBlocksOnBoard()
 {
 	int blockSize;
 	Block* block;
-	for (int i = 0;i < blocksAmount;i++)
+	for (int i = 0; i < blocksAmount; i++)
 	{
 		block = allBlocks[i];
 		blockSize = block->getSize();
-		for (int j = 0;j < blockSize;j++)
+		for (int j = 0; j < blockSize; j++)
 		{
 			Point* blockPoint = block->getListPoints()[j];
 			setMatrixPoint(blockPoint->getX(), blockPoint->getY(), blockPoint);
@@ -143,11 +146,9 @@ void Board::insertNewBlock(Block* block)
 
 Board::Board()
 {
-	initBoard();
-	initBlocks();
+
 }
-	}
-}
+
 
 bool Board::checkExit(SpaceShip ship) {
 
@@ -155,23 +156,23 @@ bool Board::checkExit(SpaceShip ship) {
 	{
 	case ShipSize::BIG:
 
-			if ((ship.getShipMat()[0][0].getX() == EXIT_X1 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X2 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X3 && ship.getShipMat()[0][0].getY() == EXIT_Y)) {
-				removeShipFromBoard(ship);
-				return true;
-			}
-			else {
-				return false;
-			}
-		
+		if ((ship.getShipMat()[0][0].getX() == EXIT_X1 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X2 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X3 && ship.getShipMat()[0][0].getY() == EXIT_Y)) {
+			removeShipFromBoard(ship);
+			return true;
+		}
+		else {
+			return false;
+		}
+
 		break;
 	case ShipSize::SMALL:
-			if ((ship.getShipMat()[0]->getX() == EXIT_X1 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X2 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X3 && ship.getShipMat()[0]->getY() == EXIT_Y)) {
-				removeShipFromBoard(ship);
-				return true;
-			}
-			else {
-				return false;
-			}
+		if ((ship.getShipMat()[0]->getX() == EXIT_X1 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X2 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X3 && ship.getShipMat()[0]->getY() == EXIT_Y)) {
+			removeShipFromBoard(ship);
+			return true;
+		}
+		else {
+			return false;
+		}
 		break;
 	default:
 		break;

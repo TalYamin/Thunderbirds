@@ -172,7 +172,7 @@ void Game::showInfo() {
 
 void Game::init() {
 	clear_screen();
-
+	playingBoard.initBoard();
 	playingBoard.draw();
 
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
@@ -337,7 +337,7 @@ bool Game::isDie()
 
 bool Game::timeoutHandler()
 {
-	return playingBoard.getTimeRemains() <= 0;
+	return playingBoard.getTimeRemains() <= 9960;
 }
 
 void Game::drawIcon(SpaceShip ship)
