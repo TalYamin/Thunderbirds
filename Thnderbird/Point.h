@@ -20,7 +20,7 @@ public:
 	int getY();
 	void setObjecId(int _objectId);
 	int getObjecId();
-	void draw();
+	void draw() const;
 	void draw(char _fig);
 	void move(int direction);
 	char getFigure();

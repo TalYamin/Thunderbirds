@@ -63,7 +63,7 @@ char Point::getFigure()
 	return figure;
 }
 
-void Point::draw() {
+void Point::draw() const {
 	gotoxy(x, y);
 	setTextColor(color);
 	cout << figure << endl;
