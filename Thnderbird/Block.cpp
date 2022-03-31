@@ -49,7 +49,6 @@ Point** Block::getListPoints()
 
 void Block::drawBlock()
 {
-	setTextColor(Color::RED);
 	for (int i = 0;i < size;i++)
 	{
 		list_points[i]->draw();
