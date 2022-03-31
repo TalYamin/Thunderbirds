@@ -18,7 +18,7 @@ extern bool isBlackAndWhite;
 class Game
 {
 	//data members
-	GameStatus gameStatus=GameStatus::NO_SELECTION;
+	GameStatus gameStatus = GameStatus::NO_SELECTION;
 	GameStatus userSelection = GameStatus::NO_SELECTION;
 	SpaceShip bigShip; //for testing
 	SpaceShip smallShip; //for testing
@@ -66,3 +66,4 @@ private:
 	bool bulkSmash();
 	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 };
+

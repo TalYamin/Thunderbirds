@@ -10,9 +10,14 @@
 #define SPACE_BETWEEN_METADATA 20
 #define LOG_X 30
 #define LOG_Y 33
+#define BLOCKS_AMOUNT 3
 
 #include "Point.h"
+#include "Block.h"
+#include "BoardFigure.h"
 
+class Block;
+class Point;
 
 class Board
 {
@@ -20,6 +25,8 @@ class Board
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = 10000;
+	Block* allBlocks[3];
+	int blocksAmount = 0;
 
 public:
 	bool isNotEmptyPoint(int x, int y);
@@ -32,7 +39,7 @@ public:
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
 	int getMaxVerticalSize() { return maxVerticalSize; };
-	auto getMat() {return mat; };
+	auto getMat() { return mat; };
 	void draw();
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
@@ -40,12 +47,14 @@ public:
 		maxVerticalSize = _maxVerticalSize;
 		timeRemains = _timeRemains;
 	};
-	Board() {};
+	Board();
 	Board(const Board& _board) = default;
 	Board& operator=(const Board& _board) = default;
 
 private:
-
+	void initBlocks();
+	void placeBlocksOnBoard();
+	void insertNewBlock(Block* block);
 };
 
 

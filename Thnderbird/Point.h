@@ -10,6 +10,7 @@ class Point
 	int x = 1;
 	int y = 1;
 	char figure = ' ';
+	Color color = Color::WHITE;
 public:
 	void setX(int _x);
 	void setY(int _y);
@@ -22,6 +23,7 @@ public:
 	void setFigure(char _figure);
 	Point(int _x, int _y);
 	Point(int _x, int _y, char _fig);
+	Point(int _x, int _y, char _fig, Color _color);
 	~Point() {};
 	Point() = default;
 	Point(const Point& _p) = default;
