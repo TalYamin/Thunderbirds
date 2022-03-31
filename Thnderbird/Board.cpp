@@ -1,6 +1,7 @@
 #include "Board.h"
 #define FIGURE ' '
 
+class Block;
 
 void Board::revertStartUpBoard()
 {
@@ -56,7 +57,7 @@ void Board::initBoard()
 }
 
 int Board::CheckObjectId(char ch) {
-	return ch==(char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
+	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
 
 }
 
@@ -78,8 +79,40 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 	mat[_x][_y] = *_p;
 }
 
+void Board::fallBlocksIfNoFloor()
+{
+	bool needToFall;
+	for (int i = 0;i < blocksAmount;i++)
+	{
+		Block* block = allBlocks[i];
+		needToFall = true;
+		for (int j = 0;j < block->getSize();j++) {
 
-bool Board::isNotEmptyPoint(int x, int y) {
+			if (!isPointNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId()))
+			{
+				needToFall = false;
+				break;
+			}
+		}
+		if (needToFall == true)
+		{
+			block->fall(this);
+		}
+		needToFall = true;
+	}
+}
+
+bool Board::isPointNoFloor(int x, int y, int bulkId) {
+	Point point = mat[x][y];
+	bool x11 = mat[x][y].getObjecId() == (int)ObjectId::EMPTY;
+	bool y11 = mat[x][y].getObjecId() == bulkId;
+	if (mat[x][y].getObjecId() == (int)ObjectId::EMPTY || mat[x][y].getObjecId() == bulkId)
+		return true;
+	return false;
+}
+
+
+bool Board::isNotEmptyPoint(int x, int y, int direction) {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -89,28 +122,34 @@ bool Board::isNotEmptyPoint(int x, int y) {
 	}
 	else if (this->getMat()[x][y].getFigure() == (char)BoardFigure::BLOCK)
 	{
-		//int BlockId=this->getMat()[x][y].getId()
-		//Block block= getBlockById(BlockId)
-		//if(isBlockCanMove(block,direction));
-		//{
-		//	block.move(direction));
-		//}
+		int BlockId = this->getMat()[x][y].getObjecId();
+		Block* block = this->getBlockById(BlockId);
+
+		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction))
+		{
+			block->move(direction, this);
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
-	else {
-		return true;
-	}
+	return true;
+
 }
 
 
 
 bool Board::isBlockCanMove(Block* block, int direction)
 {
+	int blockSize = block->getSize();
 	if (direction == 2)//LEFT
 	{
 		for (int i = 0;i < block->getSize();i++)
 		{
 			Point* point = block->getListPoints()[i];
-			if (mat[point->getX() - 1][point->getY()].getId() != int(BoardFigure::EMPTY) && mat[point->getX() - 1][point->getY()].getId() != block->getId())
+			if (mat[point->getX() - 1][point->getY()].getObjecId() != (int)ObjectId::EMPTY && mat[point->getX() - 1][point->getY()].getObjecId() != block->getblockId())
 				return false;
 		}
 	}
@@ -120,10 +159,11 @@ bool Board::isBlockCanMove(Block* block, int direction)
 		{
 			Point* point = block->getListPoints()[i];
 
-			if (mat[point->getX() + 1][point->getY()].getId() != int(BoardFigure::EMPTY) && mat[point->getX() + 1][point->getY()].getId() != block->getId())
+			if (mat[point->getX() + 1][point->getY()].getObjecId() != (int)ObjectId::EMPTY && mat[point->getX() + 1][point->getY()].getObjecId() != block->getblockId())
 				return false;
 		}
 	}
+	return true;
 }
 
 
@@ -247,8 +287,8 @@ void Board::removeShipFromBoard(SpaceShip ship) {
 }
 
 Block* Board::getBlockById(int objectId) {
-	for (int i = 0; i < blocksAmount; i++){
-		if (allBlocks[i]->getblockId() == objectId){
+	for (int i = 0; i < blocksAmount; i++) {
+		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
 		}
 	}

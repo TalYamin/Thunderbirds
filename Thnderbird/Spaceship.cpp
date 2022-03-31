@@ -214,16 +214,16 @@ void SpaceShip::checkBigCollision(Board* board) {
 
 	switch (direction) {
 	case 0: // UP
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction));
 		break;
 	case 1: // DOWN
-		isShipBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1, direction)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1, direction));
 		break;
 	case 2: // LEFT
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY())) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY()));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY(), direction)) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY(), direction));
 		break;
 	case 3: // RIGHT
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY())) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY()));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction)) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY(), direction));
 		break;
 	default:
 		isShipBlock = false;
@@ -236,16 +236,16 @@ void SpaceShip::checkBigCollision(Board* board) {
 void SpaceShip::checkSmallCollision(Board* board) {
 	switch (direction) {
 	case 0: // UP
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() - 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() - 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() - 1, direction)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() - 1, direction));
 		break;
 	case 1: // DOWN
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() + 1)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() + 1));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0]->getX(), shipMat[0]->getY() + 1, direction)) || (board->isNotEmptyPoint(shipMat[1]->getX(), shipMat[1]->getY() + 1, direction));
 		break;
 	case 2: // LEFT
-		isShipBlock = board->isNotEmptyPoint(shipMat[0]->getX() - 1, shipMat[0]->getY());
+		isShipBlock = board->isNotEmptyPoint(shipMat[0]->getX() - 1, shipMat[0]->getY(), direction);
 		break;
 	case 3: // RIGHT
-		isShipBlock = board->isNotEmptyPoint(shipMat[1]->getX() + 1, shipMat[1]->getY());
+		isShipBlock = board->isNotEmptyPoint(shipMat[1]->getX() + 1, shipMat[1]->getY(), direction);
 		break;
 	default:
 		isShipBlock = false;
