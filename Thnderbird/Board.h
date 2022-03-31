@@ -14,12 +14,16 @@
 #define EXIT_X1 42
 #define EXIT_X2 43
 #define EXIT_X3 44
-
+#define BLOCKS_AMOUNT 3
 
 #include "Point.h"
+#include "Block.h"
+#include "BoardFigure.h"
 #include "Spaceship.h"
 
 class SpaceShip;
+class Block;
+class Point;
 
 class Board
 {
@@ -27,6 +31,8 @@ class Board
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = 10000;
+	Block* allBlocks[3];
+	int blocksAmount = 0;
 
 public:
 	void removeShipFromBoard(SpaceShip ship);
@@ -41,7 +47,7 @@ public:
 	int getMaxHorizontalSize() { return maxHorizontalSize; };
 	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
 	int getMaxVerticalSize() { return maxVerticalSize; };
-	auto getMat() {return mat; };
+	auto getMat() { return mat; };
 	void draw();
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
@@ -49,12 +55,14 @@ public:
 		maxVerticalSize = _maxVerticalSize;
 		timeRemains = _timeRemains;
 	};
-	Board() {};
+	Board();
 	Board(const Board& _board) = default;
 	Board& operator=(const Board& _board) = default;
 
 private:
-
+	void initBlocks();
+	void placeBlocksOnBoard();
+	void insertNewBlock(Block* block);
 };
 
 

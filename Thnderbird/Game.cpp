@@ -1,5 +1,4 @@
 ﻿#include "Game.h"
-
 using namespace std;
 
 void Game::selectColorMode() {
@@ -42,6 +41,8 @@ void Game::setColorMode() {
 	case BLACK_WHITE:
 		isBlackAndWhite = true;
 	default:
+		cout << "Wrong input, please try again !" << endl << endl;
+		selectColorMode();
 		break;
 	}
 }
@@ -171,15 +172,14 @@ void Game::showInfo() {
 
 void Game::init() {
 	clear_screen();
-	//TODO: Move to Board
-	playingBoard.initBoard();
+
+	playingBoard.draw();
 
 	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
 	bigShip.setType(2);
 	bigShip.setShipMat(&playingBoard);
 	bigShip.setArrowKeys("wxad");
 
-	playingBoard.draw();
 	gameMetadata(bigShip);
 
 	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
@@ -189,6 +189,8 @@ void Game::init() {
 
 	smallShip.initDraw();
 	bigShip.initDraw();
+
+
 
 }
 
@@ -341,12 +343,12 @@ bool Game::timeoutHandler()
 void Game::drawIcon(SpaceShip ship)
 {
 	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
-	setTextColor(ship.getColor());
-	for (int j = 0; j < ship.getVerticalSize(); j++)
+	for (int j = 0;j < ship.getVerticalSize(); j++)
 	{
 		for (int i = 0; i < ship.getHorizontalSize(); i++)
 		{
 			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
+			setTextColor(ship.getColor());
 			cout << ship.getFigure();
 		}
 	}

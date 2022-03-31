@@ -13,7 +13,15 @@ Point::Point(int _x, int _y, char _fig)
 	x = _x;
 	y = _y;
 	figure = _fig;
-};
+}
+Point::Point(int _x, int _y, char _fig, Color _color)
+{
+	x = _x;
+	y = _y;
+	figure = _fig;
+	color = _color;
+}
+;
 
 void Point::setX(int _x) {
 	x = _x;
@@ -57,6 +65,7 @@ char Point::getFigure()
 
 void Point::draw() {
 	gotoxy(x, y);
+	setTextColor(color);
 	cout << figure << endl;
 }
 
