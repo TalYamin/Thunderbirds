@@ -46,12 +46,18 @@ void Board::initBoard()
 		}
 		else
 		{
-			Point* point = new Point(x, y, boardData[i], Color::WHITE);
+			int objectId = CheckObjectId(boardData[i]);
+			Point* point = new Point(x, y, boardData[i], Color::WHITE, objectId);
 			setMatrixPoint(x, y, point);
 			x++;
 		}
 	}
 	initBlocks();
+}
+
+int Board::CheckObjectId(char ch) {
+	return ch==(char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
+
 }
 
 void Board::draw()
@@ -93,28 +99,28 @@ void Board::initBlocks()
 	int secondBlockSize = 4;
 	int thiredBlockSize = 3;
 
-	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
 	Point* blockList1[] = { block1Point1 };
-	Block* block1 = new Block(blockList1, firstBlockSize);
+	Block* block1 = new Block(blockList1, firstBlockSize, blocksAmount);
 
 	insertNewBlock(block1);
 
-	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
 	Point* blockList2[] = { block2Point1,block2Point2,block2Point3,block2Point4 };
-	Block* block2 = new Block(blockList2, secondBlockSize);
+	Block* block2 = new Block(blockList2, secondBlockSize, blocksAmount);
 	insertNewBlock(block2);
 
-	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
 	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
-	Block* block3 = new Block(blockList3, thiredBlockSize);
+	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);
 	insertNewBlock(block3);
 
 	placeBlocksOnBoard();
@@ -202,4 +208,12 @@ void Board::removeShipFromBoard(SpaceShip ship) {
 		break;
 	}
 
+}
+
+Block* Board::getBlockById(int objectId) {
+	for (int i = 0; i < blocksAmount; i++){
+		if (allBlocks[i]->getblockId() == objectId){
+			return allBlocks[i];
+		}
+	}
 }
