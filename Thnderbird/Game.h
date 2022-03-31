@@ -12,7 +12,6 @@
 #define SMALL_SWITCH_KEY 'S'
 #define COLORFUL 1
 #define BLACK_WHITE 2
-#define MAX_TIME 10000
 
 extern bool isBlackAndWhite;
 

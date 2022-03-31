@@ -15,6 +15,7 @@
 #define EXIT_X2 43
 #define EXIT_X3 44
 #define BLOCKS_AMOUNT 3
+#define MAX_TIME 10000
 
 #include "Point.h"
 #include "Block.h"
@@ -30,7 +31,7 @@ class Board
 	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE];
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
-	long timeRemains = 10000;
+	long timeRemains = MAX_TIME;
 	Block* allBlocks[3];
 	int blocksAmount = 0;
 

@@ -338,7 +338,7 @@ bool Game::isDie()
 
 bool Game::timeoutHandler()
 {
-	return playingBoard.getTimeRemains() <= MAX_TIME;
+	return playingBoard.getTimeRemains() <= 0;
 }
 
 void Game::drawIcon(SpaceShip ship)
