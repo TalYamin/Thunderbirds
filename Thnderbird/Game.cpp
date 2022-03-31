@@ -201,6 +201,7 @@ void Game::pause() {
 	if (gameStatus == GameStatus::DIE)
 	{
 		lives--;
+		isBigMove = true;
 		setTextColor(Color::YELLOW);
 		cout << "You dead " << endl;
 		gotoxy(LOG_X, ++logY);
@@ -337,7 +338,7 @@ bool Game::isDie()
 
 bool Game::timeoutHandler()
 {
-	return playingBoard.getTimeRemains() <= 9960;
+	return playingBoard.getTimeRemains() <= MAX_TIME;
 }
 
 void Game::drawIcon(SpaceShip ship)

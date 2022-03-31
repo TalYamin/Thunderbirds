@@ -109,13 +109,13 @@ void Board::initBlocks()
 	Block* block2 = new Block(blockList2, secondBlockSize);
 	insertNewBlock(block2);
 
-	/*Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
 	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED);
 	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED);
 
 	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
 	Block* block3 = new Block(blockList3, thiredBlockSize);
-	insertNewBlock(block3);*/
+	insertNewBlock(block3);
 
 	placeBlocksOnBoard();
 

@@ -5,13 +5,14 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "ShipStatus.h"
-#define GAME_SPEED 200
+#define GAME_SPEED 50
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
 #define SMALL_SWITCH_KEY 'S'
 #define COLORFUL 1
 #define BLACK_WHITE 2
+#define MAX_TIME 10000
 
 extern bool isBlackAndWhite;
 
