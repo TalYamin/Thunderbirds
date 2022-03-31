@@ -10,7 +10,7 @@ class Block
 	Color color = Color::RED;
 	bool isBlock = false;
 	int size = 0;
-	int blockId;
+	int blockId = (int)ObjectId::EMPTY;
 
 public:
 	~Block();
