@@ -124,8 +124,6 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 
 		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, maxCarringBlockSize))
 		{
-			int BlockId = mat[x][y].getObjecId();
-			Block* block = getBlockById(BlockId);
 			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
 				blocksInvolve.push_back(block);
 			return false;
@@ -143,7 +141,7 @@ bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 	}
 	if (direction == 2)//LEFT
 	{
-		for (int i = 0;i < block->getSize();i++)
+		for (int i = 0;i < blockSize;i++)
 		{
 			Point* point = block->getListPoints()[i];
 			if (isValidPlace(point->getX() - 1, point->getY(), block))
@@ -152,7 +150,7 @@ bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 	}
 	else if (direction == 3)//RIGHT
 	{
-		for (int i = 0;i < block->getSize();i++)
+		for (int i = 0;i < blockSize;i++)
 		{
 			Point* point = block->getListPoints()[i];
 			if (isValidPlace(point->getX() + 1, point->getY(), block))
