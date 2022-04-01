@@ -28,16 +28,19 @@ class SpaceShip
 	bool isShipBlock = false;
 	bool isExit = false;
 	Point* shipMat[2];
+	int maxCarringBlockSize = 6;
 	
 
 public:
 
 	//ctor + dtor
 	SpaceShip();
-	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color);
+	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize);
 	~SpaceShip();
 
 	//getters + setters
+	int getMaxCarringBlockSize();
+	void setMaxCarringBlockSize(int _maxCarringBlockSize);
 	void setType(int typeNum);
 	ShipSize getType();
 	void setVerticalSize(int _verticalSize);

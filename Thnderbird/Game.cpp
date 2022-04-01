@@ -40,6 +40,7 @@ void Game::setColorMode() {
 		break;
 	case BLACK_WHITE:
 		isBlackAndWhite = true;
+		break;
 	default:
 		cout << "Wrong input, please try again !" << endl << endl;
 		selectColorMode();
@@ -175,14 +176,14 @@ void Game::init() {
 	playingBoard.initBoard();
 	playingBoard.draw();
 
-	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
+	bigShip = SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE);
 	bigShip.setType(2);
 	bigShip.setShipMat(&playingBoard);
 	bigShip.setArrowKeys("wxad");
 
 	gameMetadata(bigShip);
 
-	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
+	smallShip = SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE);
 	smallShip.setType(1);
 	smallShip.setShipMat(&playingBoard);
 	smallShip.setArrowKeys("wxad");

@@ -22,6 +22,8 @@
 #include "BoardFigure.h"
 #include "Spaceship.h"
 #include "ObjectId.h"
+#include <vector>
+
 
 class SpaceShip;
 class Block;
@@ -40,7 +42,7 @@ public:
 	Block* getBlockById(int objectId);
 	void removeShipFromBoard(SpaceShip ship);
 	bool checkExit(SpaceShip ship);
-	bool isNotEmptyPoint(int x, int y, int direction);
+	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize);
 	void revertStartUpBoard();
 	void initBoard();
 	int CheckObjectId(char ch);
@@ -63,7 +65,7 @@ public:
 	Board();
 	Board(const Board& _board) = default;
 	Board& operator=(const Board& _board) = default;
-	bool isBlockCanMove(Block* block, int direction);
+	bool isBlockCanMove(Block* block, int direction, int maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
 
 
@@ -72,6 +74,7 @@ private:
 	void initBlocks();
 	void placeBlocksOnBoard();
 	void insertNewBlock(Block* block);
+	bool isValidPlace(int x, int y, Block* block);
 };
 
 
