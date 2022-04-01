@@ -13,6 +13,8 @@
 #define COLORFUL 1
 #define BLACK_WHITE 2
 #define TIME_LEN 5
+#define BIG_SHIP_CARRING_SIZE 6
+#define SMALL_SHIP_CARRING_SIZE 2
 
 extern bool isBlackAndWhite;
 

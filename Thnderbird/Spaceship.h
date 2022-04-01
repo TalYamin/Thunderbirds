@@ -25,9 +25,10 @@ class SpaceShip
 	char figure = ' ';
 	char arrowKeys[4];
 	Color color;
-	bool isBlock = false;
+	bool isShipBlock = false;
 	bool isExit = false;
 	Point* shipMat[2];
+	int maxCarringBlockSize = 6;
 	
 
 public:
@@ -36,10 +37,12 @@ public:
 	SpaceShip() = default;
 	SpaceShip(const SpaceShip& _spaceship) = default;
 	SpaceShip& operator=(const SpaceShip& _spaceship) = default;
-	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color);
+	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize);
 	~SpaceShip();
 
 	//getters + setters
+	int getMaxCarringBlockSize();
+	void setMaxCarringBlockSize(int _maxCarringBlockSize);
 	void setType(int typeNum);
 	ShipSize getType() const;
 	void setVerticalSize(int _verticalSize);
@@ -70,7 +73,7 @@ private:
 	void moveBigShip(Board* board);
 	void moveSmallShip(Board* board);
 	void checkSmallCollision(Board* board);
-	void checkSBigCollision(Board* board);
+	void checkBigCollision(Board* board);
 	
 };
 

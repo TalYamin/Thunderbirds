@@ -100,14 +100,14 @@ void Game::run() {
 		if (isBigMove && !bigShip.getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
 			checkVictory(bigShip);
-			if (bigShip.getIsExit() && gameStatus != GameStatus::VICTORY){
+			if (bigShip.getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isBigOnMoving, smallShip, bigShip);
 			}
 		}
 		if (!isBigMove && !smallShip.getIsExit()) { // is small move
 			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
 			checkVictory(smallShip);
-			if (smallShip.getIsExit() && gameStatus != GameStatus::VICTORY){
+			if (smallShip.getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isSmallOnMoving, bigShip, smallShip);
 			}
 		}
@@ -139,13 +139,13 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	}
 	if (isOnMoving && isStart) {
 		shipToMove.move(&playingBoard);
+		playingBoard.fallBlocksIfNoFloor();
 		Sleep(GAME_SPEED);
 		playingBoard.timeDown();
 		printTime(TIME_X, TIME_Y);
 	}
 	return key;
 }
-
 
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
@@ -181,14 +181,14 @@ void Game::init() {
 	playingBoard.initBoard();
 	playingBoard.draw();
 
-	bigShip = SpaceShip(2, 2, '#', Color::GREEN);
+	bigShip = SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE);
 	bigShip.setType(2);
 	bigShip.setShipMat(&playingBoard);
 	bigShip.setArrowKeys("wxad");
 
 	gameMetadata(bigShip);
 
-	smallShip = SpaceShip(1, 2, '@', Color::BLUE);
+	smallShip = SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE);
 	smallShip.setType(1);
 	smallShip.setShipMat(&playingBoard);
 	smallShip.setArrowKeys("wxad");
@@ -241,14 +241,14 @@ void Game::pauseCheck(int logY)
 	char ch;
 	switch (gameStatus)
 	{
-		case GameStatus::GAMEOVER:
+	case GameStatus::GAMEOVER:
 	{
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
 	}
-		case GameStatus::VICTORY:
-			gameStatus = GameStatus::PAUSE_EXIT;
-			break;
+	case GameStatus::VICTORY:
+		gameStatus = GameStatus::PAUSE_EXIT;
+		break;
 	default:
 	{
 		cout << "press ESC to continue or 9 to Exit" << endl;
@@ -380,11 +380,11 @@ bool Game::bulkSmash()
 
 
 void Game::checkVictory(SpaceShip& ship) {
-	
-	if (!ship.getIsExit()){
+
+	if (!ship.getIsExit()) {
 		ship.setIsExit(playingBoard.checkExit(ship));
 	}
-	if (bigShip.getIsExit() == true && smallShip.getIsExit()== true){
+	if (bigShip.getIsExit() == true && smallShip.getIsExit() == true) {
 		gameStatus = GameStatus::VICTORY;
 	}
 }

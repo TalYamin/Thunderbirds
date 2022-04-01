@@ -14,7 +14,7 @@ void Board::initBoard()
 +                                +                       +                     +
 +++++++                          +                       +                     +
 +                                +                       +                     +
-+       +                        +                       +                     +
++      +                         +                       +                     +
 +                                +                       +                     +
 +                                +                       +                     +
 +                                +                       +                     +
@@ -75,19 +75,94 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 	mat[_x][_y] = *_p;
 }
 
+void Board::fallBlocksIfNoFloor()
+{
+	bool needToFall;
+	for (int i = 0;i < blocksAmount;i++)
+	{
+		Block* block = allBlocks[i];
+		needToFall = true;
+		for (int j = 0;j < block->getSize();j++) {
 
-bool Board::isNotEmptyPoint(int x, int y) const {
+			if (!isPointNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId()))
+			{
+				needToFall = false;
+				break;
+			}
+		}
+		if (needToFall == true)
+		{
+			block->fall(this);
+		}
+		needToFall = true;
+	}
+}
+
+bool Board::isPointNoFloor(int x, int y, int blockId) {
+	Point point = mat[x][y];
+	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
+		return true;
+	return false;
+}
+
+
+bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const{
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
 	}
-	else if (mat[x][y].getFigure() == ' ') {
+	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else {
-		return true;
+	else if (mat[x][y].getFigure() == (char)BoardFigure::BLOCK)
+	{
+		int BlockId = mat[x][y].getObjecId();
+		Block* block = getBlockById(BlockId);
+
+		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, maxCarringBlockSize))
+		{
+			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
+				blocksInvolve.push_back(block);
+			return false;
+		}
 	}
+	return true;
 }
+
+bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
+{
+	int blockSize = block->getSize();
+	if (blockSize > maxCarringBlockSize)
+	{
+		return false;
+	}
+	if (direction == 2)//LEFT
+	{
+		for (int i = 0;i < blockSize;i++)
+		{
+			Point* point = block->getListPoints()[i];
+			if (isValidPlace(point->getX() - 1, point->getY(), block))
+				return false;
+		}
+	}
+	else if (direction == 3)//RIGHT
+	{
+		for (int i = 0;i < blockSize;i++)
+		{
+			Point* point = block->getListPoints()[i];
+			if (isValidPlace(point->getX() + 1, point->getY(), block))
+				return false;
+		}
+	}
+	return true;
+}
+
+bool Board::isValidPlace(int x, int y, Block* block)
+{
+	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
+}
+
+
 
 void Board::initBlocks()
 {

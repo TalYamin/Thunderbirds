@@ -3,6 +3,8 @@
 #include "Color.h"
 #include "Board.h"
 
+class Board;
+
 class Block
 {
 	//data members
@@ -25,6 +27,7 @@ public:
 
 
 	//getters + setters
+	void move(int direction, Board* board);
 	void setFigure(char fig);
 	void setIsBlock();
 	void setColor(Color c);
@@ -37,7 +40,7 @@ public:
 
 
 private:
-
+	void fall(Board* board);
 };
 
 
