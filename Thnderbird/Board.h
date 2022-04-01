@@ -42,7 +42,7 @@ public:
 	Block* getBlockById(int objectId);
 	void removeShipFromBoard(SpaceShip ship);
 	bool checkExit(SpaceShip ship);
-	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve);
+	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize);
 	void revertStartUpBoard();
 	void initBoard();
 	int CheckObjectId(char ch);
@@ -65,7 +65,7 @@ public:
 	Board();
 	Board(const Board& _board) = default;
 	Board& operator=(const Board& _board) = default;
-	bool isBlockCanMove(Block* block, int direction);
+	bool isBlockCanMove(Block* block, int direction, int maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
 
 

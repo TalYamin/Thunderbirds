@@ -109,7 +109,7 @@ bool Board::isPointNoFloor(int x, int y, int blockId) {
 }
 
 
-bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve) {
+bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -122,7 +122,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
 
-		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction))
+		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, maxCarringBlockSize))
 		{
 			int BlockId = mat[x][y].getObjecId();
 			Block* block = getBlockById(BlockId);
@@ -134,9 +134,13 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
-bool Board::isBlockCanMove(Block* block, int direction)
+bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 {
 	int blockSize = block->getSize();
+	if (blockSize > maxCarringBlockSize)
+	{
+		return false;
+	}
 	if (direction == 2)//LEFT
 	{
 		for (int i = 0;i < block->getSize();i++)
