@@ -1,9 +1,6 @@
 #include "Spaceship.h"
 
 
-SpaceShip::SpaceShip()
-{
-}
 
 SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize) {
 
@@ -24,7 +21,7 @@ void SpaceShip::setType(int typeNum) {
 	type = static_cast<ShipSize>(typeNum);
 }
 
-ShipSize SpaceShip::getType() {
+ShipSize SpaceShip::getType() const {
 	return type;
 }
 
@@ -32,7 +29,7 @@ void SpaceShip::setVerticalSize(int _verticalSize) {
 	verticalSize = _verticalSize;
 }
 
-int SpaceShip::getVerticalSize() {
+int SpaceShip::getVerticalSize() const {
 	return verticalSize;
 }
 
@@ -41,7 +38,7 @@ void SpaceShip::setHorizontalSize(int _horizontalSize) {
 }
 
 
-int SpaceShip::getHorizontalSize() {
+int SpaceShip::getHorizontalSize() const {
 	return horizontalSize;
 }
 
@@ -49,7 +46,7 @@ void SpaceShip::setDirection(int _direction) {
 	direction = _direction;
 }
 
-int SpaceShip::getDirection(char key) {
+int SpaceShip::getDirection(char key) const {
 	for (int i = 0; i < NUM_ARROW_KEYS; i++)
 	{
 		if (key == tolower(arrowKeys[i]) || key == toupper(arrowKeys[i]))
@@ -62,7 +59,7 @@ void SpaceShip::setFigure(const char c) {
 	figure = c;
 }
 
-char SpaceShip::getFigure() {
+char SpaceShip::getFigure() const {
 	return figure;
 }
 
@@ -79,16 +76,16 @@ void SpaceShip::setColor(Color _color) {
 	color = _color;
 }
 
-Color SpaceShip::getColor() {
+Color SpaceShip::getColor() const {
 	return color;
 }
 
 
-void SpaceShip::setIsBlock() {
+void SpaceShip::setIsShipBlock() {
 	isShipBlock == true ? isShipBlock = false : isShipBlock = true;
 };
 
-bool SpaceShip::getIsBlock() {
+bool SpaceShip::getIsShipBlock() const {
 	return isShipBlock;
 }
 
@@ -106,7 +103,7 @@ void SpaceShip::setIsExit(bool _isExit) {
 	isExit = _isExit;
 };
 
-bool SpaceShip::getIsExit() {
+bool SpaceShip::getIsExit() const {
 	return isExit;
 }
 
@@ -162,7 +159,7 @@ void SpaceShip::move(Board* board) {
 	}
 }
 
-void  SpaceShip::initDraw() {
+void  SpaceShip::initDraw() const {
 	switch (type)
 	{
 	case ShipSize::SMALL:

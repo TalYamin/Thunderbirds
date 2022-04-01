@@ -38,26 +38,22 @@ void Block::setColor(Color c)
 	color = c;
 }
 
-int Block::getSize()
-{
+int Block::getSize () const{
 	return size;
 }
 
-Point** Block::getListPoints()
-{
+Point** Block::getListPoints() const{
 	return list_points;
 }
 
-void Block::drawBlock()
-{
+void Block::drawBlock() const {
 	for (int i = 0; i < size; i++)
 	{
 		list_points[i]->draw();
 	}
 }
 
-int Block::getblockId()
-{
+int Block::getblockId() const {
 	return blockId;
 }
 
@@ -80,6 +76,7 @@ void Block::move(int direction, Board* board)
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId(blockId);
 	}
 }
+
 void Block::fall(Board* board)
 {
 	move(1, board);

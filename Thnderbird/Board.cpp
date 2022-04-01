@@ -2,9 +2,6 @@
 #define FIGURE ' '
 
 
-void Board::revertStartUpBoard()
-{
-}
 
 void Board::initBoard()
 {
@@ -55,12 +52,12 @@ void Board::initBoard()
 	initBlocks();
 }
 
-int Board::CheckObjectId(char ch) {
+int Board::CheckObjectId(char ch) const {
 	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
 
 }
 
-void Board::draw()
+void Board::draw() const
 {
 	for (int i = 0; i < maxVerticalSize; i++)
 	{
@@ -109,7 +106,7 @@ bool Board::isPointNoFloor(int x, int y, int blockId) {
 }
 
 
-bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) {
+bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const{
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -132,7 +129,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
-bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
+bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize) const
 {
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
@@ -160,7 +157,7 @@ bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 	return true;
 }
 
-bool Board::isValidPlace(int x, int y, Block* block)
+bool Board::isValidPlace(int x, int y, Block* block) const
 {
 	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
 }
@@ -225,6 +222,12 @@ void Board::insertNewBlock(Block* block)
 	allBlocks[blocksAmount - 1] = block;
 }
 
+Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
+	maxHorizontalSize = _maxHorizontalSize;
+	maxVerticalSize = _maxVerticalSize;
+	timeRemains = _timeRemains;
+}
+
 Board::Board()
 {
 
@@ -285,10 +288,49 @@ void Board::removeShipFromBoard(SpaceShip ship) {
 
 }
 
-Block* Board::getBlockById(int objectId) {
+Block* Board::getBlockById(int objectId) const {
 	for (int i = 0; i < blocksAmount; i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
 		}
 	}
 }
+
+void Board::setTimeRemains(long timeToSet) {
+	timeRemains = timeToSet;
+}
+
+long Board::getTimeRemains() const{
+	return timeRemains;
+}
+
+void Board::timeDown() {
+	timeRemains--;
+}
+
+void Board::setMaxHorizontalSize(int _horizontal) {
+	maxHorizontalSize = _horizontal;
+};
+
+int Board::getMaxHorizontalSize() const{ 
+	return maxHorizontalSize; 
+}
+
+void Board::setGetMaxVerticalSize(int _vertical) {
+	maxVerticalSize = _vertical; 
+}
+
+int Board::getMaxVerticalSize() const {
+	return maxVerticalSize;
+}
+
+Point (*Board::getMat())[25]{
+	return mat; 
+};
+
+
+Board::~Board() {
+
+}
+
+

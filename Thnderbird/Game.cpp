@@ -1,7 +1,12 @@
 ﻿#include "Game.h"
 using namespace std;
 
-void Game::selectColorMode() {
+
+
+Game::~Game() {
+}
+
+void Game::selectColorMode() const{
 	printColorMenu();
 	setColorMode();
 	clear_screen();
@@ -18,18 +23,18 @@ void Game::setLives(int _lives)
 	lives = _lives;
 }
 
-int Game::getLives()
+int Game::getLives() const
 {
 	return lives;
 }
 
-void Game::printColorMenu() {
+void Game::printColorMenu() const {
 	cout << "Select your color mode:" << endl;
 	cout << "(1) Colorful" << endl;
 	cout << "(2) Black and White" << endl;
 }
 
-void Game::setColorMode() {
+void Game::setColorMode() const {
 
 	int userInput;
 	cin >> userInput;
@@ -48,7 +53,7 @@ void Game::setColorMode() {
 	}
 }
 
-void Game::printMenu() {
+void Game::printMenu() const {
 
 	cout << "Welcome to Thunderbirds !" << endl;
 	cout << "Please make a selection:" << endl;
@@ -150,7 +155,7 @@ void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& ship
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
-void Game::showInfo() {
+void Game::showInfo() const {
 	setTextColor(Color::YELLOW);
 	cout << endl;
 	cout << "Instructions: " << endl;
@@ -272,7 +277,7 @@ void Game::pauseCheck(int logY)
 	}
 }
 
-void Game::printTime(int x, int y)
+void Game::printTime(int x, int y) const
 {
 	setTextColor(Color::MAGENTA);
 	gotoxy(x, y);
@@ -283,7 +288,7 @@ void Game::printTime(int x, int y)
 	gotoxy(x, y);
 	cout << playingBoard.getTimeRemains() << endl;
 }
-void Game::printTextDescription(int x, int y, const char* text)
+void Game::printTextDescription(int x, int y, const char* text) const
 {
 	setTextColor(Color::WHITE);
 	gotoxy(x, y);
@@ -291,7 +296,7 @@ void Game::printTextDescription(int x, int y, const char* text)
 }
 
 
-void Game::printLives(int x, int y)
+void Game::printLives(int x, int y) const
 {
 	setTextColor(Color::RED);
 	gotoxy(x, y);
@@ -305,7 +310,7 @@ void Game::printLives(int x, int y)
 }
 
 
-void Game::gameMetadata(SpaceShip ship)
+void Game::gameMetadata(SpaceShip ship) const
 {
 	printTextDescription(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y, "Lives Remains: ");
 	printLives(LIVES_X, LIVES_Y);
@@ -337,12 +342,12 @@ bool Game::isDie()
 }
 
 
-bool Game::timeoutHandler()
+bool Game::timeoutHandler() const
 {
 	return playingBoard.getTimeRemains() <= 0;
 }
 
-void Game::drawIcon(SpaceShip ship)
+void Game::drawIcon(SpaceShip ship) const
 {
 	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
 	for (int j = 0;j < ship.getVerticalSize(); j++)
@@ -356,7 +361,7 @@ void Game::drawIcon(SpaceShip ship)
 	}
 }
 
-void Game::deleteIcon(SpaceShip ship)
+void Game::deleteIcon(SpaceShip ship) const
 {
 	for (int j = 0; j < ship.getVerticalSize(); j++)
 	{

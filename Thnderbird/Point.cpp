@@ -31,12 +31,12 @@ void Point::setY(int _y) {
 	y = _y;
 }
 
-int Point::getX()
+int Point::getX() const
 {
 	return x;
 }
 
-int Point::getY()
+int Point::getY() const
 {
 	return y;
 }
@@ -58,12 +58,12 @@ void Point::move(int dir) {
 	}
 }
 
-char Point::getFigure()
+char Point::getFigure() const
 {
 	return figure;
 }
 
-void Point::draw() {
+void Point::draw() const {
 	gotoxy(x, y);
 	setTextColor(color);
 	cout << figure << endl;
@@ -83,6 +83,10 @@ void Point::setObjecId(int _objectId) {
 	objectId = _objectId;
 }
 
-int Point::getObjecId() {
+int Point::getObjecId() const{
 	return objectId;
+}
+
+Point::~Point() {
+
 }

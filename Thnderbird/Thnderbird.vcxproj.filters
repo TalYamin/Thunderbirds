@@ -42,13 +42,13 @@
     <ClInclude Include="ShipSize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShipStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BoardFigure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

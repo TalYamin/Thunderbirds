@@ -34,7 +34,9 @@ class SpaceShip
 public:
 
 	//ctor + dtor
-	SpaceShip();
+	SpaceShip() = default;
+	SpaceShip(const SpaceShip& _spaceship) = default;
+	SpaceShip& operator=(const SpaceShip& _spaceship) = default;
 	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize);
 	~SpaceShip();
 
@@ -42,28 +44,28 @@ public:
 	int getMaxCarringBlockSize();
 	void setMaxCarringBlockSize(int _maxCarringBlockSize);
 	void setType(int typeNum);
-	ShipSize getType();
+	ShipSize getType() const;
 	void setVerticalSize(int _verticalSize);
-	int getVerticalSize();
+	int getVerticalSize() const;
 	void setHorizontalSize(int _horizontalSize);
-	int getHorizontalSize();
+	int getHorizontalSize() const;
 	void setDirection(int _direction);
-	int getDirection(char key);
+	int getDirection(char key) const;
 	void setFigure(const char c);
-	char getFigure();
+	char getFigure() const;
 	void setArrowKeys(const char* keys);
 	void setColor(Color _color);
-	Color getColor();
-	void setIsBlock();
-	bool getIsBlock();
+	Color getColor() const;
+	void setIsShipBlock();
+	bool getIsShipBlock() const;
 	void setIsExit(bool _isExit);
-	bool getIsExit();
+	bool getIsExit() const;
 	void setShipMat(Board* board);
 	Point** getShipMat();
 
 	//public methods
 	void move(Board* board);
-	void initDraw();
+	void initDraw() const;
 
 private:
 
