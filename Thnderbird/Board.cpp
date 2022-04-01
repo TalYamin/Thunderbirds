@@ -17,7 +17,7 @@ void Board::initBoard()
 +                                +                       +                     +
 +++++++                          +                       +                     +
 +                                +                       +                     +
-+       +                        +                       +                     +
++      +                         +                       +                     +
 +                                +                       +                     +
 +                                +                       +                     +
 +                                +                       +                     +
@@ -109,34 +109,31 @@ bool Board::isPointNoFloor(int x, int y, int blockId) {
 }
 
 
-bool Board::isNotEmptyPoint(int x, int y, int direction) {
+bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve) {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
 	}
-	else if (this->getMat()[x][y].getFigure() == (char)BoardFigure::EMPTY) {
+	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else if (this->getMat()[x][y].getFigure() == (char)BoardFigure::BLOCK)
+	else if (mat[x][y].getFigure() == (char)BoardFigure::BLOCK)
 	{
-		int BlockId = this->getMat()[x][y].getObjecId();
-		Block* block = this->getBlockById(BlockId);
+		int BlockId = mat[x][y].getObjecId();
+		Block* block = getBlockById(BlockId);
 
 		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction))
 		{
-			block->move(direction, this);
+			int BlockId = mat[x][y].getObjecId();
+			Block* block = getBlockById(BlockId);
+			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
+				blocksInvolve.push_back(block);
 			return false;
-		}
-		else
-		{
-			return true;
 		}
 	}
 	return true;
 
 }
-
-
 
 bool Board::isBlockCanMove(Block* block, int direction)
 {
@@ -146,21 +143,26 @@ bool Board::isBlockCanMove(Block* block, int direction)
 		for (int i = 0;i < block->getSize();i++)
 		{
 			Point* point = block->getListPoints()[i];
-			if (mat[point->getX() - 1][point->getY()].getObjecId() != (int)ObjectId::EMPTY && mat[point->getX() - 1][point->getY()].getObjecId() != block->getblockId())
+			if (isValidPlace(point->getX() - 1, point->getY(), block))
 				return false;
 		}
 	}
 	else if (direction == 3)//RIGHT
 	{
-		for (int i = 0;i < block->getSize();i++)
-		{
-			Point* point = block->getListPoints()[i];
-
-			if (mat[point->getX() + 1][point->getY()].getObjecId() != (int)ObjectId::EMPTY && mat[point->getX() + 1][point->getY()].getObjecId() != block->getblockId())
-				return false;
-		}
+			for (int i = 0;i < block->getSize();i++)
+			{
+				Point* point = block->getListPoints()[i];
+				if (isValidPlace(point->getX() + 1, point->getY(), block))
+					return false;
+			}
 	}
 	return true;
+}
+
+bool Board::isValidPlace(int x, int y, Block* block)
+{
+	bool k = (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
+	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
 }
 
 
