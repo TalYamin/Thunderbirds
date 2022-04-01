@@ -101,9 +101,9 @@ void Board::fallBlocksIfNoFloor()
 	}
 }
 
-bool Board::isPointNoFloor(int x, int y, int bulkId) {
+bool Board::isPointNoFloor(int x, int y, int blockId) {
 	Point point = mat[x][y];
-	if (mat[x][y].getObjecId() == (int)ObjectId::EMPTY || mat[x][y].getObjecId() == bulkId)
+	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
 		return true;
 	return false;
 }
@@ -150,7 +150,7 @@ bool Board::isBlockCanMove(Block* block, int direction)
 				return false;
 		}
 	}
-	if (direction == 3)//RIGHT
+	else if (direction == 3)//RIGHT
 	{
 		for (int i = 0;i < block->getSize();i++)
 		{
