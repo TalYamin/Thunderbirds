@@ -37,10 +37,10 @@ public:
 	//public methods
 	void drawBlock() const;
 	int getblockId () const;
-
+	void fall(Board* board);
 
 private:
-	void fall(Board* board);
+	
 };
 
 

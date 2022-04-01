@@ -76,6 +76,7 @@ void Block::move(int direction, Board* board)
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId(blockId);
 	}
 }
+
 void Block::fall(Board* board)
 {
 	move(1, board);

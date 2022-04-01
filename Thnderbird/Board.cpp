@@ -129,7 +129,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
-bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
+bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize) const
 {
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
@@ -157,7 +157,7 @@ bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 	return true;
 }
 
-bool Board::isValidPlace(int x, int y, Block* block)
+bool Board::isValidPlace(int x, int y, Block* block) const
 {
 	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
 }

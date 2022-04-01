@@ -56,8 +56,8 @@ public:
 	void setArrowKeys(const char* keys);
 	void setColor(Color _color);
 	Color getColor() const;
-	void setIsBlock();
-	bool getIsBlock() const;
+	void setIsShipBlock();
+	bool getIsShipBlock() const;
 	void setIsExit(bool _isExit);
 	bool getIsExit() const;
 	void setShipMat(Board* board);

@@ -81,12 +81,12 @@ Color SpaceShip::getColor() const {
 }
 
 
-void SpaceShip::setIsBlock() {
+void SpaceShip::setIsShipBlock() {
 	isShipBlock == true ? isShipBlock = false : isShipBlock = true;
 };
 
-bool SpaceShip::getIsBlock() const {
-	return isBlock;
+bool SpaceShip::getIsShipBlock() const {
+	return isShipBlock;
 }
 
 int SpaceShip::getMaxCarringBlockSize()

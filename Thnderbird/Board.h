@@ -63,13 +63,12 @@ public:
 	void removeShipFromBoard(SpaceShip ship);
 	bool checkExit(SpaceShip ship);
 	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
-	void revertStartUpBoard();
 	void initBoard();
 	int CheckObjectId(char ch) const;
 	void timeDown();
 	void draw() const;
 	void setMatrixPoint(int _x, int _y, Point* _p);
-	bool isBlockCanMove(Block* block, int direction, int maxCarringBlockSize);
+	bool isBlockCanMove(Block* block, int direction, int maxCarringBlockSize) const;
 	void fallBlocksIfNoFloor();
 	
 
@@ -80,7 +79,7 @@ private:
 	void initBlocks();
 	void placeBlocksOnBoard();
 	void insertNewBlock(Block* block);
-	bool isValidPlace(int x, int y, Block* block);
+	bool isValidPlace(int x, int y, Block* block) const;
 };
 
 
