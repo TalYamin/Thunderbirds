@@ -1,6 +1,11 @@
 ﻿#include "Game.h"
 using namespace std;
 
+
+
+Game::~Game() {
+}
+
 void Game::selectColorMode() const{
 	printColorMenu();
 	setColorMode();
@@ -40,6 +45,7 @@ void Game::setColorMode() const {
 		break;
 	case BLACK_WHITE:
 		isBlackAndWhite = true;
+		break;
 	default:
 		cout << "Wrong input, please try again !" << endl << endl;
 		selectColorMode();

@@ -22,10 +22,11 @@ public:
 	Point(int _x, int _y);
 	Point(int _x, int _y, char _fig);
 	Point(int _x, int _y, char _fig, Color _color, int _objectId);
-	~Point() {};
 	Point() = default;
 	Point(const Point & _p) = default;
 	Point& operator=(const Point & _p) = default;
+	~Point();
+
 
 	//getters + setters
 	void setX(int _x);

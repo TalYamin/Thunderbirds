@@ -33,8 +33,10 @@ class Game
 
 public:
 	//ctors + dtors
-	Game() {};
-	~Game() {};
+	Game() = default;
+	Game(const Game& _game) = default;
+	Game& operator=(const Game& _game) = default;
+	~Game();
 
 	//getters + setters
 	void setLives(int _lives);

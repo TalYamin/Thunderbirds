@@ -33,7 +33,9 @@ class SpaceShip
 public:
 
 	//ctor + dtor
-	SpaceShip();
+	SpaceShip() = default;
+	SpaceShip(const SpaceShip& _spaceship) = default;
+	SpaceShip& operator=(const SpaceShip& _spaceship) = default;
 	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color);
 	~SpaceShip();
 

@@ -86,3 +86,7 @@ void Point::setObjecId(int _objectId) {
 int Point::getObjecId() const{
 	return objectId;
 }
+
+Point::~Point() {
+
+}

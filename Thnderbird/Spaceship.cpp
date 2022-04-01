@@ -1,9 +1,7 @@
 #include "Spaceship.h"
 
 
-SpaceShip::SpaceShip()
-{
-}
+
 
 SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color) {
 

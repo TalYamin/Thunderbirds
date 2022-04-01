@@ -249,6 +249,10 @@ int Board::getMaxVerticalSize() const {
 	return maxVerticalSize;
 }
 
+Point (*Board::getMat())[25]{
+	return mat; 
+};
+
 
 Board::~Board() {
 

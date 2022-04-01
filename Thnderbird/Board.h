@@ -53,7 +53,7 @@ public:
 	int getMaxVerticalSize() const;
 	void setTimeRemains(long timeToSet);;
 	long getTimeRemains() const;
-	auto getMat() { return mat; };
+	Point(*getMat())[25];
 
 	//public methods
 	Block* getBlockById(int objectId) const;
