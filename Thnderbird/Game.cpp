@@ -40,6 +40,7 @@ void Game::setColorMode() {
 		break;
 	case BLACK_WHITE:
 		isBlackAndWhite = true;
+		break;
 	default:
 		cout << "Wrong input, please try again !" << endl << endl;
 		selectColorMode();

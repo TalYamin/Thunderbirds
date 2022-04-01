@@ -132,7 +132,6 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 		}
 	}
 	return true;
-
 }
 
 bool Board::isBlockCanMove(Block* block, int direction)
@@ -149,12 +148,12 @@ bool Board::isBlockCanMove(Block* block, int direction)
 	}
 	else if (direction == 3)//RIGHT
 	{
-			for (int i = 0;i < block->getSize();i++)
-			{
-				Point* point = block->getListPoints()[i];
-				if (isValidPlace(point->getX() + 1, point->getY(), block))
-					return false;
-			}
+		for (int i = 0;i < block->getSize();i++)
+		{
+			Point* point = block->getListPoints()[i];
+			if (isValidPlace(point->getX() + 1, point->getY(), block))
+				return false;
+		}
 	}
 	return true;
 }
