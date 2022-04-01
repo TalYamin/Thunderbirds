@@ -161,7 +161,6 @@ bool Board::isBlockCanMove(Block* block, int direction)
 
 bool Board::isValidPlace(int x, int y, Block* block)
 {
-	bool k = (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
 	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
 }
 
