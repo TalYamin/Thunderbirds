@@ -66,3 +66,21 @@ Block::~Block()
 {
 }
 
+void Block::move(int direction, Board* board)
+{
+	for (int i = 0; i < size; i++) {
+		list_points[i]->draw((char)BoardFigure::EMPTY);
+		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+	}
+
+	for (int i = 0; i < size; i++) {
+		list_points[i]->move(direction);
+		list_points[i]->draw();
+		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(figure);
+		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId(blockId);
+	}
+}
+void Block::fall(Board* board)
+{
+	move(1, board);
+}

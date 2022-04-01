@@ -25,7 +25,7 @@ class SpaceShip
 	char figure = ' ';
 	char arrowKeys[4];
 	Color color;
-	bool isBlock = false;
+	bool isShipBlock = false;
 	bool isExit = false;
 	Point* shipMat[2];
 	
@@ -68,7 +68,7 @@ private:
 	void moveBigShip(Board* board);
 	void moveSmallShip(Board* board);
 	void checkSmallCollision(Board* board);
-	void checkSBigCollision(Board* board);
+	void checkBigCollision(Board* board);
 	
 };
 
