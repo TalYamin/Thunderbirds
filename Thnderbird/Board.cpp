@@ -2,9 +2,6 @@
 #define FIGURE ' '
 
 
-void Board::revertStartUpBoard()
-{
-}
 
 void Board::initBoard()
 {
@@ -55,12 +52,12 @@ void Board::initBoard()
 	initBlocks();
 }
 
-int Board::CheckObjectId(char ch) {
-	return ch==(char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
+int Board::CheckObjectId(char ch) const {
+	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
 
 }
 
-void Board::draw()
+void Board::draw() const
 {
 	for (int i = 0; i < maxVerticalSize; i++)
 	{
@@ -79,12 +76,12 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 }
 
 
-bool Board::isNotEmptyPoint(int x, int y) {
+bool Board::isNotEmptyPoint(int x, int y) const {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
 	}
-	else if (this->getMat()[x][y].getFigure() == ' ') {
+	else if (mat[x][y].getFigure() == ' ') {
 		return false;
 	}
 	else {
@@ -150,6 +147,12 @@ void Board::insertNewBlock(Block* block)
 	allBlocks[blocksAmount - 1] = block;
 }
 
+Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
+	maxHorizontalSize = _maxHorizontalSize;
+	maxVerticalSize = _maxVerticalSize;
+	timeRemains = _timeRemains;
+}
+
 Board::Board()
 {
 
@@ -210,10 +213,45 @@ void Board::removeShipFromBoard(SpaceShip ship) {
 
 }
 
-Block* Board::getBlockById(int objectId) {
-	for (int i = 0; i < blocksAmount; i++){
-		if (allBlocks[i]->getblockId() == objectId){
+Block* Board::getBlockById(int objectId) const {
+	for (int i = 0; i < blocksAmount; i++) {
+		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
 		}
 	}
 }
+
+void Board::setTimeRemains(long timeToSet) {
+	timeRemains = timeToSet;
+}
+
+long Board::getTimeRemains() const{
+	return timeRemains;
+}
+
+void Board::timeDown() {
+	timeRemains--;
+}
+
+void Board::setMaxHorizontalSize(int _horizontal) {
+	maxHorizontalSize = _horizontal;
+};
+
+int Board::getMaxHorizontalSize() const{ 
+	return maxHorizontalSize; 
+}
+
+void Board::setGetMaxVerticalSize(int _vertical) {
+	maxVerticalSize = _vertical; 
+}
+
+int Board::getMaxVerticalSize() const {
+	return maxVerticalSize;
+}
+
+
+Board::~Board() {
+
+}
+
+

@@ -147,7 +147,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="ObjectId.h" />
-    <ClInclude Include="ShipStatus.h" />
+    <ClInclude Include="GameStatus.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="ShipSize.h" />
     <ClInclude Include="Spaceship.h" />

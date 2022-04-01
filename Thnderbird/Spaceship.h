@@ -39,28 +39,28 @@ public:
 
 	//getters + setters
 	void setType(int typeNum);
-	ShipSize getType();
+	ShipSize getType() const;
 	void setVerticalSize(int _verticalSize);
-	int getVerticalSize();
+	int getVerticalSize() const;
 	void setHorizontalSize(int _horizontalSize);
-	int getHorizontalSize();
+	int getHorizontalSize() const;
 	void setDirection(int _direction);
-	int getDirection(char key);
+	int getDirection(char key) const;
 	void setFigure(const char c);
-	char getFigure();
+	char getFigure() const;
 	void setArrowKeys(const char* keys);
 	void setColor(Color _color);
-	Color getColor();
+	Color getColor() const;
 	void setIsBlock();
-	bool getIsBlock();
+	bool getIsBlock() const;
 	void setIsExit(bool _isExit);
-	bool getIsExit();
+	bool getIsExit() const;
 	void setShipMat(Board* board);
 	Point** getShipMat();
 
 	//public methods
 	void move(Board* board);
-	void initDraw();
+	void initDraw() const;
 
 private:
 

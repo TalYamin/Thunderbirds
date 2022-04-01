@@ -4,7 +4,7 @@
 #include "Spaceship.h"
 #include "io_utils.h"
 #include "Board.h"
-#include "ShipStatus.h"
+#include "GameStatus.h"
 #define GAME_SPEED 50
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
@@ -36,34 +36,36 @@ public:
 	Game() {};
 	~Game() {};
 
-	//public methods
-	void selectColorMode();
-	void start();
+	//getters + setters
 	void setLives(int _lives);
-	int getLives();
+	int getLives() const;
+
+	//public methods
+	void selectColorMode() const;
+	void start();
 
 
 private:
 
 	//private methods
-	void printColorMenu();
-	void setColorMode();
-	void printMenu();
+	void printColorMenu() const;
+	void setColorMode() const;
+	void printMenu() const;
 	void makeSelection();
 	void run();
-	void showInfo();
+	void showInfo() const;
 	void init();
 	void pause();
 	void pauseCheck(int logY);
-	void printTime(int x, int y);
-	void printTextDescription(int x, int y, const char* text);
-	void printLives(int x, int y);
-	void gameMetadata(SpaceShip ship);
+	void printTime(int x, int y) const;
+	void printTextDescription(int x, int y, const char* text) const;
+	void printLives(int x, int y) const;
+	void gameMetadata(SpaceShip ship) const;
 	void deadHeartHandler();
 	bool isDie();
-	bool timeoutHandler();
-	void drawIcon(SpaceShip ship);
-	void deleteIcon(SpaceShip ship);
+	bool timeoutHandler() const;
+	void drawIcon(SpaceShip ship) const;
+	void deleteIcon(SpaceShip ship) const;
 	bool bulkSmash();
 	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 	void checkVictory(SpaceShip& ship);

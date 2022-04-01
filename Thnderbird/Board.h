@@ -28,6 +28,7 @@ class Point;
 
 class Board
 {
+	//data members
 	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE];
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
@@ -36,33 +37,39 @@ class Board
 	int blocksAmount = 0;
 
 public:
-	Block* getBlockById(int objectId);
+
+	//ctors + dtors
+	Board();
+	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains);
+	Board(const Board& _board) = default;
+	Board& operator=(const Board & _board) = default;
+	~Board();
+
+
+	//getters + setters
+	void setMaxHorizontalSize(int _horizontal);
+	int getMaxHorizontalSize() const;
+	void setGetMaxVerticalSize(int _vertical);
+	int getMaxVerticalSize() const;
+	void setTimeRemains(long timeToSet);;
+	long getTimeRemains() const;
+	auto getMat() { return mat; };
+
+	//public methods
+	Block* getBlockById(int objectId) const;
 	void removeShipFromBoard(SpaceShip ship);
 	bool checkExit(SpaceShip ship);
-	bool isNotEmptyPoint(int x, int y);
-	void revertStartUpBoard();
+	bool isNotEmptyPoint(int x, int y)const;
 	void initBoard();
-	int CheckObjectId(char ch);
-	void setTimeRemains(long timeToSet) { timeRemains = timeToSet; };
-	long getTimeRemains() { return timeRemains; };
-	void timeDown() { timeRemains--; };
-	void setMaxHorizontalSize(int _horizontal) { maxHorizontalSize = _horizontal; };
-	int getMaxHorizontalSize() { return maxHorizontalSize; };
-	void setGetMaxVerticalSize(int _vertical) { maxVerticalSize = _vertical; };
-	int getMaxVerticalSize() { return maxVerticalSize; };
-	auto getMat() { return mat; };
-	void draw();
+	int CheckObjectId(char ch) const;
+	void timeDown();
+	void draw() const;
 	void setMatrixPoint(int _x, int _y, Point* _p);
-	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
-		maxHorizontalSize = _maxHorizontalSize;
-		maxVerticalSize = _maxVerticalSize;
-		timeRemains = _timeRemains;
-	};
-	Board();
-	Board(const Board& _board) = default;
-	Board& operator=(const Board& _board) = default;
+	
 
 private:
+
+	//private methods
 	void initBlocks();
 	void placeBlocksOnBoard();
 	void insertNewBlock(Block* block);

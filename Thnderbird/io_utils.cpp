@@ -43,7 +43,7 @@ void hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);//second argument need pointer
 }
 
-void clear_screen()
+void clear_screen() 
 {
 	system("cls");
 }
