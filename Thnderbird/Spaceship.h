@@ -18,18 +18,19 @@ class SpaceShip
 {
 
 	//date members 
-	ShipSize type = ShipSize:: UNDEFINED;
-	int verticalSize;
-	int horizontalSize;
+	ShipSize type = ShipSize::UNDEFINED;
+	int verticalSize = 2;
+	int horizontalSize = 2;
 	int direction = 3;
-	char figure = ' ';
+	char figure = (char)BoardFigure::BIG_SHIP;
 	char arrowKeys[4];
-	Color color;
+	Color color = Color::GREEN;
 	bool isShipBlock = false;
 	bool isExit = false;
-	Point* shipMat[2];
+	bool isDie = false;
+	Point* shipMat[2] = {};
 	int maxCarringBlockSize = 6;
-	
+
 
 public:
 
@@ -37,8 +38,9 @@ public:
 	SpaceShip() = default;
 	SpaceShip(const SpaceShip& _spaceship) = default;
 	SpaceShip& operator=(const SpaceShip& _spaceship) = default;
-	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize);
+	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize, ShipSize _type);
 	~SpaceShip();
+	void getShipByObjectId() const;
 
 	//getters + setters
 	int getMaxCarringBlockSize();
@@ -59,8 +61,10 @@ public:
 	void setIsShipBlock();
 	bool getIsShipBlock() const;
 	void setIsExit(bool _isExit);
-	bool getIsExit() const;
-	void setShipMat(Board* board);
+	bool getIsExit() const;	
+	void setIsDie(bool _isDie);
+	bool getIsDie() const;
+	void setupShipMat(ShipSize type);
 	Point** getShipMat();
 
 	//public methods
@@ -70,10 +74,9 @@ public:
 private:
 
 	//private methods
-	void moveBigShip(Board* board);
-	void moveSmallShip(Board* board);
+	void moveShip(Board* board, ObjectId type);
 	void checkSmallCollision(Board* board);
 	void checkBigCollision(Board* board);
-	
+
 };
 

@@ -6,7 +6,7 @@ using namespace std;
 Game::~Game() {
 }
 
-void Game::selectColorMode() const{
+void Game::selectColorMode() const {
 	printColorMenu();
 	setColorMode();
 	clear_screen();
@@ -95,7 +95,8 @@ void Game::makeSelection() {
 void Game::run() {
 
 	char key = 0;
-	int dir;
+	SpaceShip bigShip = *(playingBoard.getBigShip());//TODO: change function to support reference instead of value
+	SpaceShip smallShip = *(playingBoard.getSmallShip()); //TODO: change function to support reference instead of value
 	do {
 		if (isBigMove && !bigShip.getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
@@ -111,7 +112,7 @@ void Game::run() {
 				switchShip(isSmallOnMoving, bigShip, smallShip);
 			}
 		}
-	} while (key != (int)GameStatus::ESC && !isDie() && gameStatus != GameStatus::VICTORY);
+	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
 }
 
@@ -160,7 +161,7 @@ void Game::showInfo() const {
 	cout << endl;
 	cout << "Instructions: " << endl;
 	setTextColor(Color::WHITE);
-	cout << "Two “ships” are trapped inside an ancient Egyptian tomb." << endl << "A big one and a small one." << endl << "The big ship can move or carry blocks of total size 6." << endl << "The small ship can move or carry blocks of total size 2." << endl << "You should make them reaching the exit point in time." << endl << endl;
+	cout << "Two 'ships' are trapped inside an ancient Egyptian tomb." << endl << "A big one and a small one." << endl << "The big ship can move or carry blocks of total size 6." << endl << "The small ship can move or carry blocks of total size 2." << endl << "You should make them reaching the exit point in time." << endl << endl;
 	setTextColor(Color::YELLOW);
 	cout << "Arrow Keys: " << endl;
 	setTextColor(Color::WHITE);
@@ -181,23 +182,7 @@ void Game::init() {
 	playingBoard.initBoard();
 	playingBoard.draw();
 
-	bigShip = SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE);
-	bigShip.setType(2);
-	bigShip.setShipMat(&playingBoard);
-	bigShip.setArrowKeys("wxad");
-
-	gameMetadata(bigShip);
-
-	smallShip = SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE);
-	smallShip.setType(1);
-	smallShip.setShipMat(&playingBoard);
-	smallShip.setArrowKeys("wxad");
-
-	smallShip.initDraw();
-	bigShip.initDraw();
-
-
-
+	gameMetadata(*(playingBoard.getBigShip()));
 }
 
 void Game::pause() {
@@ -328,19 +313,23 @@ void Game::deadHeartHandler()
 	lives--;
 }
 
-bool Game::isDie()
+bool Game::isLose()
 {
 	if (timeoutHandler()) {
 		gameStatus = GameStatus::DIE;
 		return true;
 	}
-	if (bulkSmash()) {
+	if (isSomeShipDie()) {
 		gameStatus = GameStatus::DIE;
 		return true;
 	}
 	return false;
 }
 
+bool Game::isSomeShipDie()
+{
+	return (playingBoard.getBigShip()->getIsDie() == true || playingBoard.getSmallShip()->getIsDie() == true);
+}
 
 bool Game::timeoutHandler() const
 {
@@ -373,18 +362,13 @@ void Game::deleteIcon(SpaceShip ship) const
 	}
 }
 
-bool Game::bulkSmash()
-{
-	return false;
-}
-
 
 void Game::checkVictory(SpaceShip& ship) {
 
 	if (!ship.getIsExit()) {
 		ship.setIsExit(playingBoard.checkExit(ship));
 	}
-	if (bigShip.getIsExit() == true && smallShip.getIsExit() == true) {
+	if (playingBoard.getBigShip()->getIsExit() == true && playingBoard.getSmallShip()->getIsExit() == true) {
 		gameStatus = GameStatus::VICTORY;
 	}
 }
