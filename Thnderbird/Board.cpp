@@ -30,8 +30,8 @@ void Board::initBoard()
 +                                +    ++++++++++++++++++++                     +
 +                                +                       +                     +
 +                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
++                                 +                      +                     +
++                                 +                      +                     +
 ++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
 	boardLen = strlen(boardData);
 	for (int i = 0; i < boardLen; i++)
@@ -140,7 +140,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
 
-		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, maxCarringBlockSize))
+		if ((direction == 2 || direction == 3) && isBlockCanMove(block, x, y, direction, blocksInvolve, maxCarringBlockSize))
 		{
 			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
 				blocksInvolve.push_back(block);
@@ -150,7 +150,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
-bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize) const
+bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const
 {
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
@@ -162,7 +162,7 @@ bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 		for (int i = 0;i < blockSize;i++)
 		{
 			Point* point = block->getListPoints()[i];
-			if (isValidPlace(point->getX() - 1, point->getY(), block))
+			if (isInvalidPlace(point->getX() - 1, point->getY(), block, direction, blocksInvolve, maxCarringBlockSize))
 				return false;
 		}
 	}
@@ -171,16 +171,53 @@ bool Board::isBlockCanMove(Block* block, int direction, int maxCarringBlockSize)
 		for (int i = 0;i < blockSize;i++)
 		{
 			Point* point = block->getListPoints()[i];
-			if (isValidPlace(point->getX() + 1, point->getY(), block))
+			if (isInvalidPlace(point->getX() + 1, point->getY(), block, direction, blocksInvolve, maxCarringBlockSize)) {
 				return false;
+			}
 		}
 	}
 	return true;
 }
 
-bool Board::isValidPlace(int x, int y, Block* block) const
-{
-	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && mat[x][y].getObjecId() != block->getblockId());
+bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve,int maxCarringBlockSize) const{
+	
+	bool canMoveMultiBlocks = true;
+	int currObejctId = mat[x][y].getObjecId();
+
+	if (currObejctId == (int)ObjectId::WALL || currObejctId == (int)ObjectId::BIG || currObejctId == (int)ObjectId::SMALL) {
+		return true;
+	}
+	else if (currObejctId != (int)ObjectId::EMPTY){
+		canMoveMultiBlocks = canMoveMultipleBlocks(x, y, block, direction, blocksInvolve, maxCarringBlockSize);
+	}
+
+	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && !canMoveMultiBlocks);
+}
+
+bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const{
+
+	int blocksSum = 0;
+	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
+
+	if (anotherBlock->getblockId() != block->getblockId()) {
+
+		for (int i = 0; i < blocksInvolve.size(); i++){
+			blocksSum += blocksInvolve[i]->getSize();
+		}
+		blocksSum += anotherBlock->getSize() + block->getSize();
+		if (blocksSum <= maxCarringBlockSize){
+			if (!isNotEmptyPoint(x+1, y, direction, blocksInvolve, maxCarringBlockSize)){
+				return true;
+			} 
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return true;
+	}
+
 }
 
 

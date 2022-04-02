@@ -76,7 +76,7 @@ public:
 	void timeDown();
 	void draw() const;
 	void setMatrixPoint(int _x, int _y, Point* _p);
-	bool isBlockCanMove(Block* block, int direction, int maxCarringBlockSize) const;
+	bool isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
 	void fallBlocksIfNoFloor();
 
 
@@ -87,10 +87,10 @@ private:
 	void initBlocks();
 	void placeShipsOnBoard(SpaceShip* ship);
 	void initShips();
-	void placeShipsOnBoard();
 	void insertNewBlock(Block* block);
-	bool isValidPlace(int x, int y, Block* block) const;
+	bool isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
 	void placeBlocksOnBoard();
+	bool canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
 };
 
 
