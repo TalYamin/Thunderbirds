@@ -80,18 +80,18 @@ void Board::fallBlocksIfNoFloor()
 	bool needToFall;
 	bool isWallAlsoInvolved = false;
 	vector<SpaceShip*> shipInvolved;
-	for (int i = 0;i < blocksAmount;i++)
+	for (int i = 0; i < blocksAmount; i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
-		for (int j = 0;j < block->getSize();j++) {
+		for (int j = 0; j < block->getSize(); j++) {
 
 			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, &isWallAlsoInvolved))
 			{
 				needToFall = false;
 			}
 		}
-		for (size_t m = 0;m < shipInvolved.size();m++)
+		for (size_t m = 0; m < shipInvolved.size(); m++)
 		{
 			if (shipInvolved[m]->getMaxCarringBlockSize() < block->getSize() && !isWallAlsoInvolved)
 			{
@@ -159,7 +159,7 @@ bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Blo
 	}
 	if (direction == 2)//LEFT
 	{
-		for (int i = 0;i < blockSize;i++)
+		for (int i = 0; i < blockSize; i++)
 		{
 			Point* point = block->getListPoints()[i];
 			if (isInvalidPlace(point->getX() - 1, point->getY(), block, direction, blocksInvolve, maxCarringBlockSize))
@@ -168,7 +168,7 @@ bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Blo
 	}
 	else if (direction == 3)//RIGHT
 	{
-		for (int i = 0;i < blockSize;i++)
+		for (int i = 0; i < blockSize; i++)
 		{
 			Point* point = block->getListPoints()[i];
 			if (isInvalidPlace(point->getX() + 1, point->getY(), block, direction, blocksInvolve, maxCarringBlockSize)) {
@@ -179,36 +179,57 @@ bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Blo
 	return true;
 }
 
-bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve,int maxCarringBlockSize) const{
-	
+bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const {
+
 	bool canMoveMultiBlocks = true;
 	int currObejctId = mat[x][y].getObjecId();
 
 	if (currObejctId == (int)ObjectId::WALL || currObejctId == (int)ObjectId::BIG || currObejctId == (int)ObjectId::SMALL) {
 		return true;
 	}
-	else if (currObejctId != (int)ObjectId::EMPTY){
+	else if (currObejctId != (int)ObjectId::EMPTY) {
 		canMoveMultiBlocks = canMoveMultipleBlocks(x, y, block, direction, blocksInvolve, maxCarringBlockSize);
 	}
 
 	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && !canMoveMultiBlocks);
 }
 
-bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const{
+bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const {
 
 	int blocksSum = 0;
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 
-		for (int i = 0; i < blocksInvolve.size(); i++){
+		for (int i = 0; i < blocksInvolve.size(); i++) {
 			blocksSum += blocksInvolve[i]->getSize();
 		}
 		blocksSum += anotherBlock->getSize() + block->getSize();
-		if (blocksSum <= maxCarringBlockSize){
-			if (!isNotEmptyPoint(x+1, y, direction, blocksInvolve, maxCarringBlockSize)){
-				return true;
-			} 
+		if (blocksSum <= maxCarringBlockSize) {
+			switch (direction)
+			{
+			case 2: // LEFT
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
+					return true;
+				}
+				else {
+					return false;
+				}
+				break;
+			case 3:// RIGHT
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
+					return true;
+				}
+				else {
+					return false;
+				}
+				break;
+			default:
+				return false;
+				break;
+			}
+
+
 		}
 		else {
 			return false;
@@ -317,16 +338,16 @@ Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, Sp
 
 
 bool Board::checkExit(SpaceShip* ship) {
-		
+
 	int x = ship->getShipMat()[0][0].getX();
 	int y = ship->getShipMat()[0][0].getY();
-		if (y == EXIT_Y && (x == EXIT_X1  || x == EXIT_X2  || x == EXIT_X3)) {
-			removeShipFromBoard(ship);
-			return true;
-		}
-		else {
-			return false;
-		}
+	if (y == EXIT_Y && (x == EXIT_X1 || x == EXIT_X2 || x == EXIT_X3)) {
+		removeShipFromBoard(ship);
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void Board::removeShipFromBoard(SpaceShip* ship) {
@@ -334,13 +355,13 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 	int shipVerticaSize = ship->getVerticalSize();
 	int shipHorizontalSize = ship->getHorizontalSize();
 
-		for (int i = 0; i < shipVerticaSize; i++)
-		{
-			for (int j = 0; j < shipHorizontalSize; j++) {
-				ship->getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
-				mat[ship->getShipMat()[i][j].getX()][ship->getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
-			}
+	for (int i = 0; i < shipVerticaSize; i++)
+	{
+		for (int j = 0; j < shipHorizontalSize; j++) {
+			ship->getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
+			mat[ship->getShipMat()[i][j].getX()][ship->getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
 		}
+	}
 }
 
 Block* Board::getBlockById(int objectId) const {
@@ -391,7 +412,7 @@ int Board::getMaxVerticalSize() const {
 	return maxVerticalSize;
 }
 
-Point (*Board::getMat())[25]{
+Point(*Board::getMat())[25]{
 	return mat;
 };
 
