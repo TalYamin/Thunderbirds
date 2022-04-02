@@ -16,6 +16,8 @@
 #define EXIT_X3 44
 #define BLOCKS_AMOUNT 3
 #define MAX_TIME 10000
+#define BIG_SHIP_CARRING_SIZE 6
+#define SMALL_SHIP_CARRING_SIZE 2
 
 #include "Point.h"
 #include "Block.h"
@@ -38,14 +40,17 @@ class Board
 	long timeRemains = MAX_TIME;
 	Block* allBlocks[3];
 	int blocksAmount = 0;
+	SpaceShip* smallShip;
+	SpaceShip* bigShip;
+	int shipsAmount = 2;
 
 public:
 
 	//ctors + dtors
-	Board();
-	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains);
+	Board() = default;
+	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, SpaceShip* _smallShip, SpaceShip* bigShip);
 	Board(const Board& _board) = default;
-	Board& operator=(const Board & _board) = default;
+	Board& operator=(const Board& _board) = default;
 	~Board();
 
 
@@ -57,6 +62,9 @@ public:
 	void setTimeRemains(long timeToSet);;
 	long getTimeRemains() const;
 	Point(*getMat())[25];
+	int getShipsAmount() const;
+	SpaceShip* getBigShip() const;
+	SpaceShip* getSmallShip() const;
 
 	//public methods
 	Block* getBlockById(int objectId) const;
@@ -70,16 +78,19 @@ public:
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	bool isBlockCanMove(Block* block, int direction, int maxCarringBlockSize) const;
 	void fallBlocksIfNoFloor();
-	
+
 
 private:
 
 	//private methods
-	bool isPointNoFloor(int x, int y, int bulkId);
+	bool isBlockPointsNoFloor(int x, int y, int blockId, vector<SpaceShip*>* shipInvolved, bool* isWallAlsoInvolve);
 	void initBlocks();
-	void placeBlocksOnBoard();
+	void placeShipsOnBoard(SpaceShip* ship);
+	void initShips();
+	void placeShipsOnBoard();
 	void insertNewBlock(Block* block);
 	bool isValidPlace(int x, int y, Block* block) const;
+	void placeBlocksOnBoard();
 };
 
 

@@ -5,7 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
-#define GAME_SPEED 50
+#define GAME_SPEED 100
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
@@ -13,8 +13,7 @@
 #define COLORFUL 1
 #define BLACK_WHITE 2
 #define TIME_LEN 5
-#define BIG_SHIP_CARRING_SIZE 6
-#define SMALL_SHIP_CARRING_SIZE 2
+
 
 extern bool isBlackAndWhite;
 
@@ -23,8 +22,6 @@ class Game
 	//data members
 	GameStatus gameStatus = GameStatus::NO_SELECTION;
 	GameStatus userSelection = GameStatus::NO_SELECTION;
-	SpaceShip bigShip; //for testing
-	SpaceShip smallShip; //for testing
 	Board playingBoard;
 	bool isBigMove = true;
 	bool isBigOnMoving = false;
@@ -66,7 +63,8 @@ private:
 	void printLives(int x, int y) const;
 	void gameMetadata(SpaceShip ship) const;
 	void deadHeartHandler();
-	bool isDie();
+	bool isLose();
+	bool isSomeShipDie();
 	bool timeoutHandler() const;
 	void drawIcon(SpaceShip ship) const;
 	void deleteIcon(SpaceShip ship) const;

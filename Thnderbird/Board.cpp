@@ -1,5 +1,4 @@
 #include "Board.h"
-#define FIGURE ' '
 
 
 
@@ -50,6 +49,7 @@ void Board::initBoard()
 		}
 	}
 	initBlocks();
+	initShips();
 }
 
 int Board::CheckObjectId(char ch) const {
@@ -78,35 +78,56 @@ void Board::setMatrixPoint(int _x, int _y, Point* _p)
 void Board::fallBlocksIfNoFloor()
 {
 	bool needToFall;
+	bool isWallAlsoInvolved = false;
+	vector<SpaceShip*> shipInvolved;
 	for (int i = 0;i < blocksAmount;i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
 		for (int j = 0;j < block->getSize();j++) {
 
-			if (!isPointNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId()))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, &isWallAlsoInvolved))
 			{
 				needToFall = false;
-				break;
+			}
+		}
+		for (size_t m = 0;m < shipInvolved.size();m++)
+		{
+			if (shipInvolved[m]->getMaxCarringBlockSize() < block->getSize() && !isWallAlsoInvolved)
+			{
+				shipInvolved[m]->setIsDie(true);
+				return;
 			}
 		}
 		if (needToFall == true)
 		{
 			block->fall(this);
 		}
-		needToFall = true;
+		isWallAlsoInvolved = false;
 	}
 }
 
-bool Board::isPointNoFloor(int x, int y, int blockId) {
+bool Board::isBlockPointsNoFloor(int x, int y, int blockId, vector<SpaceShip*>* shipInvolved, bool* isWallAlsoInvolve) {
 	Point point = mat[x][y];
 	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
 		return true;
+	if (point.getObjecId() == (int)ObjectId::WALL)
+		*isWallAlsoInvolve = true;
+	if (point.getObjecId() == (int)ObjectId::SMALL)
+	{
+		if (find((*shipInvolved).begin(), (*shipInvolved).end(), smallShip) == (*shipInvolved).end())
+			(*shipInvolved).push_back(smallShip);
+	}
+	if (point.getObjecId() == (int)ObjectId::BIG)
+	{
+		if (find((*shipInvolved).begin(), (*shipInvolved).end(), bigShip) == (*shipInvolved).end())
+			(*shipInvolved).push_back(bigShip);
+	}
 	return false;
 }
 
 
-bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const{
+bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -215,6 +236,33 @@ void Board::placeBlocksOnBoard()
 	}
 }
 
+void Board::initShips()
+{
+	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
+	bigShip->setupShipMat(bigShip->getType());
+	bigShip->setArrowKeys("wxad");
+
+
+	smallShip = new SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
+	smallShip->setupShipMat(smallShip->getType());
+	smallShip->setArrowKeys("wxad");
+
+	placeShipsOnBoard(bigShip);
+	placeShipsOnBoard(smallShip);
+}
+
+void Board::placeShipsOnBoard(SpaceShip* ship)
+{
+	int shipVerticaSize = ship->getVerticalSize();
+	int shipHorizontalSize = ship->getHorizontalSize();
+	for (int i = 0; i < shipVerticaSize; i++)
+	{
+		for (int j = 0; j < shipHorizontalSize; j++) {
+			setMatrixPoint(ship->getShipMat()[i][j].getX(), ship->getShipMat()[i][j].getY(), &(ship->getShipMat()[i][j]));
+		}
+	}
+}
+
 void Board::insertNewBlock(Block* block)
 {
 	blocksAmount++;
@@ -222,15 +270,12 @@ void Board::insertNewBlock(Block* block)
 	allBlocks[blocksAmount - 1] = block;
 }
 
-Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains) {
+Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, SpaceShip* _smallShip, SpaceShip* _bigShip) {
 	maxHorizontalSize = _maxHorizontalSize;
 	maxVerticalSize = _maxVerticalSize;
 	timeRemains = _timeRemains;
-}
-
-Board::Board()
-{
-
+	smallShip = _smallShip;
+	bigShip = _bigShip;
 }
 
 
@@ -300,9 +345,21 @@ void Board::setTimeRemains(long timeToSet) {
 	timeRemains = timeToSet;
 }
 
-long Board::getTimeRemains() const{
+long Board::getTimeRemains() const {
 	return timeRemains;
 }
+
+int Board::getShipsAmount() const {
+	return shipsAmount;
+}
+
+SpaceShip* Board::getBigShip() const {
+	return bigShip;
+}
+SpaceShip* Board::getSmallShip() const {
+	return smallShip;
+}
+
 
 void Board::timeDown() {
 	timeRemains--;
@@ -312,12 +369,12 @@ void Board::setMaxHorizontalSize(int _horizontal) {
 	maxHorizontalSize = _horizontal;
 };
 
-int Board::getMaxHorizontalSize() const{ 
-	return maxHorizontalSize; 
+int Board::getMaxHorizontalSize() const {
+	return maxHorizontalSize;
 }
 
 void Board::setGetMaxVerticalSize(int _vertical) {
-	maxVerticalSize = _vertical; 
+	maxVerticalSize = _vertical;
 }
 
 int Board::getMaxVerticalSize() const {
@@ -325,7 +382,7 @@ int Board::getMaxVerticalSize() const {
 }
 
 Point (*Board::getMat())[25]{
-	return mat; 
+	return mat;
 };
 
 
