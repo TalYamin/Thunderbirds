@@ -279,58 +279,31 @@ Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, Sp
 }
 
 
-bool Board::checkExit(SpaceShip ship) {
-
-	switch (ship.getType())
-	{
-	case ShipSize::BIG:
-
-		if ((ship.getShipMat()[0][0].getX() == EXIT_X1 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X2 && ship.getShipMat()[0][0].getY() == EXIT_Y) || (ship.getShipMat()[0][0].getX() == EXIT_X3 && ship.getShipMat()[0][0].getY() == EXIT_Y)) {
+bool Board::checkExit(SpaceShip* ship) {
+		
+	int x = ship->getShipMat()[0][0].getX();
+	int y = ship->getShipMat()[0][0].getY();
+		if (y == EXIT_Y && (x == EXIT_X1  || x == EXIT_X2  || x == EXIT_X3)) {
 			removeShipFromBoard(ship);
 			return true;
 		}
 		else {
 			return false;
 		}
-
-		break;
-	case ShipSize::SMALL:
-		if ((ship.getShipMat()[0]->getX() == EXIT_X1 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X2 && ship.getShipMat()[0]->getY() == EXIT_Y) || (ship.getShipMat()[0]->getX() == EXIT_X3 && ship.getShipMat()[0]->getY() == EXIT_Y)) {
-			removeShipFromBoard(ship);
-			return true;
-		}
-		else {
-			return false;
-		}
-		break;
-	default:
-		break;
-	}
 }
 
-void Board::removeShipFromBoard(SpaceShip ship) {
+void Board::removeShipFromBoard(SpaceShip* ship) {
 
-	switch (ship.getType())
-	{
-	case ShipSize::BIG:
-		for (int i = 0; i < ship.getVerticalSize(); i++)
+	int shipVerticaSize = ship->getVerticalSize();
+	int shipHorizontalSize = ship->getHorizontalSize();
+
+		for (int i = 0; i < shipVerticaSize; i++)
 		{
-			for (int j = 0; j < ship.getHorizontalSize(); j++) {
-				ship.getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
-				mat[ship.getShipMat()[i][j].getX()][ship.getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
+			for (int j = 0; j < shipHorizontalSize; j++) {
+				ship->getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
+				mat[ship->getShipMat()[i][j].getX()][ship->getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
 			}
 		}
-		break;
-	case ShipSize::SMALL:
-		for (int i = 0; i < ship.getHorizontalSize(); i++) {
-			ship.getShipMat()[i]->draw((char)BoardFigure::EMPTY);
-			mat[ship.getShipMat()[i]->getX()][ship.getShipMat()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
-		}
-		break;
-	default:
-		break;
-	}
-
 }
 
 Block* Board::getBlockById(int objectId) const {

@@ -68,8 +68,8 @@ public:
 
 	//public methods
 	Block* getBlockById(int objectId) const;
-	void removeShipFromBoard(SpaceShip ship);
-	bool checkExit(SpaceShip ship);
+	void removeShipFromBoard(SpaceShip* ship);
+	bool checkExit(SpaceShip* ship);
 	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
 	void initBoard();
 	int CheckObjectId(char ch) const;

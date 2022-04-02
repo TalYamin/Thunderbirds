@@ -95,21 +95,21 @@ void Game::makeSelection() {
 void Game::run() {
 
 	char key = 0;
-	SpaceShip bigShip = *(playingBoard.getBigShip());//TODO: change function to support reference instead of value
-	SpaceShip smallShip = *(playingBoard.getSmallShip()); //TODO: change function to support reference instead of value
+	SpaceShip* bigShip = playingBoard.getBigShip();//TODO: change function to support reference instead of value
+	SpaceShip* smallShip = playingBoard.getSmallShip(); //TODO: change function to support reference instead of value
 	do {
-		if (isBigMove && !bigShip.getIsExit()) {
-			key = moveShip(isBigStart, isBigOnMoving, smallShip, bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
+		if (isBigMove && !bigShip->getIsExit()) {
+			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
 			checkVictory(bigShip);
-			if (bigShip.getIsExit() && gameStatus != GameStatus::VICTORY) {
-				switchShip(isBigOnMoving, smallShip, bigShip);
+			if (bigShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
+				switchShip(isBigOnMoving, *smallShip, *bigShip);
 			}
 		}
-		if (!isBigMove && !smallShip.getIsExit()) { // is small move
-			key = moveShip(isSmallStart, isSmallOnMoving, bigShip, smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
+		if (!isBigMove && !smallShip->getIsExit()) { // is small move
+			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
 			checkVictory(smallShip);
-			if (smallShip.getIsExit() && gameStatus != GameStatus::VICTORY) {
-				switchShip(isSmallOnMoving, bigShip, smallShip);
+			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
+				switchShip(isSmallOnMoving, *bigShip, *smallShip);
 			}
 		}
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
@@ -363,10 +363,10 @@ void Game::deleteIcon(SpaceShip ship) const
 }
 
 
-void Game::checkVictory(SpaceShip& ship) {
+void Game::checkVictory(SpaceShip* ship) {
 
-	if (!ship.getIsExit()) {
-		ship.setIsExit(playingBoard.checkExit(ship));
+	if (!ship->getIsExit()) {
+		ship->setIsExit(playingBoard.checkExit(ship));
 	}
 	if (playingBoard.getBigShip()->getIsExit() == true && playingBoard.getSmallShip()->getIsExit() == true) {
 		gameStatus = GameStatus::VICTORY;
