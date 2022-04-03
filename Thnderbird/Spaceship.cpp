@@ -208,25 +208,24 @@ void SpaceShip::moveShip(Board* board,ObjectId type) {
 }
 
 void SpaceShip::checkBigCollision(Board* board) {
-	vector<Block*> blockInvolve;
+	vector<Block*> blocksInvolve;
 	switch (direction) {
 	case 0: // UP
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction, blockInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction, blockInvolve, maxCarringBlockSize));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction, blocksInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction, blocksInvolve, maxCarringBlockSize));
 		break;
 	case 1: // DOWN
-		isShipBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1, direction, blockInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1, direction, blockInvolve, maxCarringBlockSize));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1, direction, blocksInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1, direction, blocksInvolve, maxCarringBlockSize));
 		break;
 	case 2: // LEFT
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY(), direction, blockInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY(), direction, blockInvolve, maxCarringBlockSize));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY(), direction, blocksInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[1][0].getX() - 1, shipMat[1][0].getY(), direction, blocksInvolve, maxCarringBlockSize));
 		if (!isShipBlock)
-			for (size_t i = 0;i < blockInvolve.size();i++)
-				blockInvolve[i]->move(direction, board);
+			shipCanPushMultipleBlocks(board, blocksInvolve);
 		break;
 	case 3: // RIGHT
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction, blockInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY(), direction, blockInvolve, maxCarringBlockSize));
-		if (!isShipBlock)
-			for (size_t i = 0;i < blockInvolve.size();i++)
-				blockInvolve[i]->move(direction, board);
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction, blocksInvolve, maxCarringBlockSize)) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY(), direction, blocksInvolve, maxCarringBlockSize));
+		if (!isShipBlock) {
+			shipCanPushMultipleBlocks(board, blocksInvolve);
+		}
 		break;
 	default:
 		isShipBlock = false;
@@ -237,31 +236,44 @@ void SpaceShip::checkBigCollision(Board* board) {
 
 
 void SpaceShip::checkSmallCollision(Board* board) {
-	vector<Block*> blockInvolve;
+	vector<Block*> blocksInvolve;
 	switch (direction) {
 	case 0: // UP
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction, blockInvolve, maxCarringBlockSize)) ||
-			(board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction, blockInvolve, maxCarringBlockSize));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction, blocksInvolve, maxCarringBlockSize)) ||
+			(board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction, blocksInvolve, maxCarringBlockSize));
 		break;
 	case 1: // DOWN
-		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() + 1, direction, blockInvolve, maxCarringBlockSize)) ||
-			(board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() + 1, direction, blockInvolve, maxCarringBlockSize));
+		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() + 1, direction, blocksInvolve, maxCarringBlockSize)) ||
+			(board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() + 1, direction, blocksInvolve, maxCarringBlockSize));
 		break;
 	case 2: // LEFT
-		isShipBlock = board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY(), direction, blockInvolve, maxCarringBlockSize);
+		isShipBlock = board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY(), direction, blocksInvolve, maxCarringBlockSize);
 		if (!isShipBlock)
-			for (size_t i = 0;i < blockInvolve.size();i++)
-				blockInvolve[i]->move(direction, board);
+			shipCanPushMultipleBlocks(board, blocksInvolve);
 		break;
 	case 3: // RIGHT
-		isShipBlock = board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction, blockInvolve, maxCarringBlockSize);
+		isShipBlock = board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction, blocksInvolve, maxCarringBlockSize);
 		if (!isShipBlock)
-			for (size_t i = 0;i < blockInvolve.size();i++)
-				blockInvolve[i]->move(direction, board);
+			shipCanPushMultipleBlocks(board, blocksInvolve);
 		break;
 	default:
 		isShipBlock = false;
 		break;
+	}
+}
+
+void SpaceShip::shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksInvolve) {
+	int sumSizeBlocks = 0;
+	for (size_t i = 0; i < blocksInvolve.size(); i++) {
+		sumSizeBlocks += blocksInvolve[i]->getSize();
+	}
+	if (sumSizeBlocks <= board->getBigShip()->getMaxCarringBlockSize()) {
+		for (size_t i = 0; i < blocksInvolve.size(); i++) {
+			blocksInvolve[i]->move(direction, board);
+		}
+	}
+	else {
+		isShipBlock = true;
 	}
 }
 
