@@ -1,7 +1,11 @@
 #include "Board.h"
 
 
-
+/*
+This function is used to initialize board.
+Funtion creats matrix of points according to string which contains board draw.
+Then function calls to initBlocks() and initShips() functions.
+*/
 void Board::initBoard()
 {
 	timeRemains = MAX_TIME;
@@ -52,11 +56,17 @@ void Board::initBoard()
 	initShips();
 }
 
+/*
+This function is used to check the objectId according to char type from board string.
+*/
 int Board::CheckObjectId(char ch) const {
 	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
 
 }
 
+/*
+This function is used to draw board according to points matrix.
+*/
 void Board::draw() const
 {
 	for (int i = 0; i < maxVerticalSize; i++)
@@ -70,11 +80,20 @@ void Board::draw() const
 	cout << endl;
 }
 
+/*
+This function i used to set matrix point.
+*/
 void Board::setMatrixPoint(int _x, int _y, Point* _p)
 {
 	mat[_x][_y] = *_p;
 }
 
+/*
+Function is used to make block falling in case there is no floor.
+Function go over all blocks on board, and using isBlockPointsNoFloor() function in order to check
+that all points of block are able to fall and not blocked. Then, in case there are ships which blocks
+are falling on them, so checking if ship can carry it and if not is die.
+*/
 void Board::fallBlocksIfNoFloor()
 {
 	bool needToFall;
@@ -107,6 +126,13 @@ void Board::fallBlocksIfNoFloor()
 	}
 }
 
+/*
+Function receives x and y valuse and block id.
+This function is used to check per point of block, if the point is not blocked by other entities on
+board and in case point is blocked, to notify that the block can not fall.
+Function checking walls which invloved and other ships and returns the infromation in output
+parameters.
+*/
 bool Board::isBlockPointsNoFloor(int x, int y, int blockId, vector<SpaceShip*>* shipInvolved, bool* isWallAlsoInvolve) {
 	Point point = mat[x][y];
 	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
@@ -126,7 +152,11 @@ bool Board::isBlockPointsNoFloor(int x, int y, int blockId, vector<SpaceShip*>* 
 	return false;
 }
 
-
+/*
+This function is used to check if point is not empty.
+Checking the figure on board matrix. In case of block, calling to isBlockCanMove() function which
+should check if the the block is able to move or block this point.
+*/
 bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
@@ -150,6 +180,12 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
+/*
+This function is used to check if block can move.
+Accoriding to block size, checking if it is not excceded the max carring block size of ship.
+Then, passing on any point of block and checking the next index according to direction and checking
+if it is invalid place.
+*/
 bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize){
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
@@ -178,6 +214,12 @@ bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Blo
 	return true;
 }
 
+/*
+This fucntion is used to check if point of block is going to invalid place.
+In case of wall or ship, it returns true for invalid place. In case of block, function calls to 
+canMoveMultipleBlocks() function in order to check if multiple block push is available or this point
+is blocked by another block.
+*/
 bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	bool canMoveMultiBlocks = true;
@@ -193,6 +235,15 @@ bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Blo
 	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && !canMoveMultiBlocks);
 }
 
+
+/*
+This function is used to check if ship can move multiple blocks in parallel, depending on 
+max carring block size. Function recognize the blocks which involved and checks its id. 
+If they have different ids, there is calculation of blocks sum and checking it with max carring size.
+Then, there is another call for isNotEmptyPoint() funtion to check the next block in blocks chain, 
+according to direction. In case, one of blocks can't be move or the size of block is exceeded the 
+max size- return false. else, return true.
+*/
 bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	int blocksSum = 0;
@@ -241,7 +292,9 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 }
 
 
-
+/*
+This function is used to initialize blocks.
+*/
 void Board::initBlocks()
 {
 	blocksAmount = 0;
@@ -279,6 +332,10 @@ void Board::initBlocks()
 
 }
 
+/*
+This function is used to place blocks on board.
+For any block, passing on block points and set them as matrix point on board.
+*/
 void Board::placeBlocksOnBoard()
 {
 	int blockSize;
@@ -295,6 +352,9 @@ void Board::placeBlocksOnBoard()
 	}
 }
 
+/*
+This function is used to initialize ships.
+*/
 void Board::initShips()
 {
 	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
@@ -310,6 +370,10 @@ void Board::initShips()
 	placeShipsOnBoard(smallShip);
 }
 
+/*
+This function is used to place ships on board, big ship or smalll ship
+ Passing on ship matrix points and set them as matrix point on board.
+*/
 void Board::placeShipsOnBoard(SpaceShip* ship)
 {
 	int shipVerticaSize = ship->getVerticalSize();
@@ -322,6 +386,9 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 	}
 }
 
+/*
+This function is used to insert new block to blocks array
+*/
 void Board::insertNewBlock(Block* block)
 {
 	blocksAmount++;
@@ -329,6 +396,9 @@ void Board::insertNewBlock(Block* block)
 	allBlocks[blocksAmount - 1] = block;
 }
 
+/*
+This function is used as constructor of Board.
+*/
 Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, SpaceShip* _smallShip, SpaceShip* _bigShip) {
 	maxHorizontalSize = _maxHorizontalSize;
 	maxVerticalSize = _maxVerticalSize;
@@ -337,7 +407,11 @@ Board::Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, Sp
 	bigShip = _bigShip;
 }
 
-
+/*
+This function is used to check if ship arrived to exit.
+In case, it arrived to exit, function calls to removeShipFromBoard() in order
+to remove ship from board view.
+*/
 bool Board::checkExit(SpaceShip* ship) {
 
 	int x = ship->getShipMat()[0][0].getX();
@@ -351,6 +425,10 @@ bool Board::checkExit(SpaceShip* ship) {
 	}
 }
 
+/*
+This function is used to remove ship from board view.
+Passing on matrix points of board, make them empty and draw spaces on board.
+*/
 void Board::removeShipFromBoard(SpaceShip* ship) {
 
 	int shipVerticaSize = ship->getVerticalSize();
@@ -365,6 +443,9 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 	}
 }
 
+/*
+This function is used to get block by its id.
+*/
 Block* Board::getBlockById(int objectId) const {
 	for (int i = 0; i < blocksAmount; i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
@@ -373,60 +454,86 @@ Block* Board::getBlockById(int objectId) const {
 	}
 }
 
+/*
+This is setter function of time remains data member.
+*/
 void Board::setTimeRemains(long timeToSet) {
 	timeRemains = timeToSet;
 }
 
+/*
+This is getter function of time remains data member.
+*/
 long Board::getTimeRemains() const {
 	return timeRemains;
 }
 
+/*
+This is getter function of ships amount data member.
+*/
 int Board::getShipsAmount() const {
 	return shipsAmount;
 }
 
+/*
+This is getter function of big ship data member.
+*/
 SpaceShip* Board::getBigShip() const {
 	return bigShip;
 }
+
+/*
+This is getter function of small ship data member.
+*/
 SpaceShip* Board::getSmallShip() const {
 	return smallShip;
 }
 
-
+/*
+This function is used to decrease time.
+*/
 void Board::timeDown() {
 	timeRemains--;
 }
 
+/*
+This is setter function of max horizontal size data member.
+*/
 void Board::setMaxHorizontalSize(int _horizontal) {
 	maxHorizontalSize = _horizontal;
 };
 
+/*
+This is getter function of max horizontal size data member.
+*/
 int Board::getMaxHorizontalSize() const {
 	return maxHorizontalSize;
 }
 
+/*
+This is setter function of max veritcal size data member.
+*/
 void Board::setGetMaxVerticalSize(int _vertical) {
 	maxVerticalSize = _vertical;
 }
 
+/*
+This is getter function of max veritcal size data member.
+*/
 int Board::getMaxVerticalSize() const {
 	return maxVerticalSize;
 }
 
+/*
+This is getter function of points matrix data member.
+*/
 Point(*Board::getMat())[25]{
 	return mat;
 };
 
-
-void Board::setBlocksPushSum(int _blocksPushSum) {
-
-	blocksPushSum = _blocksPushSum;
-
-}
-int Board::getBlocksPushSum() const {
-	return blocksPushSum;
-}
-
+/*
+Distruction of Board.
+*/
 Board::~Board() {
 
 }
