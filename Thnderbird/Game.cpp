@@ -95,8 +95,8 @@ void Game::makeSelection() {
 void Game::run() {
 
 	char key = 0;
-	SpaceShip* bigShip = playingBoard.getBigShip();//TODO: change function to support reference instead of value
-	SpaceShip* smallShip = playingBoard.getSmallShip(); //TODO: change function to support reference instead of value
+	SpaceShip* bigShip = playingBoard.getBigShip();
+	SpaceShip* smallShip = playingBoard.getSmallShip(); 
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);

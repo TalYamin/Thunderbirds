@@ -150,8 +150,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
-bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) 
-{;
+bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize){
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
 	{
