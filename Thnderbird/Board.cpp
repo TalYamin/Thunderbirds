@@ -59,7 +59,7 @@ void Board::initBoard()
 /*
 This function is used to check the objectId according to char type from board string.
 */
-int Board::CheckObjectId(char ch) const {
+int Board::CheckObjectId(const char& ch) const {
 	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
 
 }
@@ -105,7 +105,7 @@ void Board::fallBlocksIfNoFloor()
 		needToFall = true;
 		for (int j = 0; j < block->getSize(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, &isWallAlsoInvolved))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved))
 			{
 				needToFall = false;
 			}
@@ -133,12 +133,12 @@ board and in case point is blocked, to notify that the block can not fall.
 Function checking walls which invloved and other ships and returns the infromation in output
 parameters.
 */
-bool Board::isBlockPointsNoFloor(int x, int y, int blockId, vector<SpaceShip*>* shipInvolved, bool* isWallAlsoInvolve) {
+bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve) {
 	Point point = mat[x][y];
 	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
 		return true;
 	if (point.getObjecId() == (int)ObjectId::WALL)
-		*isWallAlsoInvolve = true;
+		isWallAlsoInvolve = true;
 	if (point.getObjecId() == (int)ObjectId::SMALL)
 	{
 		if (find((*shipInvolved).begin(), (*shipInvolved).end(), smallShip) == (*shipInvolved).end())
@@ -157,7 +157,7 @@ This function is used to check if point is not empty.
 Checking the figure on board matrix. In case of block, calling to isBlockCanMove() function which
 should check if the the block is able to move or block this point.
 */
-bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
+bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize)  {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -170,7 +170,7 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
 
-		if ((direction == 2 || direction == 3) && isBlockCanMove(block, x, y, direction, blocksInvolve, maxCarringBlockSize))
+		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, blocksInvolve, maxCarringBlockSize))
 		{
 			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
 				blocksInvolve.push_back(block);
@@ -186,7 +186,7 @@ Accoriding to block size, checking if it is not excceded the max carring block s
 Then, passing on any point of block and checking the next index according to direction and checking
 if it is invalid place.
 */
-bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize){
+bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize){
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
 	{
@@ -220,7 +220,7 @@ In case of wall or ship, it returns true for invalid place. In case of block, fu
 canMoveMultipleBlocks() function in order to check if multiple block push is available or this point
 is blocked by another block.
 */
-bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
+bool Board::isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize)  {
 
 	bool canMoveMultiBlocks = true;
 	int currObejctId = mat[x][y].getObjecId();
@@ -244,7 +244,7 @@ Then, there is another call for isNotEmptyPoint() funtion to check the next bloc
 according to direction. In case, one of blocks can't be move or the size of block is exceeded the 
 max size- return false. else, return true.
 */
-bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
+bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize)  {
 
 	int blocksSum = 0;
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
@@ -446,7 +446,7 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 /*
 This function is used to get block by its id.
 */
-Block* Board::getBlockById(int objectId) const {
+Block* Board::getBlockById(const int& objectId) const {
 	for (int i = 0; i < blocksAmount; i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
