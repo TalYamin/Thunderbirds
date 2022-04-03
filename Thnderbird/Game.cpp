@@ -225,6 +225,7 @@ void Game::init() {
 	playingBoard.draw();
 
 	gameMetadata(*(playingBoard.getBigShip()));
+	hideCursor();
 }
 
 /*
