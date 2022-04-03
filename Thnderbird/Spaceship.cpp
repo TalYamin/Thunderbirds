@@ -158,7 +158,6 @@ void SpaceShip::move(Board* board) {
 	default:
 		break;
 	}
-	board->setBlocksPushSum(0);
 }
 
 void  SpaceShip::initDraw() const {

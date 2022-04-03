@@ -200,8 +200,10 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
-		blocksPushSum += block->getSize();
-		blocksSum = anotherBlock->getSize() + blocksPushSum;
+		for (size_t i = 0; i < blocksInvolve.size(); i++) {
+			blocksSum += blocksInvolve[i]->getSize();
+		}
+		blocksSum += anotherBlock->getSize();
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
