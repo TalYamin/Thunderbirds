@@ -67,6 +67,7 @@ void Block::move(int direction, Board* board)
 	for (int i = 0; i < size; i++) {
 		list_points[i]->draw((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId((int)ObjectId::EMPTY);
 	}
 
 	for (int i = 0; i < size; i++) {

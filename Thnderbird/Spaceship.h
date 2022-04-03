@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "BoardFigure.h"
 #include "ObjectId.h"
+#include <vector>
 #define BIG_HORIZONTAL_SIZE 2
 #define BIG_VERTICAL_SIZE 2
 #define SMALL_HORIZONTAL_SIZE 2
@@ -13,6 +14,7 @@
 #define NO_DIRECTION -1
 
 class Board;
+class Block;
 
 class SpaceShip
 {
@@ -77,6 +79,6 @@ private:
 	void moveShip(Board* board, ObjectId type);
 	void checkSmallCollision(Board* board);
 	void checkBigCollision(Board* board);
-
+	void shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksInvolve);
 };
 
