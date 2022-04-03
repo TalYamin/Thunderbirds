@@ -263,6 +263,7 @@ void SpaceShip::checkSmallCollision(Board* board) {
 		isShipBlock = false;
 		break;
 	}
+	board->setBlocksPushSum(0);
 }
 
 
