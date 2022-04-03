@@ -28,10 +28,10 @@ void Board::initBoard()
 +                                +                                             +
 +                                +                                             +
 +                                +    ++++++++++++++++++++                     +
-+                                  +                     +                     +
-+                                   +                    +                     +
-+                                   +                    +                     +
-+                                   +                    +                     +
++                                +                       +                     +
++                                +                       +                     +
++                                +                       +                     +
++                                +                       +                     +
 ++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
 	boardLen = strlen(boardData);
 	for (int i = 0; i < boardLen; i++)
@@ -253,8 +253,8 @@ void Board::initBlocks()
 	blocksAmount = 0;
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
-//	int thiredBlockSize = 3;
 	int thiredBlockSize = 3;
+
 
 	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
@@ -263,32 +263,19 @@ void Board::initBlocks()
 
 	insertNewBlock(block1);
 
-	//Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	//Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	//Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	//Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
-	Point* block2Point1 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block2Point2 = new Point(37, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block2Point3 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block2Point4 = new Point(37, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
 	Point* blockList2[] = { block2Point1,block2Point2,block2Point3,block2Point4 };
 	Block* block2 = new Block(blockList2, secondBlockSize, blocksAmount);
 	insertNewBlock(block2);
 
-	/*Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-
-	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
-	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);
-	insertNewBlock(block3);*/
-
-	Point* block3Point1 = new Point(39, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block3Point2 = new Point(40, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block3Point3 = new Point(41, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-
 
 	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
 	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);

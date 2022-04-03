@@ -120,8 +120,6 @@ void SpaceShip::setupShipMat(ShipSize type) {
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		//shipMat[0] = new Point(2, 2, figure, color, (int)ObjectId::SMALL); //free is needed
-		//shipMat[1] = new Point(3, 2, figure, color, (int)ObjectId::SMALL); //free is needed
 		shipMat[0] = new Point[2]{ {2,2,figure,color,(int)ObjectId::SMALL},{3,2,figure,color,(int)ObjectId::SMALL} }; //free is needed
 		break;
 	case ShipSize::BIG:
