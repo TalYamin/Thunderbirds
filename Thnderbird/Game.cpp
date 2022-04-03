@@ -2,38 +2,53 @@
 using namespace std;
 
 
-
-Game::~Game() {
-}
-
+/*
+This function is used to select color mode to game.
+*/
 void Game::selectColorMode() const {
 	printColorMenu();
 	setColorMode();
 	clear_screen();
 }
 
+/*
+This function is used to start the game by printing menu and make a selection.
+*/
 void Game::start() {
 
 	printMenu();
 	makeSelection();
 }
 
+
+/*
+This is setter function of lives data member.
+*/
 void Game::setLives(int _lives)
 {
 	lives = _lives;
 }
 
+/*
+This is getter function of lives data member.
+*/
 int Game::getLives() const
 {
 	return lives;
 }
 
+/*
+This function is used to print color menu.
+*/
 void Game::printColorMenu() const {
 	cout << "Select your color mode:" << endl;
 	cout << "(1) Colorful" << endl;
 	cout << "(2) Black and White" << endl;
 }
 
+/*
+This function is used to set color mode by user input.
+*/
 void Game::setColorMode() const {
 
 	int userInput;
@@ -53,6 +68,9 @@ void Game::setColorMode() const {
 	}
 }
 
+/*
+This function is used to print main menu.
+*/
 void Game::printMenu() const {
 
 	cout << "Welcome to Thunderbirds !" << endl;
@@ -63,7 +81,9 @@ void Game::printMenu() const {
 
 }
 
-
+/*
+This function is used to receive a selection from user according to menu options.
+*/
 void Game::makeSelection() {
 	int userInput;
 	cin >> userInput;
@@ -91,7 +111,10 @@ void Game::makeSelection() {
 
 }
 
-
+/*
+This function manages the main running of the game by user keyboard typing and according to game
+status. Function manages ship movement, ship switch, victory check, lose check and pasue of the game.
+*/
 void Game::run() {
 
 	char key = 0;
@@ -116,6 +139,12 @@ void Game::run() {
 	pause();
 }
 
+/*
+This function is generic function for ship movement, handles big or small ship.
+Funtion manages movement direction according to keyboard typing from user. In addition, function can
+stop ships according to user keyboard typing of same switch key.In parallel function manages blocks
+falling in whole board and time handle.
+*/
 char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey) {
 	char key = 0;
 	int dir;
@@ -148,6 +177,11 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	return key;
 }
 
+
+/*
+This function is used to switch ship.
+Function update the active ship icons.
+*/
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
 	isOnMoving = true;
@@ -156,6 +190,9 @@ void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& ship
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
+/*
+This function is used to show game instructions and keys.
+*/
 void Game::showInfo() const {
 	setTextColor(Color::YELLOW);
 	cout << endl;
@@ -177,6 +214,11 @@ void Game::showInfo() const {
 	cout << "Switched to the Small Ship: s or S " << endl << endl;
 }
 
+
+/*
+This function is used to initialize game board and to draw the board on screen and
+game metadata printing.
+*/
 void Game::init() {
 	clear_screen();
 	playingBoard.initBoard();
@@ -185,6 +227,12 @@ void Game::init() {
 	gameMetadata(*(playingBoard.getBigShip()));
 }
 
+/*
+This function is used to handle pause situation.
+Function checks the game status - die situation, victory situation or pause situation 
+according to user request. Function prints on screen messages according to relevant situation.
+Function calls to helper fucntion pauseCheck() which continue the games according to situation.
+*/
 void Game::pause() {
 	char ch;
 	int logY = LOG_Y;
@@ -221,6 +269,13 @@ void Game::pause() {
 	pauseCheck(logY);
 }
 
+/*
+This function is used to handle game accroding to game status in pasue situation.
+According to game status, function finished the game in case of game over or in case of victory.
+In other case, of die situation or by pause from user request-  waiting for user selection to continue 
+the game or to exit. Using init() function in case of die in order to reset the board and using 
+run() function to continue the game.
+*/
 void Game::pauseCheck(int logY)
 {
 	char ch;
@@ -262,6 +317,10 @@ void Game::pauseCheck(int logY)
 	}
 }
 
+
+/*
+This function is used to print time.
+*/
 void Game::printTime(int x, int y) const
 {
 	setTextColor(Color::MAGENTA);
@@ -273,6 +332,10 @@ void Game::printTime(int x, int y) const
 	gotoxy(x, y);
 	cout << playingBoard.getTimeRemains() << endl;
 }
+
+/*
+This function is used to print text description.
+*/
 void Game::printTextDescription(int x, int y, const char* text) const
 {
 	setTextColor(Color::WHITE);
@@ -280,7 +343,9 @@ void Game::printTextDescription(int x, int y, const char* text) const
 	cout << text;
 }
 
-
+/*
+This function is used to print lives.
+*/
 void Game::printLives(int x, int y) const
 {
 	setTextColor(Color::RED);
@@ -294,7 +359,9 @@ void Game::printLives(int x, int y) const
 		cout << "<3";
 }
 
-
+/*
+This function is used to prints all game metadata.
+*/
 void Game::gameMetadata(SpaceShip ship) const
 {
 	printTextDescription(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y, "Lives Remains: ");
@@ -304,7 +371,9 @@ void Game::gameMetadata(SpaceShip ship) const
 	drawIcon(ship);
 }
 
-//Delete heart in case of dead
+/*
+This function is used to delete heart in case of dead and to update it on screen.
+*/
 void Game::deadHeartHandler()
 {
 	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
@@ -313,6 +382,10 @@ void Game::deadHeartHandler()
 	lives--;
 }
 
+/*
+This function is used to check lose situation.
+Checking time out or is ship is smashed and die.
+*/
 bool Game::isLose()
 {
 	if (timeoutHandler()) {
@@ -326,16 +399,25 @@ bool Game::isLose()
 	return false;
 }
 
+/*
+This function is used to check if there is ship which die.
+*/
 bool Game::isSomeShipDie()
 {
 	return (playingBoard.getBigShip()->getIsDie() == true || playingBoard.getSmallShip()->getIsDie() == true);
 }
 
+/*
+This function is used to check timeout.
+*/
 bool Game::timeoutHandler() const
 {
 	return playingBoard.getTimeRemains() <= 0;
 }
 
+/*
+This function is used to draw ship icon of active ship on screen.
+*/
 void Game::drawIcon(SpaceShip ship) const
 {
 	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
@@ -350,6 +432,9 @@ void Game::drawIcon(SpaceShip ship) const
 	}
 }
 
+/*
+This function is used to delete icon of ship when it is switched.
+*/
 void Game::deleteIcon(SpaceShip ship) const
 {
 	for (int j = 0; j < ship.getVerticalSize(); j++)
@@ -362,7 +447,11 @@ void Game::deleteIcon(SpaceShip ship) const
 	}
 }
 
-
+/*
+This function is used to check victory.
+Function checks if current ship is already exit.
+In case it already exit, checking both ships if they exit.
+*/
 void Game::checkVictory(SpaceShip* ship) {
 
 	if (!ship->getIsExit()) {
@@ -371,4 +460,10 @@ void Game::checkVictory(SpaceShip* ship) {
 	if (playingBoard.getBigShip()->getIsExit() == true && playingBoard.getSmallShip()->getIsExit() == true) {
 		gameStatus = GameStatus::VICTORY;
 	}
+}
+
+/*
+Distructor of Game.
+*/
+Game::~Game() {
 }
