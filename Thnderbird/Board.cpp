@@ -358,12 +358,12 @@ This function is used to initialize ships.
 void Board::initShips()
 {
 	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
-	bigShip->setupShipMat(bigShip->getType());
+	bigShip->setupShipMat();
 	bigShip->setArrowKeys("wxad");
 
 
 	smallShip = new SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
-	smallShip->setupShipMat(smallShip->getType());
+	smallShip->setupShipMat();
 	smallShip->setArrowKeys("wxad");
 
 	placeShipsOnBoard(bigShip);
