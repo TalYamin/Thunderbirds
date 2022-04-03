@@ -158,6 +158,7 @@ void SpaceShip::move(Board* board) {
 	default:
 		break;
 	}
+	board->setBlocksPushSum(0);
 }
 
 void  SpaceShip::initDraw() const {
@@ -231,7 +232,6 @@ void SpaceShip::checkBigCollision(Board* board) {
 		isShipBlock = false;
 		break;
 	}
-	board->setBlocksPushSum(0);
 }
 
 
@@ -263,7 +263,6 @@ void SpaceShip::checkSmallCollision(Board* board) {
 		isShipBlock = false;
 		break;
 	}
-	board->setBlocksPushSum(0);
 }
 
 

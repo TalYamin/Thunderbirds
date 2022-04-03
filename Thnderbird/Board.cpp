@@ -29,9 +29,9 @@ void Board::initBoard()
 +                                +                                             +
 +                                +    ++++++++++++++++++++                     +
 +                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
++                                  +                     +                     +
++                                  +                     +                     +
++                                  +                     +                     +
 ++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
 	boardLen = strlen(boardData);
 	for (int i = 0; i < boardLen; i++)
@@ -197,11 +197,11 @@ bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Blo
 bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	int blocksSum = 0;
-	blocksPushSum += block->getSize();
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
-		blocksSum += anotherBlock->getSize() + blocksPushSum;
+		blocksPushSum += block->getSize();
+		blocksSum = anotherBlock->getSize() + blocksPushSum;
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
@@ -245,8 +245,8 @@ void Board::initBlocks()
 	blocksAmount = 0;
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
-	int thiredBlockSize = 3;
-//	int thiredBlockSize = 2;
+//	int thiredBlockSize = 3;
+	int thiredBlockSize = 1;
 
 	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
@@ -278,10 +278,9 @@ void Board::initBlocks()
 	insertNewBlock(block3);*/
 
 	Point* block3Point1 = new Point(39, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block3Point2 = new Point(40, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block3Point3 = new Point(41, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
-	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
+
+	Point* blockList3[] = { block3Point1 };
 	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);
 	insertNewBlock(block3);
 
