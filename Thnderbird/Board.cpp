@@ -127,7 +127,7 @@ bool Board::isBlockPointsNoFloor(int x, int y, int blockId, vector<SpaceShip*>* 
 }
 
 
-bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const {
+bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -150,8 +150,8 @@ bool Board::isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksI
 	return true;
 }
 
-bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const
-{
+bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) 
+{;
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
 	{
@@ -179,7 +179,7 @@ bool Board::isBlockCanMove(Block* block, int x, int y, int direction, vector<Blo
 	return true;
 }
 
-bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const {
+bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	bool canMoveMultiBlocks = true;
 	int currObejctId = mat[x][y].getObjecId();
@@ -194,17 +194,14 @@ bool Board::isInvalidPlace(int x, int y, Block* block, int direction, vector<Blo
 	return  (mat[x][y].getObjecId() != (int)ObjectId::EMPTY && !canMoveMultiBlocks);
 }
 
-bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const {
+bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize)  {
 
 	int blocksSum = 0;
+	blocksPushSum += block->getSize();
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
-
-		for (int i = 0; i < blocksInvolve.size(); i++) {
-			blocksSum += blocksInvolve[i]->getSize();
-		}
-		blocksSum += anotherBlock->getSize() + block->getSize();
+		blocksSum += anotherBlock->getSize() + blocksPushSum;
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
@@ -248,7 +245,8 @@ void Board::initBlocks()
 	blocksAmount = 0;
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
-	int thiredBlockSize = 3;
+	//int thiredBlockSize = 3;
+	int thiredBlockSize = 2;
 
 	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
@@ -266,11 +264,18 @@ void Board::initBlocks()
 	Block* block2 = new Block(blockList2, secondBlockSize, blocksAmount);
 	insertNewBlock(block2);
 
-	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	/*Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
 
 	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
+	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);
+	insertNewBlock(block3);*/
+
+	Point* block3Point1 = new Point(38, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block3Point2 = new Point(39, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+
+	Point* blockList3[] = { block3Point1,block3Point2 };
 	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);
 	insertNewBlock(block3);
 
@@ -416,6 +421,15 @@ Point(*Board::getMat())[25]{
 	return mat;
 };
 
+
+void Board::setBlocksPushSum(int _blocksPushSum) {
+
+	blocksPushSum = _blocksPushSum;
+
+}
+int Board::getBlocksPushSum() const {
+	return blocksPushSum;
+}
 
 Board::~Board() {
 

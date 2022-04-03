@@ -43,6 +43,7 @@ class Board
 	SpaceShip* smallShip;
 	SpaceShip* bigShip;
 	int shipsAmount = 2;
+	int blocksPushSum = 0;
 
 public:
 
@@ -65,18 +66,20 @@ public:
 	int getShipsAmount() const;
 	SpaceShip* getBigShip() const;
 	SpaceShip* getSmallShip() const;
+	void setBlocksPushSum(int _blocksPushSum);;
+	int getBlocksPushSum() const;
 
 	//public methods
 	Block* getBlockById(int objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
 	bool checkExit(SpaceShip* ship);
-	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
+	bool isNotEmptyPoint(int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize);
 	void initBoard();
 	int CheckObjectId(char ch) const;
 	void timeDown();
 	void draw() const;
 	void setMatrixPoint(int _x, int _y, Point* _p);
-	bool isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
+	bool isBlockCanMove(Block* block, int x, int y, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) ;
 	void fallBlocksIfNoFloor();
 
 
@@ -88,9 +91,9 @@ private:
 	void placeShipsOnBoard(SpaceShip* ship);
 	void initShips();
 	void insertNewBlock(Block* block);
-	bool isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
+	bool isInvalidPlace(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize);
 	void placeBlocksOnBoard();
-	bool canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) const;
+	bool canMoveMultipleBlocks(int x, int y, Block* block, int direction, vector<Block*>& blocksInvolve, int maxCarringBlockSize) ;
 };
 
 

@@ -231,6 +231,7 @@ void SpaceShip::checkBigCollision(Board* board) {
 		isShipBlock = false;
 		break;
 	}
+	board->setBlocksPushSum(0);
 }
 
 
