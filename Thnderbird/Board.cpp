@@ -213,8 +213,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 						blocksInvolve.push_back(anotherBlock);
 					}
 					return true;
-				}
-				else {
+				}else {
 					return false;
 				}
 				break;
@@ -224,8 +223,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 						blocksInvolve.push_back(anotherBlock);
 					}
 					return true;
-				}
-				else {
+				}else {
 					return false;
 				}
 				break;
@@ -233,10 +231,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 				return false;
 				break;
 			}
-
-
-		}
-		else {
+		}else {
 			return false;
 		}
 	}
