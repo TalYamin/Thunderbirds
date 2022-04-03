@@ -207,6 +207,9 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 			{
 			case 2: // LEFT
 				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
+					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
+						blocksInvolve.push_back(anotherBlock);
+					}
 					return true;
 				}
 				else {
@@ -215,6 +218,9 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, int direction, vec
 				break;
 			case 3:// RIGHT
 				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
+					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
+						blocksInvolve.push_back(anotherBlock);
+					}
 					return true;
 				}
 				else {
