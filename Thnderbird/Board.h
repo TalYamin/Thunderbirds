@@ -38,10 +38,10 @@ class Board
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = MAX_TIME;
-	Block* allBlocks[3];
+	Block* allBlocks[3] = { nullptr,nullptr,nullptr };
 	int blocksAmount = 0;
-	SpaceShip* smallShip;
-	SpaceShip* bigShip;
+	SpaceShip* smallShip = {};
+	SpaceShip* bigShip = {};
 	int shipsAmount = 2;
 
 public:

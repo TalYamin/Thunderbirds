@@ -119,7 +119,7 @@ void Game::run() {
 
 	char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
-	SpaceShip* smallShip = playingBoard.getSmallShip(); 
+	SpaceShip* smallShip = playingBoard.getSmallShip();
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
@@ -230,12 +230,12 @@ void Game::init() {
 
 /*
 This function is used to handle pause situation.
-Function checks the game status - die situation, victory situation or pause situation 
+Function checks the game status - die situation, victory situation or pause situation
 according to user request. Function prints on screen messages according to relevant situation.
 Function calls to helper fucntion pauseCheck() which continue the games according to situation.
 */
 void Game::pause() {
-	char ch;
+	char ch = -1;
 	int logY = LOG_Y;
 	gotoxy(LOG_X, logY);
 	if (gameStatus == GameStatus::DIE)
@@ -273,13 +273,13 @@ void Game::pause() {
 /*
 This function is used to handle game accroding to game status in pasue situation.
 According to game status, function finished the game in case of game over or in case of victory.
-In other case, of die situation or by pause from user request-  waiting for user selection to continue 
-the game or to exit. Using init() function in case of die in order to reset the board and using 
+In other case, of die situation or by pause from user request-  waiting for user selection to continue
+the game or to exit. Using init() function in case of die in order to reset the board and using
 run() function to continue the game.
 */
 void Game::pauseCheck(int logY)
 {
-	char ch;
+	char ch = -1;
 	switch (gameStatus)
 	{
 	case GameStatus::GAMEOVER:
