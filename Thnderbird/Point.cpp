@@ -133,5 +133,5 @@ int Point::getObjecId() const{
 Distructor of Point.
 */
 Point::~Point() {
-
+	
 }
