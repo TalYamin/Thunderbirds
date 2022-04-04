@@ -157,7 +157,7 @@ This function is used to check if point is not empty.
 Checking the figure on board matrix. In case of block, calling to isBlockCanMove() function which
 should check if the the block is able to move or block this point.
 */
-bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize)  {
+bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -186,7 +186,7 @@ Accoriding to block size, checking if it is not excceded the max carring block s
 Then, passing on any point of block and checking the next index according to direction and checking
 if it is invalid place.
 */
-bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize){
+bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
 	int blockSize = block->getSize();
 	if (blockSize > maxCarringBlockSize)
 	{
@@ -216,11 +216,11 @@ bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& b
 
 /*
 This fucntion is used to check if point of block is going to invalid place.
-In case of wall or ship, it returns true for invalid place. In case of block, function calls to 
+In case of wall or ship, it returns true for invalid place. In case of block, function calls to
 canMoveMultipleBlocks() function in order to check if multiple block push is available or this point
 is blocked by another block.
 */
-bool Board::isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize)  {
+bool Board::isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
 
 	bool canMoveMultiBlocks = true;
 	int currObejctId = mat[x][y].getObjecId();
@@ -237,14 +237,14 @@ bool Board::isInvalidPlace(int x, int y, Block* block, const int& direction, vec
 
 
 /*
-This function is used to check if ship can move multiple blocks in parallel, depending on 
-max carring block size. Function recognize the blocks which involved and checks its id. 
+This function is used to check if ship can move multiple blocks in parallel, depending on
+max carring block size. Function recognize the blocks which involved and checks its id.
 If they have different ids, there is calculation of blocks sum and checking it with max carring size.
-Then, there is another call for isNotEmptyPoint() funtion to check the next block in blocks chain, 
-according to direction. In case, one of blocks can't be move or the size of block is exceeded the 
+Then, there is another call for isNotEmptyPoint() funtion to check the next block in blocks chain,
+according to direction. In case, one of blocks can't be move or the size of block is exceeded the
 max size- return false. else, return true.
 */
-bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize)  {
+bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
 
 	int blocksSum = 0;
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
@@ -263,7 +263,8 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 						blocksInvolve.push_back(anotherBlock);
 					}
 					return true;
-				}else {
+				}
+				else {
 					return false;
 				}
 				break;
@@ -273,7 +274,8 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 						blocksInvolve.push_back(anotherBlock);
 					}
 					return true;
-				}else {
+				}
+				else {
 					return false;
 				}
 				break;
@@ -281,7 +283,8 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				return false;
 				break;
 			}
-		}else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -452,6 +455,7 @@ Block* Board::getBlockById(const int& objectId) const {
 			return allBlocks[i];
 		}
 	}
+	return nullptr;
 }
 
 /*
