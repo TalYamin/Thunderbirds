@@ -322,7 +322,7 @@ void Game::pauseCheck(int logY)
 /*
 This function is used to print time.
 */
-void Game::printTime(int x, int y) const
+void Game::printTime(const int x, const int y) const
 {
 	setTextColor(Color::MAGENTA);
 	gotoxy(x, y);
@@ -337,7 +337,7 @@ void Game::printTime(int x, int y) const
 /*
 This function is used to print text description.
 */
-void Game::printTextDescription(int x, int y, const char* text) const
+void Game::printTextDescription(const int x, const int y, const char* text) const
 {
 	setTextColor(Color::WHITE);
 	gotoxy(x, y);
@@ -347,7 +347,7 @@ void Game::printTextDescription(int x, int y, const char* text) const
 /*
 This function is used to print lives.
 */
-void Game::printLives(int x, int y) const
+void Game::printLives(const int x, const int y) const
 {
 	setTextColor(Color::RED);
 	gotoxy(x, y);
@@ -363,7 +363,7 @@ void Game::printLives(int x, int y) const
 /*
 This function is used to prints all game metadata.
 */
-void Game::gameMetadata(SpaceShip ship) const
+void Game::gameMetadata(const SpaceShip& ship) const
 {
 	printTextDescription(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y, "Lives Remains: ");
 	printLives(LIVES_X, LIVES_Y);
@@ -419,7 +419,7 @@ bool Game::timeoutHandler() const
 /*
 This function is used to draw ship icon of active ship on screen.
 */
-void Game::drawIcon(SpaceShip ship) const
+void Game::drawIcon(const SpaceShip& ship) const
 {
 	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
 	for (int j = 0;j < ship.getVerticalSize(); j++)
@@ -436,7 +436,7 @@ void Game::drawIcon(SpaceShip ship) const
 /*
 This function is used to delete icon of ship when it is switched.
 */
-void Game::deleteIcon(SpaceShip ship) const
+void Game::deleteIcon(const SpaceShip& ship) const
 {
 	for (int j = 0; j < ship.getVerticalSize(); j++)
 	{

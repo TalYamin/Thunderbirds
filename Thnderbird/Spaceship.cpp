@@ -181,7 +181,7 @@ bool SpaceShip::getIsDie() const {
 /*
 This function is used set ship points matrix.
 */
-void SpaceShip::setupShipMat(ShipSize type) {
+void SpaceShip::setupShipMat() {
 
 	switch (type)
 	{
