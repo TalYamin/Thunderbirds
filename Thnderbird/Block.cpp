@@ -88,8 +88,13 @@ int Block::getblockId() const {
 /*
 Distructor of Block
 */
-Block::~Block()
-{
+Block::~Block(){
+
+	for (int i = 0; i < size; i++) {
+		delete list_points[i];
+
+	}
+	delete[] list_points;
 }
 
 /*

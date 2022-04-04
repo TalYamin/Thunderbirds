@@ -14,12 +14,6 @@ SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color
 	type = _type;
 }
 
-/*
-Distructor of SpaceShip.
-*/
-SpaceShip::~SpaceShip()
-{
-}
 
 /*
 This is setter function for type data member.
@@ -359,5 +353,21 @@ void SpaceShip::shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksIn
 }
 
 
-
+/*
+Distructor of SpaceShip.
+*/
+SpaceShip::~SpaceShip(){
+	switch (type)
+	{
+	case ShipSize::SMALL:
+		delete[] shipMat[0];
+		break;
+	case ShipSize::BIG:
+		delete[] shipMat[0];
+		delete[] shipMat[1];
+		break;
+	default:
+		break;
+	}
+}
 

@@ -49,6 +49,7 @@ void Board::initBoard()
 			int objectId = CheckObjectId(boardData[i]);
 			Point* point = new Point(x, y, boardData[i], Color::WHITE, objectId);
 			setMatrixPoint(x, y, point);
+			delete point;
 			x++;
 		}
 	}
@@ -395,7 +396,7 @@ This function is used to insert new block to blocks array
 void Board::insertNewBlock(Block* block)
 {
 	blocksAmount++;
-	//TODO: Memory check allocation
+
 	allBlocks[blocksAmount - 1] = block;
 }
 
@@ -540,6 +541,12 @@ Distruction of Board.
 */
 Board::~Board() {
 
+	for (int i = 0; i < blocksAmount; i++){
+		delete allBlocks[i];
+	}
+
+	delete bigShip;
+	delete smallShip;
 }
 
 
