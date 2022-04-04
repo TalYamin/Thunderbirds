@@ -1,7 +1,9 @@
 #include "Spaceship.h"
 
 
-
+/*
+Constructor of SpaceShip.
+*/
 SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize, ShipSize _type) {
 
 	verticalSize = _verticalSize;
@@ -12,40 +14,65 @@ SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color
 	type = _type;
 }
 
+/*
+Distructor of SpaceShip.
+*/
 SpaceShip::~SpaceShip()
 {
 }
 
-
+/*
+This is setter function for type data member.
+*/
 void SpaceShip::setType(int typeNum) {
 	type = static_cast<ShipSize>(typeNum);
 }
 
+/*
+This is getter function for type data member.
+*/
 ShipSize SpaceShip::getType() const {
 	return type;
 }
 
+/*
+This is setter function for vertical size data member.
+*/
 void SpaceShip::setVerticalSize(int _verticalSize) {
 	verticalSize = _verticalSize;
 }
 
+/*
+This is getter function for vertical size data member.
+*/
 int SpaceShip::getVerticalSize() const {
 	return verticalSize;
 }
 
+/*
+This is setter function for horizontal size data member.
+*/
 void SpaceShip::setHorizontalSize(int _horizontalSize) {
 	horizontalSize = _horizontalSize;
 }
 
-
+/*
+This is getter function for horizontal size data member.
+*/
 int SpaceShip::getHorizontalSize() const {
 	return horizontalSize;
 }
 
+/*
+This is setter function for direction data member.
+*/
 void SpaceShip::setDirection(int _direction) {
 	direction = _direction;
 }
 
+/*
+This is getter function for direction data member.
+*/
 int SpaceShip::getDirection(char key) const {
 	for (int i = 0; i < NUM_ARROW_KEYS; i++)
 	{
@@ -55,15 +82,22 @@ int SpaceShip::getDirection(char key) const {
 	return NO_DIRECTION;
 }
 
+/*
+This is setter function for figure data member.
+*/
 void SpaceShip::setFigure(const char c) {
 	figure = c;
 }
-
+/*
+This is getter function for figure data member.
+*/
 char SpaceShip::getFigure() const {
 	return figure;
 }
 
-
+/*
+This is setter function for arrow keys data member.
+*/
 void SpaceShip::setArrowKeys(const char* keys) { // "wzad"
 	for (int i = 0; i < NUM_ARROW_KEYS; i++)
 	{
@@ -71,60 +105,92 @@ void SpaceShip::setArrowKeys(const char* keys) { // "wzad"
 	}
 };
 
-
+/*
+This is setter function for color data member.
+*/
 void SpaceShip::setColor(Color _color) {
 	color = _color;
 }
 
+/*
+This is getter function for color data member.
+*/
 Color SpaceShip::getColor() const {
 	return color;
 }
 
-
+/*
+This is setter function for is ship block data member.
+*/
 void SpaceShip::setIsShipBlock() {
 	isShipBlock == true ? isShipBlock = false : isShipBlock = true;
 };
 
+/*
+This is getter function for is ship block data member.
+*/
 bool SpaceShip::getIsShipBlock() const {
 	return isShipBlock;
 }
 
+/*
+This is getter function for carring block size data member.
+*/
 int SpaceShip::getMaxCarringBlockSize()
 {
 	return maxCarringBlockSize;
 }
 
+
+/*
+This is setter function for carring block size data member.
+*/
 void SpaceShip::setMaxCarringBlockSize(int _maxCarringBlockSize)
 {
 	maxCarringBlockSize = _maxCarringBlockSize;
 }
 
+/*
+This is setter function of is exit data member.
+*/
 void SpaceShip::setIsExit(bool _isExit) {
 	isExit = _isExit;
 };
 
+/*
+This is getter function of is exit data member.
+*/
 bool SpaceShip::getIsExit() const {
 	return isExit;
 }
 
+/*
+This is setter function of is die data member.
+*/
 void SpaceShip::setIsDie(bool _isDie) {
 	isDie = _isDie;
 };
 
+/*
+This is getter function of is die data member.
+*/
 bool SpaceShip::getIsDie() const {
 	return isDie;
 }
 
+/*
+This function is used set ship points matrix.
+*/
 void SpaceShip::setupShipMat(ShipSize type) {
 
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		shipMat[0] = new Point[2]{ {2,2,figure,color,(int)ObjectId::SMALL},{3,2,figure,color,(int)ObjectId::SMALL} }; //free is needed
+		shipMat[0] = new Point[2]{ {2,2,figure,color,(int)ObjectId::SMALL},{3,2,figure,color,(int)ObjectId::SMALL} }; 
 		break;
 	case ShipSize::BIG:
-		shipMat[0] = new Point[2]{ {77,2,figure,color,(int)ObjectId::BIG},{78,2,figure,color,(int)ObjectId::BIG} }; //free is needed
-		shipMat[1] = new Point[2]{ {77,3,figure,color,(int)ObjectId::BIG},{78,3,figure,color,(int)ObjectId::BIG} };//free is needed
+		shipMat[0] = new Point[2]{ {77,2,figure,color,(int)ObjectId::BIG},{78,2,figure,color,(int)ObjectId::BIG} };
+		shipMat[1] = new Point[2]{ {77,3,figure,color,(int)ObjectId::BIG},{78,3,figure,color,(int)ObjectId::BIG} };
 		break;
 	default:
 		break;
@@ -132,11 +198,18 @@ void SpaceShip::setupShipMat(ShipSize type) {
 
 }
 
+/*
+This function is used get ship matrix.
+*/
 Point** SpaceShip::getShipMat() {
 	return shipMat;
 }
 
-
+/*
+This function is used to move ship.
+Accoridng to ship type, there is function which check collision.
+In case there is no collision, calls to moveShip function.
+*/
 void SpaceShip::move(Board* board) {
 
 	switch (type)
@@ -158,26 +231,23 @@ void SpaceShip::move(Board* board) {
 	}
 }
 
+/*
+This function is used to draw ships.
+*/
 void  SpaceShip::initDraw() const {
-	switch (type)
-	{
-	case ShipSize::SMALL:
-		for (int i = 0; i < horizontalSize; i++) {
-			shipMat[i]->draw();
+	
+	for (int i = 0; i < verticalSize; i++) {
+		for (int j = 0; j < horizontalSize; j++) {
+			shipMat[i][j].draw();
 		}
-		break;
-	case ShipSize::BIG:
-		for (int i = 0; i < verticalSize; i++) {
-			for (int j = 0; j < horizontalSize; j++) {
-				shipMat[i][j].draw();
-			}
-		}
-		break;
-	default:
-		break;
 	}
 }
 
+/*
+This function is used to move ship.
+First, function clean the previous location of ship. Remove figures from board and update
+board matrix. Then, function draws ship figure on board in new location and update board matrix.
+*/
 void SpaceShip::moveShip(Board* board,ObjectId type) {
 
 
@@ -204,6 +274,11 @@ void SpaceShip::moveShip(Board* board,ObjectId type) {
 
 }
 
+/*
+This function is used to check big ship collision, according to indexes of point that ship is
+going to move to and according to direction. Collision check is done by using isNotEmptyPoint() 
+function. In case of left and right, if there is no block - checking if shipCanPushMultipleBlocks().
+*/
 void SpaceShip::checkBigCollision(Board* board) {
 	vector<Block*> blocksInvolve;
 	switch (direction) {
@@ -231,7 +306,11 @@ void SpaceShip::checkBigCollision(Board* board) {
 }
 
 
-
+/*
+This function is used to check small ship collision, according to indexes of point that ship is
+going to move to and according to direction. Collision check is done by using isNotEmptyPoint()
+function. In case of left and right, if there is no block - checking if shipCanPushMultipleBlocks().
+*/
 void SpaceShip::checkSmallCollision(Board* board) {
 	vector<Block*> blocksInvolve;
 	switch (direction) {
@@ -259,6 +338,11 @@ void SpaceShip::checkSmallCollision(Board* board) {
 	}
 }
 
+/*
+This function is used check if ship can move multiple blocks.
+Function sum the size of blocks which involved and in case it is less than max carring
+so moving blocks. In other case, update isShipBlock to false.
+*/
 void SpaceShip::shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksInvolve) {
 	int sumSizeBlocks = 0;
 	for (size_t i = 0; i < blocksInvolve.size(); i++) {

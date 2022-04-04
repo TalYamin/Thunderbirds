@@ -17,6 +17,10 @@ void claer_line(int y)
 {
 }
 #else
+
+/*
+This function is used to take the cursor to specific x and y coordiantes.
+*/
 void gotoxy(int x, int y)
 {
 	HANDLE hConsoleOutput;
@@ -28,12 +32,19 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(hConsoleOutput, dwCursorPosition);
 }
 
+/*
+This function is used to set color to text.
+In case of isBlackAndWhite mode this is disabled.
+*/
 void setTextColor(Color colorToSet) {
 	if (!isBlackAndWhite){
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
 	}
 }
 
+/*
+This function is used to hideCursor.
+*/
 void hideCursor()
 {
 	HANDLE myconsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -43,11 +54,17 @@ void hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);//second argument need pointer
 }
 
+/*
+This function is used to clear screen.
+*/
 void clear_screen() 
 {
 	system("cls");
 }
 
+/*
+This function is used to clear line.
+*/
 void claer_line(int y)
 {
 	int i;

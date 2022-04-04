@@ -43,7 +43,6 @@ class Board
 	SpaceShip* smallShip;
 	SpaceShip* bigShip;
 	int shipsAmount = 2;
-	int blocksPushSum = 0;
 
 public:
 

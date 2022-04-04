@@ -1,6 +1,4 @@
 #pragma once
-#ifndef _COLOR_H_
-#define _COLOR_H_
 
 enum class Color
 {
@@ -21,5 +19,3 @@ enum class Color
 	YELLOW = 14,
 	WHITE = 15
 };
-
-#endif
