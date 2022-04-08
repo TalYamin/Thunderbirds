@@ -170,6 +170,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	if (isOnMoving && isStart) {
 		shipToMove.move(&playingBoard);
 		playingBoard.fallBlocksIfNoFloor();
+		playingBoard.moveGhosts();
 		Sleep(GAME_SPEED);
 		playingBoard.timeDown();
 		printTime(TIME_X, TIME_Y);

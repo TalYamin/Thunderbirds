@@ -401,6 +401,14 @@ void Board::initGhosts() {
 	placeGhostsOnBoard();
 }
 
+void Board::moveGhosts() {
+
+	for (int i = 0; i < allGhosts.size(); i++) {
+		allGhosts[i].Move(this);
+	}
+
+}
+
 void Board::placeGhostsOnBoard(){
 
 	for (int i = 0; i < allGhosts.size(); i++){

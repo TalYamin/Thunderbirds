@@ -31,6 +31,7 @@
 class SpaceShip;
 class Block;
 class Point;
+class Ghost;
 
 class Board
 {
@@ -80,7 +81,7 @@ public:
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
-
+	void moveGhosts();
 
 private:
 
@@ -95,6 +96,7 @@ private:
 	void placeGhostsOnBoard();
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void initGhosts();
+
 };
 
 
