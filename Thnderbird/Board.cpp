@@ -394,7 +394,7 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 void Board::initGhosts() {
 
 	Point* ghostPoint1 = new Point(1, 19);
-	Point* ghostPoint2 = new Point(78, 21);
+	Point* ghostPoint2 = new Point(78, 18);
 	allGhosts.push_back(Ghost(ghostPoint1));
 	allGhosts.push_back(Ghost(ghostPoint2));
 
