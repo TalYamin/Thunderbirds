@@ -55,6 +55,7 @@ void Board::initBoard()
 	}
 	initBlocks();
 	initShips();
+	initGhosts();
 }
 
 /*
@@ -389,6 +390,25 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 		}
 	}
 }
+
+void Board::initGhosts() {
+
+	Point* ghostPoint1 = new Point(1, 19);
+	Point* ghostPoint2 = new Point(78, 21);
+	allGhosts.push_back(Ghost(ghostPoint1));
+	allGhosts.push_back(Ghost(ghostPoint2));
+
+	placeGhostsOnBoard();
+}
+
+void Board::placeGhostsOnBoard(){
+
+	for (int i = 0; i < allGhosts.size(); i++){
+		setMatrixPoint(allGhosts[i].point->getX(), allGhosts[i].point->getY(), allGhosts[i].point);
+	}
+
+}
+
 
 /*
 This function is used to insert new block to blocks array

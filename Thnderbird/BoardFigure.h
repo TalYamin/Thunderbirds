@@ -3,7 +3,7 @@ enum class BoardFigure {
 	EMPTY = 32,
 	WALL = 43,
 	BIG_SHIP = 35,
-	Ghost = 36,
+	HORIZONTAL_GHOST = 36,
 	SMALL_SHIP = 64,
 	BLOCK = 66
 };

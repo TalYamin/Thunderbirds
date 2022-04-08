@@ -24,6 +24,7 @@
 #include "BoardFigure.h"
 #include "Spaceship.h"
 #include "ObjectId.h"
+#include "Ghost.h"
 #include <vector>
 
 
@@ -39,6 +40,7 @@ class Board
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = MAX_TIME;
 	Block* allBlocks[3] = { nullptr,nullptr,nullptr };
+	vector <Ghost> allGhosts;
 	int blocksAmount = 0;
 	SpaceShip* smallShip = {};
 	SpaceShip* bigShip = {};
@@ -90,7 +92,9 @@ private:
 	void insertNewBlock(Block* block);
 	bool isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void placeBlocksOnBoard();
+	void placeGhostsOnBoard();
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
+	void initGhosts();
 };
 
 

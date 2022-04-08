@@ -29,7 +29,7 @@ Point::Point(int _x, int _y, char _fig, Color _color, int _objectId)
 	color = _color;
 	objectId = _objectId;
 }
-;
+
 
 /*
 This is setter function of x data member.
@@ -113,6 +113,11 @@ This is setter function of figure data member.
 */
 void  Point::setFigure(char _figure) {
 	figure = _figure;
+}
+
+void Point::setColor(Color _color)
+{
+	color = _color;
 }
 
 /*

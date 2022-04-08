@@ -38,6 +38,7 @@ public:
 	int getObjecId() const;
 	char getFigure() const;
 	void setFigure(char _figure);
+	void setColor(Color _color);
 
 	//public methods
 	void draw() const;

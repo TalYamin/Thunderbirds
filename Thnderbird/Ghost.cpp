@@ -1,10 +1,14 @@
 #include "Ghost.h"
 
-Ghost::Ghost(Point* _point, int _ghostId)
+int Ghost::idGenerator = 1000;
+
+Ghost::Ghost(Point* _point)
 {
 
 	point = _point;
-	ghostId = _ghostId;
+	point->setFigure(figure);
+	point->setColor(color);
+	point->setObjecId(idGenerator++);
 
 }
 
