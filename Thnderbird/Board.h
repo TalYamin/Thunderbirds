@@ -41,11 +41,12 @@ class Board
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = MAX_TIME;
 	Block* allBlocks[3] = { nullptr,nullptr,nullptr };
-	vector <Ghost> allGhosts;
+	vector <Ghost*> allGhosts;
 	int blocksAmount = 0;
 	SpaceShip* smallShip = {};
 	SpaceShip* bigShip = {};
 	int shipsAmount = 2;
+	int ghostsAmount = 0;
 
 public:
 

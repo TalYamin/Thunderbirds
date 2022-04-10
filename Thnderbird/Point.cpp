@@ -18,6 +18,13 @@ Point::Point(int _x, int _y, char _fig)
 	y = _y;
 	figure = _fig;
 }
+Point::Point(int _x, int _y, char _fig, Color _color)
+{
+	x = _x;
+	y = _y;
+	figure = _fig;
+	color = _color;
+}
 /*
 Constructor of Point with 5 parameters.
 */
@@ -115,10 +122,6 @@ void  Point::setFigure(char _figure) {
 	figure = _figure;
 }
 
-void Point::setColor(Color _color)
-{
-	color = _color;
-}
 
 /*
 This is setter function of object id data member.

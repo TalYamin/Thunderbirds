@@ -393,10 +393,20 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 
 void Board::initGhosts() {
 
-	Point* ghostPoint1 = new Point(1, 19);
-	Point* ghostPoint2 = new Point(78, 18);
-	allGhosts.push_back(Ghost(ghostPoint1));
-	allGhosts.push_back(Ghost(ghostPoint2));
+	ghostsAmount = 2;
+	
+	int size1 = 1;
+	Point* ghostPoint1 = new Point(1, 19, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostList1[] = { ghostPoint1 };
+	Ghost* ghost1 = new Ghost(ghostList1,size1);
+	
+	int size2 = 1;
+	Point* ghostPoint2 = new Point(78, 18, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostList2[] = {ghostPoint2};
+	Ghost* ghost2 = new Ghost(ghostList2, size2);
+
+	allGhosts.push_back(ghost1);
+	allGhosts.push_back(ghost2);
 
 	placeGhostsOnBoard();
 }
@@ -404,15 +414,24 @@ void Board::initGhosts() {
 void Board::moveGhosts() {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
-		allGhosts[i].Move(this);
+		allGhosts[i]->Move(this);
 	}
 
 }
 
 void Board::placeGhostsOnBoard(){
 
+	int ghostSize;
+
 	for (int i = 0; i < allGhosts.size(); i++){
-		setMatrixPoint(allGhosts[i].point->getX(), allGhosts[i].point->getY(), allGhosts[i].point);
+
+		ghostSize = allGhosts[i]->getSize();
+
+		for (int j = 0; j < ghostSize; j++)
+		{
+			setMatrixPoint(allGhosts[i]->list_points[j]->getX(), allGhosts[i]->list_points[j]->getY(), allGhosts[i]->list_points[j]);
+		}
+		
 	}
 
 }
