@@ -1,6 +1,9 @@
 #include "Block.h"
 
 
+int Block::idGenerator = 0;
+
+
 /*
 Constructor for Block.
 */
@@ -20,7 +23,7 @@ Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, in
 /*
 Constructor for Block.
 */
-Block::Block(Point** _list_points, int _size, int _blockId)
+Block::Block(Point** _list_points, int _size)
 {
 	list_points = (Point**)malloc(sizeof(Point*) * _size);
 	for (int i = 0; i < _size; i++)
@@ -28,7 +31,11 @@ Block::Block(Point** _list_points, int _size, int _blockId)
 		list_points[i] = _list_points[i];
 	}
 	size = _size;
-	blockId = _blockId;
+	blockId = idGenerator++;
+	for (int i = 0; i < _size; i++)
+	{
+		list_points[i]->setObjecId(blockId);
+	}
 }
 
 /*
