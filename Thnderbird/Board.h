@@ -31,6 +31,7 @@
 class SpaceShip;
 class Block;
 class Point;
+class Ghost;
 
 class Board
 {
@@ -40,11 +41,12 @@ class Board
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = MAX_TIME;
 	Block* allBlocks[3] = { nullptr,nullptr,nullptr };
-	vector <Ghost> allGhosts;
+	vector <Ghost*> allGhosts;
 	int blocksAmount = 0;
 	SpaceShip* smallShip = {};
 	SpaceShip* bigShip = {};
 	int shipsAmount = 2;
+	int ghostsAmount = 0;
 
 public:
 
@@ -80,7 +82,7 @@ public:
 	void setMatrixPoint(int _x, int _y, Point* _p);
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
-
+	void moveGhosts();
 
 private:
 
@@ -95,6 +97,7 @@ private:
 	void placeGhostsOnBoard();
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void initGhosts();
+
 };
 
 

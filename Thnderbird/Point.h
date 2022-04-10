@@ -22,6 +22,7 @@ public:
 	//ctors + dtors
 	Point(int _x, int _y);
 	Point(int _x, int _y, char _fig);
+	Point(int _x, int _y, char _fig, Color _color);
 	Point(int _x, int _y, char _fig, Color _color, int _objectId);
 	Point() = default;
 	Point(const Point & _p) = default;
@@ -38,7 +39,6 @@ public:
 	int getObjecId() const;
 	char getFigure() const;
 	void setFigure(char _figure);
-	void setColor(Color _color);
 
 	//public methods
 	void draw() const;
