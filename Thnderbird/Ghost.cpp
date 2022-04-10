@@ -10,8 +10,9 @@ Ghost::Ghost(Point** _list_points, int _size)
 		list_points[i] = _list_points[i];
 	}
 	size = _size;
-	for (int i = 0; i < size; i++){
-		list_points[i]->setObjecId(idGenerator++);
+	ghostId = idGenerator++;
+	for (int i = 0; i < _size; i++){
+		list_points[i]->setObjecId(ghostId);
 	}
 }
 
