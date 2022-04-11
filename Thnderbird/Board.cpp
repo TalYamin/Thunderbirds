@@ -53,6 +53,7 @@ void Board::initBoard()
 			x++;
 		}
 	}
+	blocksAmount = 0;
 	initBlocks();
 	initShips();
 	initGhosts();
@@ -404,7 +405,7 @@ void Board::initGhosts() {
 	Point* ghostList2[] = {ghostPoint2};
 	Ghost* ghost2 = new Ghost(ghostList2, size2);
 
-
+	allGhosts.clear();
 	allGhosts.push_back(ghost1);
 	allGhosts.push_back(ghost2);
 
@@ -442,6 +443,7 @@ This function is used to insert new block to blocks array
 */
 void Board::insertNewBlock(Block* block)
 {
+
 	blocksAmount++;
 
 	allBlocks[blocksAmount - 1] = block;
