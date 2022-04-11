@@ -404,6 +404,7 @@ void Board::initGhosts() {
 	Point* ghostList2[] = {ghostPoint2};
 	Ghost* ghost2 = new Ghost(ghostList2, size2);
 
+
 	allGhosts.push_back(ghost1);
 	allGhosts.push_back(ghost2);
 
@@ -539,6 +540,13 @@ This is getter function of small ship data member.
 SpaceShip* Board::getSmallShip() const {
 	return smallShip;
 }
+
+vector<Ghost*> Board::getAllGhosts() const
+{
+	return allGhosts;
+}
+
+
 
 /*
 This function is used to decrease time.

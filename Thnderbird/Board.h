@@ -69,6 +69,7 @@ public:
 	int getShipsAmount() const;
 	SpaceShip* getBigShip() const;
 	SpaceShip* getSmallShip() const;
+	vector <Ghost*> getAllGhosts() const;
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;
