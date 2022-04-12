@@ -172,7 +172,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
 
-		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, blocksInvolve, maxCarringBlockSize))
+		if ((direction == (int)Direction::LEFT || direction == (int)Direction::RIGHT) && isBlockCanMove(block, direction, blocksInvolve, maxCarringBlockSize))
 		{
 			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
 				blocksInvolve.push_back(block);
@@ -194,7 +194,7 @@ bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& b
 	{
 		return false;
 	}
-	if (direction == 2)//LEFT
+	if (direction == (int)Direction::LEFT)
 	{
 		for (int i = 0; i < blockSize; i++)
 		{
@@ -203,7 +203,7 @@ bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& b
 				return false;
 		}
 	}
-	else if (direction == 3)//RIGHT
+	else if (direction == (int)Direction::RIGHT)
 	{
 		for (int i = 0; i < blockSize; i++)
 		{
@@ -259,7 +259,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
-			case 2: // LEFT
+			case (int)Direction::LEFT: 
 				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
@@ -270,7 +270,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 					return false;
 				}
 				break;
-			case 3:// RIGHT
+			case (int)Direction::RIGHT:
 				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
@@ -302,6 +302,8 @@ This function is used to initialize blocks.
 */
 void Board::initBlocks()
 {
+	blocksAmount = 0;
+
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
 	int thiredBlockSize = 3;
@@ -404,6 +406,7 @@ void Board::initGhosts() {
 	Point* ghostList2[] = {ghostPoint2};
 	Ghost* ghost2 = new Ghost(ghostList2, size2);
 
+	allGhosts.clear();
 	allGhosts.push_back(ghost1);
 	allGhosts.push_back(ghost2);
 
@@ -441,6 +444,7 @@ This function is used to insert new block to blocks array
 */
 void Board::insertNewBlock(Block* block)
 {
+
 	blocksAmount++;
 
 	allBlocks[blocksAmount - 1] = block;
@@ -539,6 +543,13 @@ This is getter function of small ship data member.
 SpaceShip* Board::getSmallShip() const {
 	return smallShip;
 }
+
+vector<Ghost*> Board::getAllGhosts() const
+{
+	return allGhosts;
+}
+
+
 
 /*
 This function is used to decrease time.

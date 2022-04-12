@@ -19,7 +19,7 @@ public:
 	static int idGenerator;
 	int direction = (int)Direction::RIGHT;
 	int size = 0;
-
+	bool isGhostHit = false;
 
 	//ctors + dtors
 	Ghost() = default;
@@ -40,4 +40,5 @@ private:
 	void MoveGhost(Board* board);
 	void checkGhostCollision(Board* board);
 	void switchDirection();
+	bool isGhostHitShip(Board* board, int x, int y);
 };

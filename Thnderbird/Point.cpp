@@ -74,16 +74,16 @@ This function is used to make point movement according to direction.
 */
 void Point::move(int dir) {
 	switch (dir) {
-	case 0: // UP
+	case (int)Direction::UP: 
 		--y;
 		break;
-	case 1: // DOWN
+	case (int)Direction::DOWN: 
 		++y;
 		break;
-	case 2: // LEFT
+	case (int)Direction::LEFT:
 		--x;
 		break;
-	case 3: // RIGHT
+	case (int)Direction::RIGHT: 
 		++x;
 		break;
 	}
