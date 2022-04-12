@@ -53,7 +53,6 @@ void Board::initBoard()
 			x++;
 		}
 	}
-	blocksAmount = 0;
 	initBlocks();
 	initShips();
 	initGhosts();
@@ -303,6 +302,8 @@ This function is used to initialize blocks.
 */
 void Board::initBlocks()
 {
+	blocksAmount = 0;
+
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
 	int thiredBlockSize = 3;
