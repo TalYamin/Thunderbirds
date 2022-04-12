@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 class Point
 {
 	//data members
@@ -21,6 +22,7 @@ public:
 	//ctors + dtors
 	Point(int _x, int _y);
 	Point(int _x, int _y, char _fig);
+	Point(int _x, int _y, char _fig, Color _color);
 	Point(int _x, int _y, char _fig, Color _color, int _objectId);
 	Point() = default;
 	Point(const Point & _p) = default;

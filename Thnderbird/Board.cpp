@@ -55,6 +55,7 @@ void Board::initBoard()
 	}
 	initBlocks();
 	initShips();
+	initGhosts();
 }
 
 /*
@@ -301,35 +302,34 @@ This function is used to initialize blocks.
 */
 void Board::initBlocks()
 {
-	blocksAmount = 0;
 	int firstBlockSize = 1;
 	int secondBlockSize = 4;
 	int thiredBlockSize = 3;
 
 
-	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED);
 
 	Point* blockList1[] = { block1Point1 };
-	Block* block1 = new Block(blockList1, firstBlockSize, blocksAmount);
+	Block* block1 = new Block(blockList1, firstBlockSize);
 
 	insertNewBlock(block1);
 
-	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED);
 
 
 	Point* blockList2[] = { block2Point1,block2Point2,block2Point3,block2Point4 };
-	Block* block2 = new Block(blockList2, secondBlockSize, blocksAmount);
+	Block* block2 = new Block(blockList2, secondBlockSize);
 	insertNewBlock(block2);
 
-	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
-	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED, blocksAmount);
+	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED);
+	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED);
 
 	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
-	Block* block3 = new Block(blockList3, thiredBlockSize, blocksAmount);
+	Block* block3 = new Block(blockList3, thiredBlockSize);
 	insertNewBlock(block3);
 
 	placeBlocksOnBoard();
@@ -389,6 +389,52 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 		}
 	}
 }
+
+void Board::initGhosts() {
+
+	ghostsAmount = 2;
+	
+	int size1 = 1;
+	Point* ghostPoint1 = new Point(1, 19, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostList1[] = { ghostPoint1 };
+	Ghost* ghost1 = new Ghost(ghostList1,size1);
+	
+	int size2 = 1;
+	Point* ghostPoint2 = new Point(78, 18, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostList2[] = {ghostPoint2};
+	Ghost* ghost2 = new Ghost(ghostList2, size2);
+
+	allGhosts.push_back(ghost1);
+	allGhosts.push_back(ghost2);
+
+	placeGhostsOnBoard();
+}
+
+void Board::moveGhosts() {
+
+	for (int i = 0; i < allGhosts.size(); i++) {
+		allGhosts[i]->Move(this);
+	}
+
+}
+
+void Board::placeGhostsOnBoard(){
+
+	int ghostSize;
+
+	for (int i = 0; i < allGhosts.size(); i++){
+
+		ghostSize = allGhosts[i]->getSize();
+
+		for (int j = 0; j < ghostSize; j++)
+		{
+			setMatrixPoint(allGhosts[i]->list_points[j]->getX(), allGhosts[i]->list_points[j]->getY(), allGhosts[i]->list_points[j]);
+		}
+		
+	}
+
+}
+
 
 /*
 This function is used to insert new block to blocks array
