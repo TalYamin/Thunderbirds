@@ -23,7 +23,7 @@ class SpaceShip
 	ShipSize type = ShipSize::UNDEFINED;
 	int verticalSize = 2;
 	int horizontalSize = 2;
-	int direction = 3;
+	int direction = (int)Direction::RIGHT;
 	char figure = (char)BoardFigure::BIG_SHIP;
 	char arrowKeys[4];
 	Color color = Color::GREEN;

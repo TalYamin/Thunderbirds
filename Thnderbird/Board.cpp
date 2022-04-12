@@ -172,7 +172,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
 
-		if ((direction == 2 || direction == 3) && isBlockCanMove(block, direction, blocksInvolve, maxCarringBlockSize))
+		if ((direction == (int)Direction::LEFT || direction == (int)Direction::RIGHT) && isBlockCanMove(block, direction, blocksInvolve, maxCarringBlockSize))
 		{
 			if (find(blocksInvolve.begin(), blocksInvolve.end(), block) == blocksInvolve.end())
 				blocksInvolve.push_back(block);
@@ -259,7 +259,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
-			case 2: // LEFT
+			case (int)Direction::LEFT: 
 				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
@@ -270,7 +270,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 					return false;
 				}
 				break;
-			case 3:// RIGHT
+			case (int)Direction::RIGHT:
 				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);

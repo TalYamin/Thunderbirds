@@ -4,6 +4,7 @@
 #include "io_utils.h"
 #include "ObjectId.h"
 #include "BoardFigure.h"
+#include "Direction.h"
 
 using namespace std;
 

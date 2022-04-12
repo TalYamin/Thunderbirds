@@ -68,13 +68,13 @@ void Ghost::checkGhostCollision(Board* board)
 	bool isShipHit;
 	switch (direction)
 	{
-	case 2: //LEFT
+	case (int)Direction::LEFT:
 		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), direction, blocksInvolve, 0);
 		if (isGhostBlock){
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() - 1, list_points[0]->getY());
 		}
 		break;
-	case 3: //RIGHT
+	case (int)Direction::RIGHT: 
 		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), direction, blocksInvolve, 0);
 		if (isGhostBlock) {
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() + 1, list_points[0]->getY());
