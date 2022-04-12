@@ -194,7 +194,7 @@ bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& b
 	{
 		return false;
 	}
-	if (direction == 2)//LEFT
+	if (direction == (int)Direction::LEFT)
 	{
 		for (int i = 0; i < blockSize; i++)
 		{
@@ -203,7 +203,7 @@ bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& b
 				return false;
 		}
 	}
-	else if (direction == 3)//RIGHT
+	else if (direction == (int)Direction::RIGHT)
 	{
 		for (int i = 0; i < blockSize; i++)
 		{
