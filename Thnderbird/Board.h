@@ -78,7 +78,6 @@ public:
 	bool checkExit(SpaceShip* ship);
 	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void initBoard();
-	int CheckObjectId(const char& ch) const;
 	void timeDown();
 	void draw() const;
 	void setMatrixPoint(int _x, int _y, Point* _p);

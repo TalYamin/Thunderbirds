@@ -12,7 +12,7 @@ void Board::initBoard()
 	allBlocks.clear();
 	allGhosts.clear();
 	initShips();
-	loadBoardFromTextFile("tb_a.screen");	
+	loadBoardFromTextFile("tb_b.screen");	
 }
 
 
@@ -100,13 +100,7 @@ void Board::placePointOnBoard(const int& x, const int& y,const char& c, const Co
 	delete point;
 }
 
-/*
-This function is used to check the objectId according to char type from board string.
-*/
-int Board::CheckObjectId(const char& ch) const {
-	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
 
-}
 
 /*
 This function is used to draw board according to points matrix.
@@ -348,12 +342,12 @@ int Board::initBlock(int x, int y, char c) {
 	block = checkIsBlockExit(c);
 	
 	if (block != nullptr){
-		block->getListPoints().push_back(blockPoint);
+		block->addPointToBlock(blockPoint);
 	}
 	else {
 		vector <Point*> blockList;
 		blockList.push_back(blockPoint);
-		block = new Block(blockList);
+		block = new Block(blockList,c);
 		insertNewBlock(block);
 	}
 

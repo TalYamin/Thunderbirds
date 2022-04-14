@@ -18,9 +18,10 @@ Block::Block(vector <Point*> _list_points, char _figure, Color _color, bool _isB
 /*
 Constructor for Block.
 */
-Block::Block(vector <Point*> _list_points)
+Block::Block(vector <Point*> _list_points, char _figure)
 {
 	list_points = _list_points;
+	figure = _figure;
 	blockId = idGenerator++;
 	for (int i = 0; i < list_points.size(); i++)
 	{
@@ -112,4 +113,9 @@ This function is used to make block falling.
 void Block::fall(Board* board)
 {
 	move(1, board);
+}
+
+void Block::addPointToBlock(Point* p)
+{
+	list_points.push_back(p);
 }
