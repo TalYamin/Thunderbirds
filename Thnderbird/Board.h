@@ -76,7 +76,7 @@ public:
 	Block* getBlockById(const int& objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
 	bool checkExit(SpaceShip* ship);
-	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
+	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost);
 	void initBoard();
 	void timeDown();
 	void draw() const;
