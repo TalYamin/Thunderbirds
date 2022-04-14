@@ -43,11 +43,9 @@ class Board
 	long timeRemains = MAX_TIME;
 	vector <Block*> allBlocks;
 	vector <Ghost*> allGhosts;
-	int blocksAmount = 0;
 	SpaceShip* smallShip = {};
 	SpaceShip* bigShip = {};
 	int shipsAmount = 2;
-	int ghostsAmount = 0;
 	bool isBigShipInitialized = false;
 	bool isSmallShipInitialized = false;
 

@@ -9,8 +9,7 @@ Then function calls to initBlocks() and initShips() functions.
 void Board::initBoard()
 {
 	timeRemains = MAX_TIME;
-	blocksAmount = 0;
-	ghostsAmount = 0;
+	allBlocks.clear();
 	allGhosts.clear();
 	initShips();
 	loadBoardFromTextFile("tb_a.screen");	
@@ -81,13 +80,15 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
 		break;
 	case (char) BoardFigure::HORIZONTAL_GHOST:
-		ghostsAmount++;
 		objectId = initGhost(x, y);
 		placePointOnBoard(x, y, c, Color::BROWN, objectId);
 		break;
 	default:
-		objectId = initBlock(x, y, c);
-		placePointOnBoard(x, y, c, Color::RED, objectId);
+		if (isBlockFigure(c))
+{
+			objectId = initBlock(x, y, c);
+			placePointOnBoard(x, y, c, Color::RED, objectId);
+		}
 		break;
 	}
 }
@@ -142,7 +143,7 @@ void Board::fallBlocksIfNoFloor()
 	bool needToFall;
 	bool isWallAlsoInvolved = false;
 	vector<SpaceShip*> shipInvolved;
-	for (int i = 0; i < blocksAmount; i++)
+	for (int i = 0; i < allBlocks.size(); i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
@@ -364,7 +365,7 @@ Block* Board::checkIsBlockExit(const char& c) {
 
 	Block* currBlock;
 	vector<Point*> currList;
-	for (int i = 0; i < blocksAmount; i++){
+	for (int i = 0; i < allBlocks.size(); i++){
 		currBlock = allBlocks[i];
 		currList = currBlock->getListPoints();
 		for (int j = 0; j < currList.size(); j++){
@@ -392,7 +393,7 @@ void Board::placeBlocksOnBoard()
 {
 	int blockSize;
 	Block* block;
-	for (int i = 0; i < blocksAmount; i++)
+	for (int i = 0; i < allBlocks.size(); i++)
 	{
 		block = allBlocks[i];
 		blockSize = block->getListPoints().size();
@@ -436,7 +437,6 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 
 int Board::initGhost(const int& x,const int& y) {
 
-	ghostsAmount = 2;
 	int size = 1;
 	
 	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
@@ -479,9 +479,6 @@ This function is used to insert new block to blocks array
 */
 void Board::insertNewBlock(Block* block)
 {
-
-	blocksAmount++;
-
 	allBlocks.push_back(block);
 }
 
@@ -536,7 +533,7 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 This function is used to get block by its id.
 */
 Block* Board::getBlockById(const int& objectId) const {
-	for (int i = 0; i < blocksAmount; i++) {
+	for (int i = 0; i < allBlocks.size(); i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
 		}
@@ -633,7 +630,7 @@ Distruction of Board.
 */
 Board::~Board() {
 
-	for (int i = 0; i < blocksAmount; i++){
+	for (int i = 0; i < allBlocks.size(); i++){
 		delete allBlocks[i];
 	}
 
