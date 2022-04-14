@@ -14,7 +14,7 @@ void Board::initBoard()
 	isBigShipInitialized = false;
 	isSmallShipInitialized = false;
 	initShips();
-	loadBoardFromTextFile("tb_c.screen");	
+	loadBoardFromTextFile("tb_a.screen");	
 }
 
 
