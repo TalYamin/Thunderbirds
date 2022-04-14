@@ -345,7 +345,7 @@ int Board::initBlock(int x, int y, char c) {
 
 	Block* block;
 	Point* blockPoint = new Point(x, y, c, Color::RED);
-	block = checkIsBlockExit(c);
+	block = checkIsBlockExist(c);
 	
 	if (block != nullptr){
 		block->addPointToBlock(blockPoint);
@@ -361,7 +361,7 @@ int Board::initBlock(int x, int y, char c) {
 
 }
 
-Block* Board::checkIsBlockExit(const char& c) {
+Block* Board::checkIsBlockExist(const char& c) {
 
 	Block* currBlock;
 	vector<Point*> currList;
