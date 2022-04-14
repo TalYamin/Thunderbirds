@@ -14,7 +14,7 @@ void Board::initBoard()
 	isBigShipInitialized = false;
 	isSmallShipInitialized = false;
 	initShips();
-	loadBoardFromTextFile("tb_a.screen");
+	loadBoardFromTextFile("tb_test.screen");
 	addAllExitPoints();
 }
 
@@ -346,7 +346,7 @@ int Board::initBlock(int x, int y, char c) {
 
 	Block* block;
 	Point* blockPoint = new Point(x, y, c, Color::RED);
-	block = checkIsBlockExit(c);
+	block = checkIsBlockExist(c);
 	
 	if (block != nullptr){
 		block->addPointToBlock(blockPoint);
@@ -362,7 +362,7 @@ int Board::initBlock(int x, int y, char c) {
 
 }
 
-Block* Board::checkIsBlockExit(const char& c) {
+Block* Board::checkIsBlockExist(const char& c) {
 
 	Block* currBlock;
 	vector<Point*> currList;
@@ -401,14 +401,10 @@ void Board::addAllExitPoints(){
 	}
 
 	for (int j = 3; j < maxVerticalSize; j++){
-		if (mat[0][j].getFigure() == (char)BoardFigure::EMPTY) {
-			addExitPoint(&mat[0][j]);
-		}
 		if (mat[maxHorizontalSize-1][j].getFigure() == (char)BoardFigure::EMPTY) {
 			addExitPoint(&mat[maxHorizontalSize-1][j]);
 		}
 	}
-
 
 }
 
@@ -479,17 +475,22 @@ bool Board::checkExit(SpaceShip* ship) {
 
 	int x = ship->getShipMat()[0][0].getX();
 	int y = ship->getShipMat()[0][0].getY();
-	for (int i = 0; i < exitPoints.size(); i++){
-
+	for (int i = 0; i < exitPoints.size(); i++) {
+		if (exitPoints[i]->getX() == maxHorizontalSize-1){
+			if (exitPoints[i]->getX() == x && exitPoints[i]->getY()+1 == y) {
+				removeShipFromBoard(ship);
+				return true;
+			}
+		}
+		else {
+			if (exitPoints[i]->getX()+1 == x && exitPoints[i]->getY() == y) {
+				removeShipFromBoard(ship);
+				return true;
+			}
+		}
+	
 	}
-
-	if (y == EXIT_Y && (x == EXIT_X1 || x == EXIT_X2 || x == EXIT_X3)) {
-		removeShipFromBoard(ship);
-		return true;
-	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 /*
