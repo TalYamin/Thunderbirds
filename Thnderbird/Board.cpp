@@ -480,13 +480,13 @@ bool Board::checkExit(SpaceShip* ship) {
 	int y = ship->getShipMat()[0][0].getY();
 	for (int i = 0; i < exitPoints.size(); i++) {
 		if (exitPoints[i]->getX() == maxHorizontalSize-1){
-			if (exitPoints[i]->getX() == x && exitPoints[i]->getY()+1 == y) {
+			if (exitPoints[i]->getX()+1 == x && exitPoints[i]->getY() == y) {
 				removeShipFromBoard(ship);
 				return true;
 			}
 		}
 		else {
-			if (exitPoints[i]->getX()+1 == x && exitPoints[i]->getY() == y) {
+			if (exitPoints[i]->getX() == x && exitPoints[i]->getY()+1 == y) {
 				removeShipFromBoard(ship);
 				return true;
 			}

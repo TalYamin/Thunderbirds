@@ -301,6 +301,7 @@ void Game::pauseCheck(int logY)
 		isBigOnMoving = false;
 		isSmallOnMoving = false;
 		run();
+		break;
 	default:
 	{
 		cout << "press ESC to continue or 9 to Exit" << endl;
