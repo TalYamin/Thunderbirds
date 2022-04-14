@@ -48,6 +48,7 @@ class Board
 	int shipsAmount = 2;
 	bool isBigShipInitialized = false;
 	bool isSmallShipInitialized = false;
+	vector<Point*> exitPoints;
 
 public:
 
@@ -71,6 +72,7 @@ public:
 	SpaceShip* getBigShip() const;
 	SpaceShip* getSmallShip() const;
 	vector <Ghost*> getAllGhosts() const;
+	vector<Point*> getExitPoints() const;
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;
@@ -100,6 +102,8 @@ private:
 	int initBlock(int x, int y, char c);
 	Block* checkIsBlockExit(const char& c);
 	bool isBlockFigure(const char& c);
+	void addExitPoint(Point* point);
+	void addAllExitPoints();
 };
 
 

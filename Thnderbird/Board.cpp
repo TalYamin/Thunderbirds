@@ -14,7 +14,8 @@ void Board::initBoard()
 	isBigShipInitialized = false;
 	isSmallShipInitialized = false;
 	initShips();
-	loadBoardFromTextFile("tb_a.screen");	
+	loadBoardFromTextFile("tb_a.screen");
+	addAllExitPoints();
 }
 
 
@@ -385,6 +386,32 @@ bool Board::isBlockFigure(const char& c)
 	return false;
 }
 
+void Board::addExitPoint(Point* point)
+{
+	exitPoints.push_back(point);
+}
+
+void Board::addAllExitPoints(){
+
+	for (int i = 0; i < maxHorizontalSize; i++) {
+
+		if (mat[i][maxVerticalSize-1].getFigure() == (char)BoardFigure::EMPTY) {
+			addExitPoint(&mat[i][maxVerticalSize - 1]);
+		}
+	}
+
+	for (int j = 3; j < maxVerticalSize; j++){
+		if (mat[0][j].getFigure() == (char)BoardFigure::EMPTY) {
+			addExitPoint(&mat[0][j]);
+		}
+		if (mat[maxHorizontalSize-1][j].getFigure() == (char)BoardFigure::EMPTY) {
+			addExitPoint(&mat[maxHorizontalSize-1][j]);
+		}
+	}
+
+
+}
+
 
 
 /*
@@ -452,6 +479,10 @@ bool Board::checkExit(SpaceShip* ship) {
 
 	int x = ship->getShipMat()[0][0].getX();
 	int y = ship->getShipMat()[0][0].getY();
+	for (int i = 0; i < exitPoints.size(); i++){
+
+	}
+
 	if (y == EXIT_Y && (x == EXIT_X1 || x == EXIT_X2 || x == EXIT_X3)) {
 		removeShipFromBoard(ship);
 		return true;
@@ -529,6 +560,11 @@ SpaceShip* Board::getSmallShip() const {
 vector<Ghost*> Board::getAllGhosts() const
 {
 	return allGhosts;
+}
+
+vector<Point*> Board::getExitPoints() const
+{
+	return exitPoints;
 }
 
 
