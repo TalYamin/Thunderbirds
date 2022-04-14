@@ -9,53 +9,97 @@ Then function calls to initBlocks() and initShips() functions.
 void Board::initBoard()
 {
 	timeRemains = MAX_TIME;
-	size_t boardLen;
+	blocksAmount = 0;
+	ghostsAmount = 0;
+	allGhosts.clear();
+	initShips();
+
+	loadBoardFromTextFile("tb_a.screen");
+	initBlocks();
+	
+}
+
+
+
+void Board::loadBoardFromTextFile(string fileName)
+{
 	int y = 0;
 	int x = 0;
-	const char* boardData = R""""(++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++                          +                       +                     +
-+                                +                       +                     +
-+++++++                          +                       +                     +
-+                                +                       +                     +
-+      +                         +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                                        +                     +
-+                                                        +                     +
-+                                +++++++++               +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +           +++++++++++++                     +
-+                                +                                             +
-+                                +                                             +
-+                                +    ++++++++++++++++++++                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
-	boardLen = strlen(boardData);
-	for (int i = 0; i < boardLen; i++)
-	{
-		if (boardData[i] == '\n') {
-			y++;
-			x = 0;
-		}
-		else
-		{
-			int objectId = CheckObjectId(boardData[i]);
-			Point* point = new Point(x, y, boardData[i], Color::WHITE, objectId);
-			setMatrixPoint(x, y, point);
-			delete point;
-			x++;
+	ifstream in(fileName);
+	char c;
+
+	if (in.is_open()) {
+		while (in.good()) {
+			in.get(c);
+			if (c == '\n') {
+				y++;
+				x = 0;
+			}
+			else
+			{
+				setPointAndObject(x, y, c);
+				x++;
+			}
 		}
 	}
-	initBlocks();
-	initShips();
-	initGhosts();
+
+	if (!in.eof() && in.fail()) {
+		cout << "error reading " << fileName << endl;
+	}
+
+	in.close();
+}
+
+void Board::setPointAndObject(const int& x, const int& y, const char& c)
+{
+	int objectId;
+	switch (c)
+	{
+	case (char)BoardFigure::INFO:
+		objectId = (int)ObjectId::INFO;
+		placePointOnBoard(x, y, c, Color::WHITE, (int)ObjectId::EMPTY);
+		break;
+	case (char)BoardFigure::EMPTY:
+		objectId = (int)ObjectId::EMPTY;
+		placePointOnBoard(x, y, c, Color::WHITE, (int)ObjectId::EMPTY);
+		break;
+	case (char)BoardFigure::WALL:
+		objectId = (int)ObjectId::WALL;
+		placePointOnBoard(x, y, c, Color::WHITE, objectId);
+		break;
+	case (char)BoardFigure::BIG_SHIP:
+		if (!isBigShipInitialized){		
+			bigShip->setupShipMat(x,y);
+			isBigShipInitialized = true;
+		}
+		objectId = (int)ObjectId::BIG;
+		placePointOnBoard(x, y, c, bigShip->getColor(), objectId);
+		break;
+	case (char)BoardFigure::SMALL_SHIP:
+		if (!isSmallShipInitialized){
+			smallShip->setupShipMat(x, y);
+			isSmallShipInitialized = true;
+		}
+		objectId = (int)ObjectId::SMALL;
+		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
+		break;
+	case (char) BoardFigure::HORIZONTAL_GHOST:
+		ghostsAmount++;
+		objectId = initGhost(x, y);
+		placePointOnBoard(x, y, c, Color::BROWN, objectId);
+		break;
+	default: //blocks
+		objectId = initBlock(x, y, c);
+		placePointOnBoard(x, y, c, Color::RED, objectId);
+		break;
+	}
+}
+
+
+void Board::placePointOnBoard(const int& x, const int& y,const char& c, const Color& color, const int& objectId) {
+	Point* point = new Point(x, y, c, color, objectId);
+	setMatrixPoint(x, y, point);
+	delete point;
 }
 
 /*
@@ -338,6 +382,42 @@ void Board::initBlocks()
 
 }
 
+int Board::initBlock(int x, int y, char c) {
+
+	Block* block;
+	Point* blockPoint = new Point(x, y, c, Color::RED);
+	block = checkIsBlockExit(c);
+	
+	if (block != nullptr){
+		block->getListPoints().push_back(blockPoint);
+	}
+	else {
+		vector <Point*> blockList;
+		blockList.push_back(blockPoint);
+		block = new Block(blockList);
+		insertNewBlock(block);
+	}
+
+	return block->getblockId();
+
+}
+
+Block* Board::checkIsBlockExit(const char& c) {
+
+	Block* currBlock;
+	Point** currList;
+	for (int i = 0; i < blocksAmount; i++){
+		currBlock = allBlocks[i];
+		currList = currBlock->getListPoints();
+		for (int j = 0; j < currBlock->getSize(); j++){
+			if (currList[j]->getFigure() == c){
+				return currBlock;
+			}
+		}
+	}
+	return nullptr;
+}
+
 /*
 This function is used to place blocks on board.
 For any block, passing on block points and set them as matrix point on board.
@@ -364,16 +444,12 @@ This function is used to initialize ships.
 void Board::initShips()
 {
 	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
-	bigShip->setupShipMat();
 	bigShip->setArrowKeys("wxad");
 
 
 	smallShip = new SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
-	smallShip->setupShipMat();
 	smallShip->setArrowKeys("wxad");
 
-	placeShipsOnBoard(bigShip);
-	placeShipsOnBoard(smallShip);
 }
 
 /*
@@ -392,25 +468,17 @@ void Board::placeShipsOnBoard(SpaceShip* ship)
 	}
 }
 
-void Board::initGhosts() {
+int Board::initGhost(const int& x,const int& y) {
 
 	ghostsAmount = 2;
+	int size = 1;
 	
-	int size1 = 1;
-	Point* ghostPoint1 = new Point(1, 19, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
-	Point* ghostList1[] = { ghostPoint1 };
-	Ghost* ghost1 = new Ghost(ghostList1,size1);
+	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostList[] = { ghostPoint };
+	Ghost* ghost = new Ghost(ghostList,size);
 	
-	int size2 = 1;
-	Point* ghostPoint2 = new Point(78, 18, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
-	Point* ghostList2[] = {ghostPoint2};
-	Ghost* ghost2 = new Ghost(ghostList2, size2);
-
-	allGhosts.clear();
-	allGhosts.push_back(ghost1);
-	allGhosts.push_back(ghost2);
-
-	placeGhostsOnBoard();
+	allGhosts.push_back(ghost);
+	return ghost->getId();
 }
 
 void Board::moveGhosts() {
@@ -420,6 +488,7 @@ void Board::moveGhosts() {
 	}
 
 }
+
 
 void Board::placeGhostsOnBoard(){
 
@@ -447,7 +516,7 @@ void Board::insertNewBlock(Block* block)
 
 	blocksAmount++;
 
-	allBlocks[blocksAmount - 1] = block;
+	allBlocks.push_back(block);
 }
 
 /*

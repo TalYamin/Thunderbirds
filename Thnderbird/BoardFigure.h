@@ -5,5 +5,5 @@ enum class BoardFigure {
 	BIG_SHIP = 35,
 	HORIZONTAL_GHOST = 36,
 	SMALL_SHIP = 64,
-	BLOCK = 66
+	INFO = 38
 };

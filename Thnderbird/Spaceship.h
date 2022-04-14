@@ -66,7 +66,7 @@ public:
 	bool getIsExit() const;	
 	void setIsDie(bool _isDie);
 	bool getIsDie() const;
-	void setupShipMat();
+	void setupShipMat(int x, int y);
 	Point** getShipMat();
 
 	//public methods

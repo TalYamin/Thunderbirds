@@ -7,32 +7,22 @@ int Block::idGenerator = 0;
 /*
 Constructor for Block.
 */
-Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size, int _blockId) {
-	list_points = (Point**)malloc(sizeof(Point*) * size);
-	for (int i = 0; i < size; i++)
-	{
-		list_points[i] = _list_points[i];
-	}
+Block::Block(vector <Point*> _list_points, char _figure, Color _color, bool _isBlock, int _blockId) {
+	list_points = _list_points;
 	figure = _figure;
 	color = _color;
 	isBlock = _isBlock;
-	size = _size;
 	blockId = _blockId;
 }
 
 /*
 Constructor for Block.
 */
-Block::Block(Point** _list_points, int _size)
+Block::Block(vector <Point*> _list_points)
 {
-	list_points = (Point**)malloc(sizeof(Point*) * _size);
-	for (int i = 0; i < _size; i++)
-	{
-		list_points[i] = _list_points[i];
-	}
-	size = _size;
+	list_points = _list_points;
 	blockId = idGenerator++;
-	for (int i = 0; i < _size; i++)
+	for (int i = 0; i < list_points.size(); i++)
 	{
 		list_points[i]->setObjecId(blockId);
 	}
@@ -71,7 +61,7 @@ int Block::getSize () const{
 /*
 This if getter function of list points data member.
 */
-Point** Block::getListPoints() const{
+vector<Point*> Block::getListPoints() {
 	return list_points;
 }
 

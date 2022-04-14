@@ -175,16 +175,16 @@ bool SpaceShip::getIsDie() const {
 /*
 This function is used set ship points matrix.
 */
-void SpaceShip::setupShipMat() {
+void SpaceShip::setupShipMat(int x, int y) {
 
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		shipMat[0] = new Point[2]{ {2,2,figure,color,(int)ObjectId::SMALL},{3,2,figure,color,(int)ObjectId::SMALL} }; 
+		shipMat[0] = new Point[2]{ {x,y,figure,color,(int)ObjectId::SMALL},{x+1,y,figure,color,(int)ObjectId::SMALL} }; 
 		break;
 	case ShipSize::BIG:
-		shipMat[0] = new Point[2]{ {77,2,figure,color,(int)ObjectId::BIG},{78,2,figure,color,(int)ObjectId::BIG} };
-		shipMat[1] = new Point[2]{ {77,3,figure,color,(int)ObjectId::BIG},{78,3,figure,color,(int)ObjectId::BIG} };
+		shipMat[0] = new Point[2]{ {x,y,figure,color,(int)ObjectId::BIG},{x+1,y,figure,color,(int)ObjectId::BIG} };
+		shipMat[1] = new Point[2]{ {x,y+1,figure,color,(int)ObjectId::BIG},{x+1,y+1,figure,color,(int)ObjectId::BIG} };
 		break;
 	default:
 		break;

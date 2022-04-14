@@ -26,6 +26,7 @@
 #include "ObjectId.h"
 #include "Ghost.h"
 #include <vector>
+#include <fstream>
 
 
 class SpaceShip;
@@ -40,13 +41,15 @@ class Board
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = MAX_TIME;
-	Block* allBlocks[3] = { nullptr,nullptr,nullptr };
+	vector <Block*> allBlocks;
 	vector <Ghost*> allGhosts;
 	int blocksAmount = 0;
 	SpaceShip* smallShip = {};
 	SpaceShip* bigShip = {};
 	int shipsAmount = 2;
 	int ghostsAmount = 0;
+	bool isBigShipInitialized = false;
+	bool isSmallShipInitialized = false;
 
 public:
 
@@ -97,8 +100,12 @@ private:
 	void placeBlocksOnBoard();
 	void placeGhostsOnBoard();
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
-	void initGhosts();
-
+	int initGhost(const int& x, const int& y);
+	void loadBoardFromTextFile(string fileName);
+	void setPointAndObject(const int& x, const int& y,const char& c);
+	void placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId);
+	int initBlock(int x, int y, char c);
+	Block* checkIsBlockExit(const char& c)
 };
 
 

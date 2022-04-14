@@ -33,6 +33,7 @@ public:
 	//public methods
 	void Move(Board* board);
 	int getSize();
+	int getId();
 
 private:
 

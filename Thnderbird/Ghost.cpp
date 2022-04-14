@@ -46,6 +46,11 @@ int Ghost::getSize()
 	return size;
 }
 
+int Ghost::getId()
+{
+	return ghostId;
+}
+
 void Ghost::MoveGhost(Board* board) {
 
 	for (int i = 0; i < size; i++)
