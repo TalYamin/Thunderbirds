@@ -89,12 +89,9 @@ private:
 
 	//private methods
 	bool isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve);
-	void placeShipsOnBoard(SpaceShip* ship);
 	void initShips();
 	void insertNewBlock(Block* block);
 	bool isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
-	void placeBlocksOnBoard();
-	void placeGhostsOnBoard();
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	int initGhost(const int& x, const int& y);
 	void loadBoardFromTextFile(string fileName);

@@ -11,6 +11,8 @@ void Board::initBoard()
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
+	isBigShipInitialized = false;
+	isSmallShipInitialized = false;
 	initShips();
 	loadBoardFromTextFile("tb_b.screen");	
 }
@@ -84,8 +86,7 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		placePointOnBoard(x, y, c, Color::BROWN, objectId);
 		break;
 	default:
-		if (isBlockFigure(c))
-{
+		if (isBlockFigure(c)){
 			objectId = initBlock(x, y, c);
 			placePointOnBoard(x, y, c, Color::RED, objectId);
 		}
@@ -379,25 +380,7 @@ bool Board::isBlockFigure(const char& c)
 	return false;
 }
 
-/*
-This function is used to place blocks on board.
-For any block, passing on block points and set them as matrix point on board.
-*/
-void Board::placeBlocksOnBoard()
-{
-	int blockSize;
-	Block* block;
-	for (int i = 0; i < allBlocks.size(); i++)
-	{
-		block = allBlocks[i];
-		blockSize = block->getListPoints().size();
-		for (int j = 0; j < blockSize; j++)
-		{
-			Point* blockPoint = block->getListPoints()[j];
-			setMatrixPoint(blockPoint->getX(), blockPoint->getY(), blockPoint);
-		}
-	}
-}
+
 
 /*
 This function is used to initialize ships.
@@ -413,21 +396,7 @@ void Board::initShips()
 
 }
 
-/*
-This function is used to place ships on board, big ship or smalll ship
- Passing on ship matrix points and set them as matrix point on board.
-*/
-void Board::placeShipsOnBoard(SpaceShip* ship)
-{
-	int shipVerticaSize = ship->getVerticalSize();
-	int shipHorizontalSize = ship->getHorizontalSize();
-	for (int i = 0; i < shipVerticaSize; i++)
-	{
-		for (int j = 0; j < shipHorizontalSize; j++) {
-			setMatrixPoint(ship->getShipMat()[i][j].getX(), ship->getShipMat()[i][j].getY(), &(ship->getShipMat()[i][j]));
-		}
-	}
-}
+
 
 int Board::initGhost(const int& x,const int& y) {
 
@@ -445,24 +414,6 @@ void Board::moveGhosts() {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
 		allGhosts[i]->Move(this);
-	}
-
-}
-
-
-void Board::placeGhostsOnBoard(){
-
-	int ghostSize;
-
-	for (int i = 0; i < allGhosts.size(); i++){
-
-		ghostSize = allGhosts[i]->getSize();
-
-		for (int j = 0; j < ghostSize; j++)
-		{
-			setMatrixPoint(allGhosts[i]->list_points[j]->getX(), allGhosts[i]->list_points[j]->getY(), allGhosts[i]->list_points[j]);
-		}
-		
 	}
 
 }
