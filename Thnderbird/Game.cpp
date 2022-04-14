@@ -258,6 +258,10 @@ void Game::pause() {
 		}
 		gotoxy(LOG_X, ++logY);
 	}
+	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
+		gameStatus = GameStatus::NEXT_LEVEL;
+		playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
+	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
 		cout << "You win !" << endl;
@@ -291,6 +295,12 @@ void Game::pauseCheck(int logY)
 	case GameStatus::VICTORY:
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
+	case GameStatus::NEXT_LEVEL:
+		init();
+		gameStatus = GameStatus::RUNNING;
+		isBigOnMoving = false;
+		isSmallOnMoving = false;
+		run();
 	default:
 	{
 		cout << "press ESC to continue or 9 to Exit" << endl;
@@ -461,6 +471,7 @@ void Game::checkVictory(SpaceShip* ship) {
 	}
 	if (playingBoard.getBigShip()->getIsExit() == true && playingBoard.getSmallShip()->getIsExit() == true) {
 		gameStatus = GameStatus::VICTORY;
+		numOfWins++;
 	}
 }
 

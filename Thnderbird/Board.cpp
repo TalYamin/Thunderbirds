@@ -8,13 +8,16 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard()
 {
+	string fileName = "tb_";
+	fileName.append(1, currFileSuffix);
+	fileName += ".screen";
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
 	isSmallShipInitialized = false;
 	initShips();
-	loadBoardFromTextFile("tb_test.screen");
+	loadBoardFromTextFile(fileName);
 	addAllExitPoints();
 }
 
@@ -400,9 +403,9 @@ void Board::addAllExitPoints(){
 		}
 	}
 
-	for (int j = 3; j < maxVerticalSize; j++){
-		if (mat[maxHorizontalSize-1][j].getFigure() == (char)BoardFigure::EMPTY) {
-			addExitPoint(&mat[maxHorizontalSize-1][j]);
+	for (int j = 0; j < maxVerticalSize; j++){
+		if (mat[maxHorizontalSize - 1][j].getFigure() == (char)BoardFigure::EMPTY) {
+			addExitPoint(&mat[maxHorizontalSize - 1][j]);
 		}
 	}
 
@@ -566,6 +569,16 @@ vector<Ghost*> Board::getAllGhosts() const
 vector<Point*> Board::getExitPoints() const
 {
 	return exitPoints;
+}
+
+char Board::getCurrFileSuffix()
+{
+	return currFileSuffix;
+}
+
+void Board::setCurrFileSuffix(char _currFileSuffix)
+{
+	currFileSuffix = _currFileSuffix;
 }
 
 

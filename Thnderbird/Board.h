@@ -49,6 +49,7 @@ class Board
 	bool isBigShipInitialized = false;
 	bool isSmallShipInitialized = false;
 	vector<Point*> exitPoints;
+	char currFileSuffix = 'a';
 
 public:
 
@@ -73,6 +74,8 @@ public:
 	SpaceShip* getSmallShip() const;
 	vector <Ghost*> getAllGhosts() const;
 	vector<Point*> getExitPoints() const;
+	char getCurrFileSuffix();
+	void setCurrFileSuffix(char _currFileSuffix);
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;

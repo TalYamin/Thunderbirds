@@ -29,6 +29,8 @@ class Game
 	bool isBigStart = false;
 	bool isSmallStart = false;
 	int lives = 3;
+	int numOfScreens = 3;
+	int numOfWins = 0;
 
 public:
 	//ctors + dtors
