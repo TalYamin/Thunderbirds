@@ -92,7 +92,6 @@ private:
 
 	//private methods
 	bool isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve);
-	void initBlocks();
 	void placeShipsOnBoard(SpaceShip* ship);
 	void initShips();
 	void insertNewBlock(Block* block);
@@ -105,7 +104,8 @@ private:
 	void setPointAndObject(const int& x, const int& y,const char& c);
 	void placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId);
 	int initBlock(int x, int y, char c);
-	Block* checkIsBlockExit(const char& c)
+	Block* checkIsBlockExit(const char& c);
+	bool isBlockFigure(const char& c);
 };
 
 

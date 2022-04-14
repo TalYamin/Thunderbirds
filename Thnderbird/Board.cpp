@@ -13,10 +13,7 @@ void Board::initBoard()
 	ghostsAmount = 0;
 	allGhosts.clear();
 	initShips();
-
-	loadBoardFromTextFile("tb_a.screen");
-	initBlocks();
-	
+	loadBoardFromTextFile("tb_a.screen");	
 }
 
 
@@ -88,7 +85,7 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		objectId = initGhost(x, y);
 		placePointOnBoard(x, y, c, Color::BROWN, objectId);
 		break;
-	default: //blocks
+	default:
 		objectId = initBlock(x, y, c);
 		placePointOnBoard(x, y, c, Color::RED, objectId);
 		break;
@@ -149,7 +146,7 @@ void Board::fallBlocksIfNoFloor()
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
-		for (int j = 0; j < block->getSize(); j++) {
+		for (int j = 0; j < block->getListPoints().size(); j++) {
 
 			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved))
 			{
@@ -158,7 +155,7 @@ void Board::fallBlocksIfNoFloor()
 		}
 		for (size_t m = 0; m < shipInvolved.size(); m++)
 		{
-			if (shipInvolved[m]->getMaxCarringBlockSize() < block->getSize() && !isWallAlsoInvolved)
+			if (shipInvolved[m]->getMaxCarringBlockSize() < block->getListPoints().size() && !isWallAlsoInvolved)
 			{
 				shipInvolved[m]->setIsDie(true);
 				return;
@@ -211,7 +208,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else if (mat[x][y].getFigure() == (char)BoardFigure::BLOCK)
+	else if (isBlockFigure(mat[x][y].getFigure()))
 	{
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
@@ -233,7 +230,7 @@ Then, passing on any point of block and checking the next index according to dir
 if it is invalid place.
 */
 bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
-	int blockSize = block->getSize();
+	int blockSize = block->getListPoints().size();
 	if (blockSize > maxCarringBlockSize)
 	{
 		return false;
@@ -297,9 +294,9 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
-			blocksSum += blocksInvolve[i]->getSize();
+			blocksSum += blocksInvolve[i]->getListPoints().size();
 		}
-		blocksSum += anotherBlock->getSize();
+		blocksSum += anotherBlock->getListPoints().size();
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
@@ -341,46 +338,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 }
 
 
-/*
-This function is used to initialize blocks.
-*/
-void Board::initBlocks()
-{
-	blocksAmount = 0;
 
-	int firstBlockSize = 1;
-	int secondBlockSize = 4;
-	int thiredBlockSize = 3;
-
-
-	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED);
-
-	Point* blockList1[] = { block1Point1 };
-	Block* block1 = new Block(blockList1, firstBlockSize);
-
-	insertNewBlock(block1);
-
-	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED);
-
-
-	Point* blockList2[] = { block2Point1,block2Point2,block2Point3,block2Point4 };
-	Block* block2 = new Block(blockList2, secondBlockSize);
-	insertNewBlock(block2);
-
-	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED);
-
-	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
-	Block* block3 = new Block(blockList3, thiredBlockSize);
-	insertNewBlock(block3);
-
-	placeBlocksOnBoard();
-
-}
 
 int Board::initBlock(int x, int y, char c) {
 
@@ -405,17 +363,25 @@ int Board::initBlock(int x, int y, char c) {
 Block* Board::checkIsBlockExit(const char& c) {
 
 	Block* currBlock;
-	Point** currList;
+	vector<Point*> currList;
 	for (int i = 0; i < blocksAmount; i++){
 		currBlock = allBlocks[i];
 		currList = currBlock->getListPoints();
-		for (int j = 0; j < currBlock->getSize(); j++){
+		for (int j = 0; j < currList.size(); j++){
 			if (currList[j]->getFigure() == c){
 				return currBlock;
 			}
 		}
 	}
 	return nullptr;
+}
+
+bool Board::isBlockFigure(const char& c)
+{
+	if (c >= '0' && c <= '9'){
+		return true;
+	}
+	return false;
 }
 
 /*
@@ -429,7 +395,7 @@ void Board::placeBlocksOnBoard()
 	for (int i = 0; i < blocksAmount; i++)
 	{
 		block = allBlocks[i];
-		blockSize = block->getSize();
+		blockSize = block->getListPoints().size();
 		for (int j = 0; j < blockSize; j++)
 		{
 			Point* blockPoint = block->getListPoints()[j];

@@ -33,7 +33,6 @@ public:
 	void setFigure(char fig);
 	void setIsBlock();
 	void setColor(Color c);
-	int getSize () const;
 	vector<Point*> getListPoints();
 	
 	//public methods

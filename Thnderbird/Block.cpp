@@ -52,12 +52,7 @@ void Block::setColor(Color c)
 	color = c;
 }
 
-/*
-This if getter function of size data member.
-*/
-int Block::getSize () const{
-	return size;
-}
+
 /*
 This if getter function of list points data member.
 */
@@ -69,7 +64,7 @@ vector<Point*> Block::getListPoints() {
 This function draw blocks.
 */
 void Block::drawBlock() const {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < list_points.size(); i++)
 	{
 		list_points[i]->draw();
 	}
@@ -87,11 +82,7 @@ Distructor of Block
 */
 Block::~Block(){
 
-	for (int i = 0; i < size; i++) {
-		delete list_points[i];
 
-	}
-	delete[] list_points;
 }
 
 /*
@@ -101,13 +92,13 @@ board matrix. Then, function draws block figure on board in new location and upd
 */
 void Block::move(int direction, Board* board)
 {
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < list_points.size(); i++) {
 		list_points[i]->draw((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId((int)ObjectId::EMPTY);
 	}
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < list_points.size(); i++) {
 		list_points[i]->move(direction);
 		list_points[i]->draw();
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(figure);
