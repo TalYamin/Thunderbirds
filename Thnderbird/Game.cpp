@@ -201,7 +201,7 @@ void Game::getFileNameFromUser()
 {
 	string fileName;
 	clear_screen();
-	cout << "Please insert a fileName:" << endl;
+	cout << "Please insert a file name:" << endl;
 	cin >> fileName;
 	playingBoard.setFileNameByUser(fileName);
 	numOfScreens = 1;
