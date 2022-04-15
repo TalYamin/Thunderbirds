@@ -267,6 +267,7 @@ void Game::pause() {
 		cout << "You win !" << endl;
 		gotoxy(LOG_X, ++logY);
 	}
+
 	else
 	{
 		setTextColor(Color::LIGHTBLUE);
@@ -298,6 +299,7 @@ void Game::pauseCheck(int logY)
 	case GameStatus::NEXT_LEVEL:
 		init();
 		gameStatus = GameStatus::RUNNING;
+		isBigMove = true;
 		isBigOnMoving = false;
 		isSmallOnMoving = false;
 		run();
@@ -434,7 +436,7 @@ This function is used to draw ship icon of active ship on screen.
 void Game::drawIcon(const SpaceShip& ship) const
 {
 	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
-	for (int j = 0;j < ship.getVerticalSize(); j++)
+	for (int j = 0; j < ship.getVerticalSize(); j++)
 	{
 		for (int i = 0; i < ship.getHorizontalSize(); i++)
 		{
@@ -472,7 +474,6 @@ void Game::checkVictory(SpaceShip* ship) {
 	}
 	if (playingBoard.getBigShip()->getIsExit() == true && playingBoard.getSmallShip()->getIsExit() == true) {
 		gameStatus = GameStatus::VICTORY;
-		numOfWins++;
 	}
 }
 
