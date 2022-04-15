@@ -98,7 +98,9 @@ void Game::makeSelection() {
 		break;
 	case GameStatus::START:
 		init();
-		run();
+		if (!playingBoard.getIsFileLoadFail()){
+			run();
+		}
 	case GameStatus::EXIT:
 		setTextColor(Color::DARKGREY);
 		cout << "Goodbye !" << endl;
@@ -223,10 +225,13 @@ game metadata printing.
 void Game::init() {
 	clear_screen();
 	playingBoard.initBoard();
-	playingBoard.draw();
 
-	gameMetadata(*(playingBoard.getBigShip()));
-	hideCursor();
+	if (!playingBoard.getIsFileLoadFail()){
+		playingBoard.draw();
+
+		gameMetadata(*(playingBoard.getBigShip()));
+		hideCursor();
+	}	
 }
 
 /*
@@ -298,6 +303,7 @@ void Game::pauseCheck(int logY)
 	case GameStatus::NEXT_LEVEL:
 		init();
 		gameStatus = GameStatus::RUNNING;
+		isBigMove = true;
 		isBigOnMoving = false;
 		isSmallOnMoving = false;
 		run();

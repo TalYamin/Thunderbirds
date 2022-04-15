@@ -50,6 +50,7 @@ class Board
 	bool isSmallShipInitialized = false;
 	vector<Point*> exitPoints;
 	char currFileSuffix = 'a';
+	bool isFileLoadFail = false;
 
 public:
 
@@ -76,6 +77,7 @@ public:
 	vector<Point*> getExitPoints() const;
 	char getCurrFileSuffix();
 	void setCurrFileSuffix(char _currFileSuffix);
+	bool getIsFileLoadFail() const;
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;

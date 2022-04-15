@@ -18,7 +18,10 @@ void Board::initBoard()
 	isSmallShipInitialized = false;
 	initShips();
 	loadBoardFromTextFile(fileName);
-	addAllExitPoints();
+	if (!isFileLoadFail){
+		addAllExitPoints();
+
+	}
 }
 
 
@@ -47,6 +50,7 @@ void Board::loadBoardFromTextFile(string fileName)
 
 	if (!in.eof() && in.fail()) {
 		cout << "error reading " << fileName << endl;
+		isFileLoadFail = true;
 	}
 
 	in.close();
@@ -579,6 +583,11 @@ char Board::getCurrFileSuffix()
 void Board::setCurrFileSuffix(char _currFileSuffix)
 {
 	currFileSuffix = _currFileSuffix;
+}
+
+bool Board::getIsFileLoadFail() const
+{
+	return isFileLoadFail;
 }
 
 
