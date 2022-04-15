@@ -18,6 +18,10 @@
 #define MAX_TIME 10000
 #define BIG_SHIP_CARRING_SIZE 6
 #define SMALL_SHIP_CARRING_SIZE 2
+#define FILE_PREFIX "tb_"
+#define FILE_EXTENSION ".screen"
+#define FIRST_BOARD_SUFFIX 'a'
+
 
 #include "Point.h"
 #include "Block.h"
@@ -48,6 +52,8 @@ class Board
 	int shipsAmount = 2;
 	bool isBigShipInitialized = false;
 	bool isSmallShipInitialized = false;
+	vector<Point*> exitPoints;
+	char currFileSuffix = FIRST_BOARD_SUFFIX;
 
 public:
 
@@ -71,6 +77,9 @@ public:
 	SpaceShip* getBigShip() const;
 	SpaceShip* getSmallShip() const;
 	vector <Ghost*> getAllGhosts() const;
+	vector<Point*> getExitPoints() const;
+	char getCurrFileSuffix();
+	void setCurrFileSuffix(char _currFileSuffix);
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;
@@ -100,6 +109,8 @@ private:
 	int initBlock(int x, int y, char c);
 	Block* checkIsBlockExist(const char& c);
 	bool isBlockFigure(const char& c);
+	void addExitPoint(Point* point);
+	void addAllExitPoints();
 };
 
 

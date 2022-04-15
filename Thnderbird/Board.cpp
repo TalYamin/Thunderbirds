@@ -8,13 +8,17 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard()
 {
+	string fileName = FILE_PREFIX;
+	fileName.append(1, currFileSuffix);
+	fileName += FILE_EXTENSION;
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
 	isSmallShipInitialized = false;
 	initShips();
-	loadBoardFromTextFile("tb_a.screen");	
+	loadBoardFromTextFile(fileName);
+	addAllExitPoints();
 }
 
 
@@ -385,6 +389,27 @@ bool Board::isBlockFigure(const char& c)
 	return false;
 }
 
+void Board::addExitPoint(Point* point)
+{
+	exitPoints.push_back(point);
+}
+
+void Board::addAllExitPoints(){
+
+	for (int i = 0; i < maxHorizontalSize; i++) { //downExit
+		if (mat[i][maxVerticalSize-1].getFigure() == (char)BoardFigure::EMPTY) {
+			addExitPoint(&mat[i][maxVerticalSize - 1]);
+		}
+	}
+
+	for (int j = 0; j < maxVerticalSize; j++){ //rightExit
+		if (mat[maxHorizontalSize - 1][j].getFigure() == (char)BoardFigure::EMPTY) {
+			addExitPoint(&mat[maxHorizontalSize - 1][j]);
+		}
+	}
+
+}
+
 
 
 /*
@@ -392,11 +417,11 @@ This function is used to initialize ships.
 */
 void Board::initShips()
 {
-	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
+	bigShip = new SpaceShip(2, 2, (char)BoardFigure::BIG_SHIP, Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
 	bigShip->setArrowKeys("wxad");
 
 
-	smallShip = new SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
+	smallShip = new SpaceShip(1, 2, (char)BoardFigure::SMALL_SHIP, Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
 	smallShip->setArrowKeys("wxad");
 
 }
@@ -452,13 +477,22 @@ bool Board::checkExit(SpaceShip* ship) {
 
 	int x = ship->getShipMat()[0][0].getX();
 	int y = ship->getShipMat()[0][0].getY();
-	if (y == EXIT_Y && (x == EXIT_X1 || x == EXIT_X2 || x == EXIT_X3)) {
-		removeShipFromBoard(ship);
-		return true;
+	for (int i = 0; i < exitPoints.size(); i++) {
+		if (exitPoints[i]->getX() == maxHorizontalSize-1){
+			if (exitPoints[i]->getX()+1 == x && exitPoints[i]->getY() == y) {
+				removeShipFromBoard(ship);
+				return true;
+			}
+		}
+		else {
+			if (exitPoints[i]->getX() == x && exitPoints[i]->getY()+1 == y) {
+				removeShipFromBoard(ship);
+				return true;
+			}
+		}
+	
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 /*
@@ -529,6 +563,21 @@ SpaceShip* Board::getSmallShip() const {
 vector<Ghost*> Board::getAllGhosts() const
 {
 	return allGhosts;
+}
+
+vector<Point*> Board::getExitPoints() const
+{
+	return exitPoints;
+}
+
+char Board::getCurrFileSuffix()
+{
+	return currFileSuffix;
+}
+
+void Board::setCurrFileSuffix(char _currFileSuffix)
+{
+	currFileSuffix = _currFileSuffix;
 }
 
 
