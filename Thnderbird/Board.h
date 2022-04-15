@@ -18,6 +18,10 @@
 #define MAX_TIME 10000
 #define BIG_SHIP_CARRING_SIZE 6
 #define SMALL_SHIP_CARRING_SIZE 2
+#define FILE_PREFIX "tb_"
+#define FILE_EXTENSION ".screen"
+#define FIRST_BOARD_SUFFIX 'a'
+
 
 #include "Point.h"
 #include "Block.h"
@@ -49,7 +53,7 @@ class Board
 	bool isBigShipInitialized = false;
 	bool isSmallShipInitialized = false;
 	vector<Point*> exitPoints;
-	char currFileSuffix = 'a';
+	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string fileNameByUser;
 

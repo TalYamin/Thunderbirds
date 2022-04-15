@@ -10,9 +10,9 @@ void Board::initBoard()
 {
 	string fileName;
 	if (fileNameByUser.empty()){
-		fileName = "tb_";
+		fileName = FILE_PREFIX;
 		fileName.append(1, currFileSuffix);
-		fileName += ".screen";
+		fileName += FILE_EXTENSION;
 	}
 	else {
 		fileName = fileNameByUser;
@@ -406,14 +406,13 @@ void Board::addExitPoint(Point* point)
 
 void Board::addAllExitPoints(){
 
-	for (int i = 0; i < maxHorizontalSize; i++) {
-
+	for (int i = 0; i < maxHorizontalSize; i++) { //downExit
 		if (mat[i][maxVerticalSize-1].getFigure() == (char)BoardFigure::EMPTY) {
 			addExitPoint(&mat[i][maxVerticalSize - 1]);
 		}
 	}
 
-	for (int j = 0; j < maxVerticalSize; j++){
+	for (int j = 0; j < maxVerticalSize; j++){ //rightExit
 		if (mat[maxHorizontalSize - 1][j].getFigure() == (char)BoardFigure::EMPTY) {
 			addExitPoint(&mat[maxHorizontalSize - 1][j]);
 		}
@@ -428,11 +427,11 @@ This function is used to initialize ships.
 */
 void Board::initShips()
 {
-	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
+	bigShip = new SpaceShip(2, 2, (char)BoardFigure::BIG_SHIP, Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
 	bigShip->setArrowKeys("wxad");
 
 
-	smallShip = new SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
+	smallShip = new SpaceShip(1, 2, (char)BoardFigure::SMALL_SHIP, Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
 	smallShip->setArrowKeys("wxad");
 
 }
