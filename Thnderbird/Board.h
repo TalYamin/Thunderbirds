@@ -54,6 +54,8 @@ class Board
 	bool isSmallShipInitialized = false;
 	vector<Point*> exitPoints;
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
+	bool isFileLoadFail = false;
+	string fileNameByUser;
 
 public:
 
@@ -80,6 +82,8 @@ public:
 	vector<Point*> getExitPoints() const;
 	char getCurrFileSuffix();
 	void setCurrFileSuffix(char _currFileSuffix);
+	bool getIsFileLoadFail() const;
+	void setFileNameByUser(string _fileNameByUser);
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;

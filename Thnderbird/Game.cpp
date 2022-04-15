@@ -76,6 +76,7 @@ void Game::printMenu() const {
 	cout << "Welcome to Thunderbirds !" << endl;
 	cout << "Please make a selection:" << endl;
 	cout << "(1) Start a new game" << endl;
+	cout << "(7) Start a new game with specific screen" << endl;
 	cout << "(8) Present instructions and keys" << endl;
 	cout << "(9) EXIT" << endl;
 
@@ -86,6 +87,7 @@ This function is used to receive a selection from user according to menu options
 */
 void Game::makeSelection() {
 	int userInput;
+	string fileName;
 	cin >> userInput;
 	userSelection = static_cast<GameStatus>(userInput);
 	switch (userSelection)
@@ -96,9 +98,13 @@ void Game::makeSelection() {
 		clear_screen();
 		start();
 		break;
+	case GameStatus::START_FILE_NAME:
+		getFileNameFromUser();
 	case GameStatus::START:
 		init();
-		run();
+		if (!playingBoard.getIsFileLoadFail()){
+			run();
+		}
 	case GameStatus::EXIT:
 		setTextColor(Color::DARKGREY);
 		cout << "Goodbye !" << endl;
@@ -191,6 +197,16 @@ void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& ship
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
+void Game::getFileNameFromUser()
+{
+	string fileName;
+	clear_screen();
+	cout << "Please insert a file name:" << endl;
+	cin >> fileName;
+	playingBoard.setFileNameByUser(fileName);
+	numOfScreens = 1;
+}
+
 /*
 This function is used to show game instructions and keys.
 */
@@ -223,10 +239,13 @@ game metadata printing.
 void Game::init() {
 	clear_screen();
 	playingBoard.initBoard();
-	playingBoard.draw();
 
-	gameMetadata(*(playingBoard.getBigShip()));
-	hideCursor();
+	if (!playingBoard.getIsFileLoadFail()){
+		playingBoard.draw();
+
+		gameMetadata(*(playingBoard.getBigShip()));
+		hideCursor();
+	}	
 }
 
 /*

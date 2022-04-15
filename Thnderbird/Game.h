@@ -13,7 +13,7 @@
 #define COLORFUL 1
 #define BLACK_WHITE 2
 #define TIME_LEN 5
-
+#define NUM_OF_SCREENS 3
 
 extern bool isBlackAndWhite;
 
@@ -29,7 +29,7 @@ class Game
 	bool isBigStart = false;
 	bool isSmallStart = false;
 	int lives = 3;
-	int numOfScreens = 3;
+	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
 
 public:
@@ -73,5 +73,6 @@ private:
 	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
+	void getFileNameFromUser();
 };
 

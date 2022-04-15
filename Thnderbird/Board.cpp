@@ -8,9 +8,15 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard()
 {
-	string fileName = FILE_PREFIX;
-	fileName.append(1, currFileSuffix);
-	fileName += FILE_EXTENSION;
+	string fileName;
+	if (fileNameByUser.empty()){
+		fileName = FILE_PREFIX;
+		fileName.append(1, currFileSuffix);
+		fileName += FILE_EXTENSION;
+	}
+	else {
+		fileName = fileNameByUser;
+	}
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
@@ -18,7 +24,10 @@ void Board::initBoard()
 	isSmallShipInitialized = false;
 	initShips();
 	loadBoardFromTextFile(fileName);
-	addAllExitPoints();
+	if (!isFileLoadFail){
+		addAllExitPoints();
+
+	}
 }
 
 
@@ -47,6 +56,7 @@ void Board::loadBoardFromTextFile(string fileName)
 
 	if (!in.eof() && in.fail()) {
 		cout << "error reading " << fileName << endl;
+		isFileLoadFail = true;
 	}
 
 	in.close();
@@ -578,6 +588,17 @@ char Board::getCurrFileSuffix()
 void Board::setCurrFileSuffix(char _currFileSuffix)
 {
 	currFileSuffix = _currFileSuffix;
+}
+
+bool Board::getIsFileLoadFail() const
+{
+	return isFileLoadFail;
+}
+
+void Board::setFileNameByUser(string _fileNameByUser){
+
+	fileNameByUser = _fileNameByUser;
+
 }
 
 
