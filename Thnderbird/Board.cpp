@@ -8,9 +8,15 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard()
 {
-	string fileName = "tb_";
-	fileName.append(1, currFileSuffix);
-	fileName += ".screen";
+	string fileName;
+	if (fileNameByUser.empty()){
+		fileName = "tb_";
+		fileName.append(1, currFileSuffix);
+		fileName += ".screen";
+	}
+	else {
+		fileName = fileNameByUser;
+	}
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
@@ -588,6 +594,12 @@ void Board::setCurrFileSuffix(char _currFileSuffix)
 bool Board::getIsFileLoadFail() const
 {
 	return isFileLoadFail;
+}
+
+void Board::setFileNameByUser(string _fileNameByUser){
+
+	fileNameByUser = _fileNameByUser;
+
 }
 
 

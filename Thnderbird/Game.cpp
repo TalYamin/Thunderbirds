@@ -76,6 +76,7 @@ void Game::printMenu() const {
 	cout << "Welcome to Thunderbirds !" << endl;
 	cout << "Please make a selection:" << endl;
 	cout << "(1) Start a new game" << endl;
+	cout << "(7) Start a new game with specific screen" << endl;
 	cout << "(8) Present instructions and keys" << endl;
 	cout << "(9) EXIT" << endl;
 
@@ -86,6 +87,7 @@ This function is used to receive a selection from user according to menu options
 */
 void Game::makeSelection() {
 	int userInput;
+	string fileName;
 	cin >> userInput;
 	userSelection = static_cast<GameStatus>(userInput);
 	switch (userSelection)
@@ -96,6 +98,8 @@ void Game::makeSelection() {
 		clear_screen();
 		start();
 		break;
+	case GameStatus::START_FILE_NAME:
+		getFileNameFromUser();
 	case GameStatus::START:
 		init();
 		if (!playingBoard.getIsFileLoadFail()){
@@ -191,6 +195,16 @@ void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& ship
 	deleteIcon(shipToMove);
 	drawIcon(shipToSwitch);
 	shipToMove.setDirection(NO_DIRECTION);
+}
+
+void Game::getFileNameFromUser()
+{
+	string fileName;
+	clear_screen();
+	cout << "Please insert a fileName:" << endl;
+	cin >> fileName;
+	playingBoard.setFileNameByUser(fileName);
+	numOfScreens = 1;
 }
 
 /*

@@ -7,9 +7,10 @@ enum class GameStatus {
 	DIE = 4,
 	GAMEOVER = 5,
 	VICTORY = 6,
-	NEXT_LEVEL = 7,
+	START_FILE_NAME = 7,
 	INFO = 8,
 	EXIT = 9,
+	NEXT_LEVEL = 10,
 	PAUSE_EXIT = 57,
 	ESC = 27
 };

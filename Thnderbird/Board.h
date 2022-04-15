@@ -51,6 +51,7 @@ class Board
 	vector<Point*> exitPoints;
 	char currFileSuffix = 'a';
 	bool isFileLoadFail = false;
+	string fileNameByUser;
 
 public:
 
@@ -78,6 +79,7 @@ public:
 	char getCurrFileSuffix();
 	void setCurrFileSuffix(char _currFileSuffix);
 	bool getIsFileLoadFail() const;
+	void setFileNameByUser(string _fileNameByUser);
 
 	//public methods
 	Block* getBlockById(const int& objectId) const;
