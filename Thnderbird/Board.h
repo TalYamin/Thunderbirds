@@ -26,6 +26,7 @@
 #include "ObjectId.h"
 #include "Ghost.h"
 #include <vector>
+#include <fstream>
 
 
 class SpaceShip;
@@ -40,13 +41,13 @@ class Board
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
 	long timeRemains = MAX_TIME;
-	Block* allBlocks[3] = { nullptr,nullptr,nullptr };
+	vector <Block*> allBlocks;
 	vector <Ghost*> allGhosts;
-	int blocksAmount = 0;
 	SpaceShip* smallShip = {};
 	SpaceShip* bigShip = {};
 	int shipsAmount = 2;
-	int ghostsAmount = 0;
+	bool isBigShipInitialized = false;
+	bool isSmallShipInitialized = false;
 
 public:
 
@@ -75,9 +76,8 @@ public:
 	Block* getBlockById(const int& objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
 	bool checkExit(SpaceShip* ship);
-	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
+	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost);
 	void initBoard();
-	int CheckObjectId(const char& ch) const;
 	void timeDown();
 	void draw() const;
 	void setMatrixPoint(int _x, int _y, Point* _p);
@@ -89,16 +89,17 @@ private:
 
 	//private methods
 	bool isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve);
-	void initBlocks();
-	void placeShipsOnBoard(SpaceShip* ship);
 	void initShips();
 	void insertNewBlock(Block* block);
 	bool isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
-	void placeBlocksOnBoard();
-	void placeGhostsOnBoard();
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
-	void initGhosts();
-
+	int initGhost(const int& x, const int& y);
+	void loadBoardFromTextFile(string fileName);
+	void setPointAndObject(const int& x, const int& y,const char& c);
+	void placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId);
+	int initBlock(int x, int y, char c);
+	Block* checkIsBlockExist(const char& c);
+	bool isBlockFigure(const char& c);
 };
 
 

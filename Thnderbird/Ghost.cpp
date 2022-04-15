@@ -46,6 +46,11 @@ int Ghost::getSize()
 	return size;
 }
 
+int Ghost::getId()
+{
+	return ghostId;
+}
+
 void Ghost::MoveGhost(Board* board) {
 
 	for (int i = 0; i < size; i++)
@@ -69,13 +74,13 @@ void Ghost::checkGhostCollision(Board* board)
 	switch (direction)
 	{
 	case (int)Direction::LEFT:
-		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), direction, blocksInvolve, 0);
+		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr);
 		if (isGhostBlock){
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() - 1, list_points[0]->getY());
 		}
 		break;
 	case (int)Direction::RIGHT: 
-		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), direction, blocksInvolve, 0);
+		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr);
 		if (isGhostBlock) {
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() + 1, list_points[0]->getY());
 		}

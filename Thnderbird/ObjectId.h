@@ -4,4 +4,5 @@ enum class ObjectId {
 	SMALL = -2,
 	BIG = -3,
 	WALL = -4,
+	INFO = -5
 };

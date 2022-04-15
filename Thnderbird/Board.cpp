@@ -9,62 +9,99 @@ Then function calls to initBlocks() and initShips() functions.
 void Board::initBoard()
 {
 	timeRemains = MAX_TIME;
-	size_t boardLen;
+	allBlocks.clear();
+	allGhosts.clear();
+	isBigShipInitialized = false;
+	isSmallShipInitialized = false;
+	initShips();
+	loadBoardFromTextFile("tb_a.screen");	
+}
+
+
+
+void Board::loadBoardFromTextFile(string fileName)
+{
 	int y = 0;
 	int x = 0;
-	const char* boardData = R""""(++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++                          +                       +                     +
-+                                +                       +                     +
-+++++++                          +                       +                     +
-+                                +                       +                     +
-+      +                         +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                                        +                     +
-+                                                        +                     +
-+                                +++++++++               +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +           +++++++++++++                     +
-+                                +                                             +
-+                                +                                             +
-+                                +    ++++++++++++++++++++                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-+                                +                       +                     +
-++++++++++++++++++++++++++++++++++++++++++    ++++++++++++++++++++++++++++++++++)"""";
-	boardLen = strlen(boardData);
-	for (int i = 0; i < boardLen; i++)
-	{
-		if (boardData[i] == '\n') {
-			y++;
-			x = 0;
-		}
-		else
-		{
-			int objectId = CheckObjectId(boardData[i]);
-			Point* point = new Point(x, y, boardData[i], Color::WHITE, objectId);
-			setMatrixPoint(x, y, point);
-			delete point;
-			x++;
+	ifstream in(fileName);
+	char c;
+
+	if (in.is_open()) {
+		while (in.good()) {
+			in.get(c);
+			if (c == '\n') {
+				y++;
+				x = 0;
+			}
+			else
+			{
+				setPointAndObject(x, y, c);
+				x++;
+			}
 		}
 	}
-	initBlocks();
-	initShips();
-	initGhosts();
+
+	if (!in.eof() && in.fail()) {
+		cout << "error reading " << fileName << endl;
+	}
+
+	in.close();
 }
 
-/*
-This function is used to check the objectId according to char type from board string.
-*/
-int Board::CheckObjectId(const char& ch) const {
-	return ch == (char)BoardFigure::EMPTY ? (int)ObjectId::EMPTY : (int)ObjectId::WALL;
-
+void Board::setPointAndObject(const int& x, const int& y, const char& c)
+{
+	int objectId;
+	switch (c)
+	{
+	case (char)BoardFigure::INFO:
+		objectId = (int)ObjectId::INFO;
+		placePointOnBoard(x, y, c, Color::WHITE, (int)ObjectId::EMPTY);
+		break;
+	case (char)BoardFigure::EMPTY:
+		objectId = (int)ObjectId::EMPTY;
+		placePointOnBoard(x, y, c, Color::WHITE, (int)ObjectId::EMPTY);
+		break;
+	case (char)BoardFigure::WALL:
+		objectId = (int)ObjectId::WALL;
+		placePointOnBoard(x, y, c, Color::WHITE, objectId);
+		break;
+	case (char)BoardFigure::BIG_SHIP:
+		if (!isBigShipInitialized){		
+			bigShip->setupShipMat(x,y);
+			isBigShipInitialized = true;
+		}
+		objectId = (int)ObjectId::BIG;
+		placePointOnBoard(x, y, c, bigShip->getColor(), objectId);
+		break;
+	case (char)BoardFigure::SMALL_SHIP:
+		if (!isSmallShipInitialized){
+			smallShip->setupShipMat(x, y);
+			isSmallShipInitialized = true;
+		}
+		objectId = (int)ObjectId::SMALL;
+		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
+		break;
+	case (char) BoardFigure::HORIZONTAL_GHOST:
+		objectId = initGhost(x, y);
+		placePointOnBoard(x, y, c, Color::BROWN, objectId);
+		break;
+	default:
+		if (isBlockFigure(c)){
+			objectId = initBlock(x, y, c);
+			placePointOnBoard(x, y, c, Color::RED, objectId);
+		}
+		break;
+	}
 }
+
+
+void Board::placePointOnBoard(const int& x, const int& y,const char& c, const Color& color, const int& objectId) {
+	Point* point = new Point(x, y, c, color, objectId);
+	setMatrixPoint(x, y, point);
+	delete point;
+}
+
+
 
 /*
 This function is used to draw board according to points matrix.
@@ -101,11 +138,11 @@ void Board::fallBlocksIfNoFloor()
 	bool needToFall;
 	bool isWallAlsoInvolved = false;
 	vector<SpaceShip*> shipInvolved;
-	for (int i = 0; i < blocksAmount; i++)
+	for (int i = 0; i < allBlocks.size(); i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
-		for (int j = 0; j < block->getSize(); j++) {
+		for (int j = 0; j < block->getListPoints().size(); j++) {
 
 			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved))
 			{
@@ -114,7 +151,7 @@ void Board::fallBlocksIfNoFloor()
 		}
 		for (size_t m = 0; m < shipInvolved.size(); m++)
 		{
-			if (shipInvolved[m]->getMaxCarringBlockSize() < block->getSize() && !isWallAlsoInvolved)
+			if (shipInvolved[m]->getMaxCarringBlockSize() < block->getListPoints().size() && !isWallAlsoInvolved)
 			{
 				shipInvolved[m]->setIsDie(true);
 				return;
@@ -159,7 +196,11 @@ This function is used to check if point is not empty.
 Checking the figure on board matrix. In case of block, calling to isBlockCanMove() function which
 should check if the the block is able to move or block this point.
 */
-bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
+bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost) {
+
+	if (mat[x][y].getFigure() == (char)BoardFigure::HORIZONTAL_GHOST) {
+		*isGhost = true;
+	}
 
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -167,7 +208,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else if (mat[x][y].getFigure() == (char)BoardFigure::BLOCK)
+	else if (isBlockFigure(mat[x][y].getFigure()))
 	{
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
@@ -179,6 +220,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 			return false;
 		}
 	}
+	
 	return true;
 }
 
@@ -189,7 +231,7 @@ Then, passing on any point of block and checking the next index according to dir
 if it is invalid place.
 */
 bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
-	int blockSize = block->getSize();
+	int blockSize = block->getListPoints().size();
 	if (blockSize > maxCarringBlockSize)
 	{
 		return false;
@@ -253,14 +295,14 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
-			blocksSum += blocksInvolve[i]->getSize();
+			blocksSum += blocksInvolve[i]->getListPoints().size();
 		}
-		blocksSum += anotherBlock->getSize();
+		blocksSum += anotherBlock->getListPoints().size();
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
 			case (int)Direction::LEFT: 
-				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize,nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -271,7 +313,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				}
 				break;
 			case (int)Direction::RIGHT:
-				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize)) {
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize,nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -297,66 +339,53 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 }
 
 
-/*
-This function is used to initialize blocks.
-*/
-void Board::initBlocks()
-{
-	blocksAmount = 0;
-
-	int firstBlockSize = 1;
-	int secondBlockSize = 4;
-	int thiredBlockSize = 3;
 
 
-	Point* block1Point1 = new Point(5, 2, (char)BoardFigure::BLOCK, Color::RED);
+int Board::initBlock(int x, int y, char c) {
 
-	Point* blockList1[] = { block1Point1 };
-	Block* block1 = new Block(blockList1, firstBlockSize);
+	Block* block;
+	Point* blockPoint = new Point(x, y, c, Color::RED);
+	block = checkIsBlockExist(c);
+	
+	if (block != nullptr){
+		block->addPointToBlock(blockPoint);
+	}
+	else {
+		vector <Point*> blockList;
+		blockList.push_back(blockPoint);
+		block = new Block(blockList,c);
+		insertNewBlock(block);
+	}
 
-	insertNewBlock(block1);
-
-	Point* block2Point1 = new Point(35, 9, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point2 = new Point(36, 9, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point3 = new Point(35, 10, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block2Point4 = new Point(36, 10, (char)BoardFigure::BLOCK, Color::RED);
-
-
-	Point* blockList2[] = { block2Point1,block2Point2,block2Point3,block2Point4 };
-	Block* block2 = new Block(blockList2, secondBlockSize);
-	insertNewBlock(block2);
-
-	Point* block3Point1 = new Point(55, 18, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block3Point2 = new Point(56, 18, (char)BoardFigure::BLOCK, Color::RED);
-	Point* block3Point3 = new Point(57, 18, (char)BoardFigure::BLOCK, Color::RED);
-
-	Point* blockList3[] = { block3Point1,block3Point2,block3Point3 };
-	Block* block3 = new Block(blockList3, thiredBlockSize);
-	insertNewBlock(block3);
-
-	placeBlocksOnBoard();
+	return block->getblockId();
 
 }
 
-/*
-This function is used to place blocks on board.
-For any block, passing on block points and set them as matrix point on board.
-*/
-void Board::placeBlocksOnBoard()
-{
-	int blockSize;
-	Block* block;
-	for (int i = 0; i < blocksAmount; i++)
-	{
-		block = allBlocks[i];
-		blockSize = block->getSize();
-		for (int j = 0; j < blockSize; j++)
-		{
-			Point* blockPoint = block->getListPoints()[j];
-			setMatrixPoint(blockPoint->getX(), blockPoint->getY(), blockPoint);
+Block* Board::checkIsBlockExist(const char& c) {
+
+	Block* currBlock;
+	vector<Point*> currList;
+	for (int i = 0; i < allBlocks.size(); i++){
+		currBlock = allBlocks[i];
+		currList = currBlock->getListPoints();
+		for (int j = 0; j < currList.size(); j++){
+			if (currList[j]->getFigure() == c){
+				return currBlock;
+			}
 		}
 	}
+	return nullptr;
 }
+
+bool Board::isBlockFigure(const char& c)
+{
+	if (c >= '0' && c <= '9'){
+		return true;
+	}
+	return false;
+}
+
+
 
 /*
 This function is used to initialize ships.
@@ -364,53 +393,26 @@ This function is used to initialize ships.
 void Board::initShips()
 {
 	bigShip = new SpaceShip(2, 2, '#', Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
-	bigShip->setupShipMat();
 	bigShip->setArrowKeys("wxad");
 
 
 	smallShip = new SpaceShip(1, 2, '@', Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
-	smallShip->setupShipMat();
 	smallShip->setArrowKeys("wxad");
 
-	placeShipsOnBoard(bigShip);
-	placeShipsOnBoard(smallShip);
 }
 
-/*
-This function is used to place ships on board, big ship or smalll ship
- Passing on ship matrix points and set them as matrix point on board.
-*/
-void Board::placeShipsOnBoard(SpaceShip* ship)
-{
-	int shipVerticaSize = ship->getVerticalSize();
-	int shipHorizontalSize = ship->getHorizontalSize();
-	for (int i = 0; i < shipVerticaSize; i++)
-	{
-		for (int j = 0; j < shipHorizontalSize; j++) {
-			setMatrixPoint(ship->getShipMat()[i][j].getX(), ship->getShipMat()[i][j].getY(), &(ship->getShipMat()[i][j]));
-		}
-	}
-}
 
-void Board::initGhosts() {
 
-	ghostsAmount = 2;
+int Board::initGhost(const int& x,const int& y) {
+
+	int size = 1;
 	
-	int size1 = 1;
-	Point* ghostPoint1 = new Point(1, 19, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
-	Point* ghostList1[] = { ghostPoint1 };
-	Ghost* ghost1 = new Ghost(ghostList1,size1);
+	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostList[] = { ghostPoint };
+	Ghost* ghost = new Ghost(ghostList,size);
 	
-	int size2 = 1;
-	Point* ghostPoint2 = new Point(78, 18, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
-	Point* ghostList2[] = {ghostPoint2};
-	Ghost* ghost2 = new Ghost(ghostList2, size2);
-
-	allGhosts.clear();
-	allGhosts.push_back(ghost1);
-	allGhosts.push_back(ghost2);
-
-	placeGhostsOnBoard();
+	allGhosts.push_back(ghost);
+	return ghost->getId();
 }
 
 void Board::moveGhosts() {
@@ -421,33 +423,13 @@ void Board::moveGhosts() {
 
 }
 
-void Board::placeGhostsOnBoard(){
-
-	int ghostSize;
-
-	for (int i = 0; i < allGhosts.size(); i++){
-
-		ghostSize = allGhosts[i]->getSize();
-
-		for (int j = 0; j < ghostSize; j++)
-		{
-			setMatrixPoint(allGhosts[i]->list_points[j]->getX(), allGhosts[i]->list_points[j]->getY(), allGhosts[i]->list_points[j]);
-		}
-		
-	}
-
-}
-
 
 /*
 This function is used to insert new block to blocks array
 */
 void Board::insertNewBlock(Block* block)
 {
-
-	blocksAmount++;
-
-	allBlocks[blocksAmount - 1] = block;
+	allBlocks.push_back(block);
 }
 
 /*
@@ -501,7 +483,7 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 This function is used to get block by its id.
 */
 Block* Board::getBlockById(const int& objectId) const {
-	for (int i = 0; i < blocksAmount; i++) {
+	for (int i = 0; i < allBlocks.size(); i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
 		}
@@ -598,7 +580,7 @@ Distruction of Board.
 */
 Board::~Board() {
 
-	for (int i = 0; i < blocksAmount; i++){
+	for (int i = 0; i < allBlocks.size(); i++){
 		delete allBlocks[i];
 	}
 

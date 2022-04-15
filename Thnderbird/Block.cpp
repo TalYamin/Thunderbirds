@@ -7,32 +7,23 @@ int Block::idGenerator = 0;
 /*
 Constructor for Block.
 */
-Block::Block(Point** _list_points, char _figure, Color _color, bool _isBlock, int _size, int _blockId) {
-	list_points = (Point**)malloc(sizeof(Point*) * size);
-	for (int i = 0; i < size; i++)
-	{
-		list_points[i] = _list_points[i];
-	}
+Block::Block(vector <Point*> _list_points, char _figure, Color _color, bool _isBlock, int _blockId) {
+	list_points = _list_points;
 	figure = _figure;
 	color = _color;
 	isBlock = _isBlock;
-	size = _size;
 	blockId = _blockId;
 }
 
 /*
 Constructor for Block.
 */
-Block::Block(Point** _list_points, int _size)
+Block::Block(vector <Point*> _list_points, char _figure)
 {
-	list_points = (Point**)malloc(sizeof(Point*) * _size);
-	for (int i = 0; i < _size; i++)
-	{
-		list_points[i] = _list_points[i];
-	}
-	size = _size;
+	list_points = _list_points;
+	figure = _figure;
 	blockId = idGenerator++;
-	for (int i = 0; i < _size; i++)
+	for (int i = 0; i < list_points.size(); i++)
 	{
 		list_points[i]->setObjecId(blockId);
 	}
@@ -62,16 +53,11 @@ void Block::setColor(Color c)
 	color = c;
 }
 
-/*
-This if getter function of size data member.
-*/
-int Block::getSize () const{
-	return size;
-}
+
 /*
 This if getter function of list points data member.
 */
-Point** Block::getListPoints() const{
+vector<Point*> Block::getListPoints() {
 	return list_points;
 }
 
@@ -79,7 +65,7 @@ Point** Block::getListPoints() const{
 This function draw blocks.
 */
 void Block::drawBlock() const {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < list_points.size(); i++)
 	{
 		list_points[i]->draw();
 	}
@@ -97,11 +83,7 @@ Distructor of Block
 */
 Block::~Block(){
 
-	for (int i = 0; i < size; i++) {
-		delete list_points[i];
 
-	}
-	delete[] list_points;
 }
 
 /*
@@ -111,13 +93,13 @@ board matrix. Then, function draws block figure on board in new location and upd
 */
 void Block::move(int direction, Board* board)
 {
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < list_points.size(); i++) {
 		list_points[i]->draw((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId((int)ObjectId::EMPTY);
 	}
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < list_points.size(); i++) {
 		list_points[i]->move(direction);
 		list_points[i]->draw();
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(figure);
@@ -131,4 +113,9 @@ This function is used to make block falling.
 void Block::fall(Board* board)
 {
 	move(1, board);
+}
+
+void Block::addPointToBlock(Point* p)
+{
+	list_points.push_back(p);
 }

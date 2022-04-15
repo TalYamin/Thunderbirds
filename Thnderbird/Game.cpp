@@ -222,7 +222,6 @@ game metadata printing.
 */
 void Game::init() {
 	clear_screen();
-	playingBoard.getAllGhosts();
 	playingBoard.initBoard();
 	playingBoard.draw();
 

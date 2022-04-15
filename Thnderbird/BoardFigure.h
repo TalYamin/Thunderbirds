@@ -1,9 +1,9 @@
 #pragma once
 enum class BoardFigure {
 	EMPTY = 32,
-	WALL = 43,
+	WALL = 87,
 	BIG_SHIP = 35,
 	HORIZONTAL_GHOST = 36,
 	SMALL_SHIP = 64,
-	BLOCK = 66
+	INFO = 38
 };
