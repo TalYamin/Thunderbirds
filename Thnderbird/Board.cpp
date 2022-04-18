@@ -9,13 +9,13 @@ Then function calls to initBlocks() and initShips() functions.
 void Board::initBoard()
 {
 	string fileName;
-	if (fileName.empty()){
+	if (fileNameByUser.empty()){
 		fileName = FILE_PREFIX;
 		fileName.append(1, currFileSuffix);
 		fileName += FILE_EXTENSION;
 	}
 	else {
-		fileName = fileName;
+		fileName = fileNameByUser;
 	}
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
