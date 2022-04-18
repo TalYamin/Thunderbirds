@@ -1,15 +1,19 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 25
-#define LIVES_X 30
-#define LIVES_Y 29
-#define TIME_X 30
-#define TIME_Y 30
+#define LIVES_X 1
+#define LIVES_Y 1
+#define TIME_X 22
+#define TIME_Y 1
+#define SHIP_X 42
+#define SHIP_Y 1
+#define BOARD_NAME_X 62
+#define BOARD_NAME__Y 1
 #define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
 #define LOG_X 30
-#define LOG_Y 33
+#define LOG_Y 27
 #define EXIT_Y 25
 #define EXIT_X1 42
 #define EXIT_X2 43

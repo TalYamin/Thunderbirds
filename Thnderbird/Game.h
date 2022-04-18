@@ -5,7 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
-#define GAME_SPEED 100
+#define GAME_SPEED 50
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
@@ -14,6 +14,7 @@
 #define BLACK_WHITE 2
 #define TIME_LEN 5
 #define NUM_OF_SCREENS 3
+#define METADATA_LOG_SIZE 15
 
 extern bool isBlackAndWhite;
 
@@ -31,6 +32,10 @@ class Game
 	int lives = 3;
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
+	int timeIndexPlace = 0;
+	int liveIndexPlace = 0;
+	int shipIndexPlace = 0;
+	int boardNameIndexPlace = 0;
 
 public:
 	//ctors + dtors
@@ -42,6 +47,14 @@ public:
 	//getters + setters
 	void setLives(int _lives);
 	int getLives() const;
+	void setTimeIndexPlace(int _timeIndexPlace);
+	int getTimeIndexPlace() const;
+	void setLiveIndexPlace(int _liveIndexPlace);
+	int getLiveIndexPlace() const;
+	void setShipIndexPlace(int _shpiIndexPlace);
+	int getShipIndexPlace() const;	
+	void setBoardNameIndexPlace(int _boardNameIndexPlace);
+	int getBoardNameIndexPlace() const;
 
 	//public methods
 	void selectColorMode() const;
@@ -61,9 +74,10 @@ private:
 	void pause();
 	void pauseCheck(int logY);
 	void printTime(const int x, const int y) const;
-	void printTextDescription(const int x, const int y, const char* text) const;
+	void printTextDescription(const int x, const int y, const std::string text) const;
 	void printLives(const int x, const int y) const;
-	void gameMetadata(const SpaceShip& ship) const;
+	void gameMetadata(const SpaceShip& ship);
+	void makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const;
 	void deadHeartHandler();
 	bool isLose();
 	bool isSomeShipDie();
@@ -74,5 +88,9 @@ private:
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 	void getFileNameFromUser();
+	void printPlayingShip(const int x, const int y, const SpaceShip& ship) const;
+	void printPlayingBoardName(const int x, const int y, char boardPrefix) const;
+
 };
+
 

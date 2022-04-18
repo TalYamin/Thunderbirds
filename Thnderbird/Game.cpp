@@ -37,6 +37,43 @@ int Game::getLives() const
 	return lives;
 }
 
+int Game::getTimeIndexPlace() const
+{
+	return timeIndexPlace;
+}
+
+void Game::setTimeIndexPlace(int _timeIndexPlace) {
+	timeIndexPlace = _timeIndexPlace;
+}
+
+int Game::getLiveIndexPlace() const
+{
+	return timeIndexPlace;
+}
+
+void Game::setLiveIndexPlace(int _liveIndexPlace) {
+	liveIndexPlace = _liveIndexPlace;
+}
+
+int Game::getShipIndexPlace() const
+{
+	return shipIndexPlace;
+}
+
+void Game::setBoardNameIndexPlace(int _boardNameIndexPlace)
+{
+	boardNameIndexPlace = _boardNameIndexPlace;
+}
+
+int Game::getBoardNameIndexPlace() const
+{
+	return boardNameIndexPlace;
+}
+
+void Game::setShipIndexPlace(int _shipIndexPlace) {
+	shipIndexPlace = _shipIndexPlace;
+}
+
 /*
 This function is used to print color menu.
 */
@@ -102,7 +139,7 @@ void Game::makeSelection() {
 		getFileNameFromUser();
 	case GameStatus::START:
 		init();
-		if (!playingBoard.getIsFileLoadFail()){
+		if (!playingBoard.getIsFileLoadFail()) {
 			run();
 		}
 	case GameStatus::EXIT:
@@ -179,7 +216,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		playingBoard.moveGhosts();
 		Sleep(GAME_SPEED);
 		playingBoard.timeDown();
-		printTime(TIME_X, TIME_Y);
+		printTime(timeIndexPlace, TIME_Y);
 	}
 	return key;
 }
@@ -193,7 +230,7 @@ void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& ship
 	isBigMove = !isBigMove;
 	isOnMoving = true;
 	deleteIcon(shipToMove);
-	drawIcon(shipToSwitch);
+	printPlayingShip(shipIndexPlace, SHIP_Y, shipToSwitch);
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
@@ -205,6 +242,28 @@ void Game::getFileNameFromUser()
 	cin >> fileName;
 	playingBoard.setFileNameByUser(fileName);
 	numOfScreens = 1;
+}
+
+void Game::printPlayingShip(const int x, const int y, const SpaceShip& ship) const
+{
+	gotoxy(x, y);
+	switch (ship.getType())
+	{
+	case ShipSize::SMALL:
+		setTextColor(Color::BLUE);
+		cout << "Small";
+		break;
+	default:
+		setTextColor(Color::GREEN);
+		cout << "Big  ";
+		break;
+	}
+}
+void Game::printPlayingBoardName(const int x, const int y, char boardSuffix) const
+{
+	gotoxy(x, y);
+	setTextColor(Color::LIGHTRED);
+	cout << FILE_PREFIX << boardSuffix << FILE_EXTENSION;
 }
 
 /*
@@ -240,12 +299,12 @@ void Game::init() {
 	clear_screen();
 	playingBoard.initBoard();
 
-	if (!playingBoard.getIsFileLoadFail()){
+	if (!playingBoard.getIsFileLoadFail()) {
 		playingBoard.draw();
 
 		gameMetadata(*(playingBoard.getBigShip()));
 		hideCursor();
-	}	
+	}
 }
 
 /*
@@ -280,6 +339,7 @@ void Game::pause() {
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
 		playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
+		printPlayingBoardName(boardNameIndexPlace, 1, playingBoard.getCurrFileSuffix());
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
@@ -370,7 +430,7 @@ void Game::printTime(const int x, const int y) const
 /*
 This function is used to print text description.
 */
-void Game::printTextDescription(const int x, const int y, const char* text) const
+void Game::printTextDescription(const int x, const int y, const std::string text) const
 {
 	setTextColor(Color::WHITE);
 	gotoxy(x, y);
@@ -396,13 +456,40 @@ void Game::printLives(const int x, const int y) const
 /*
 This function is used to prints all game metadata.
 */
-void Game::gameMetadata(const SpaceShip& ship) const
+void Game::gameMetadata(const SpaceShip& ship)
 {
-	printTextDescription(LIVES_X - SPACE_BETWEEN_METADATA, LIVES_Y, "Lives Remains: ");
-	printLives(LIVES_X, LIVES_Y);
-	printTextDescription(TIME_X - SPACE_BETWEEN_METADATA, TIME_Y, "Time Remains: ");
-	printTime(TIME_X, TIME_Y);
-	drawIcon(ship);
+	int x = 0, y = 1, metadataBlock = 0;
+	std::string liveTextDescription = "Lives: ";
+	std::string timeTextDescription = "Time: ";
+	std::string playingShipTextDescription = "Ship: ";
+	std::string playingBoardTextDescription = "Name: ";
+
+	makeEmptyMetadataSpaces(x, y);
+	printTextDescription(LIVES_X, y, liveTextDescription);
+	setLiveIndexPlace(LIVES_X + liveTextDescription.length());
+	printLives(liveIndexPlace, y);
+	printTextDescription(TIME_X, y, timeTextDescription);
+	setTimeIndexPlace(TIME_X + timeTextDescription.length());
+	printTime(timeIndexPlace, y);
+	printTextDescription(SHIP_X, y, playingShipTextDescription);
+	setShipIndexPlace(SHIP_X + playingShipTextDescription.length());
+	printPlayingShip(shipIndexPlace, y, ship);
+	printTextDescription(BOARD_NAME_X, y, playingBoardTextDescription);
+	setBoardNameIndexPlace(BOARD_NAME_X + playingShipTextDescription.length());
+	printPlayingBoardName(boardNameIndexPlace, y,playingBoard.getCurrFileSuffix());
+}
+
+
+void Game::makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const
+{
+	for (int metadataBlock = 0;metadataBlock < 4;metadataBlock++)
+	{
+		gotoxy(startXLog + 1 + (metadataBlock * 20), topYLog);
+		for (int index = 0;index < METADATA_LOG_SIZE;index++)
+		{
+			cout << ' ';
+		}
+	}
 }
 
 /*
