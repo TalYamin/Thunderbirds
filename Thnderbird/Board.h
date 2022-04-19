@@ -59,7 +59,8 @@ class Board
 	vector<Point*> exitPoints;
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
-	string fileNameByUser;
+	string playingFileName;
+	
 
 public:
 
@@ -87,9 +88,11 @@ public:
 	char getCurrFileSuffix();
 	void setCurrFileSuffix(char _currFileSuffix);
 	bool getIsFileLoadFail() const;
-	void setFileNameByUser(string _fileNameByUser);
+	void setPlayingFileName(string _playingFileName);
+	string getPlayingFileName();
 
 	//public methods
+	void updatePlayingBoardName();
 	Block* getBlockById(const int& objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
 	bool checkExit(SpaceShip* ship);

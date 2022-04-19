@@ -240,7 +240,7 @@ void Game::getFileNameFromUser()
 	clear_screen();
 	cout << "Please insert a file name:" << endl;
 	cin >> fileName;
-	playingBoard.setFileNameByUser(fileName);
+	playingBoard.setPlayingFileName(fileName);
 	numOfScreens = 1;
 }
 
@@ -259,11 +259,11 @@ void Game::printPlayingShip(const int x, const int y, const SpaceShip& ship) con
 		break;
 	}
 }
-void Game::printPlayingBoardName(const int x, const int y, char boardSuffix) const
+void Game::printPlayingBoardName(const int x, const int y, string fileName) const
 {
 	gotoxy(x, y);
 	setTextColor(Color::LIGHTRED);
-	cout << FILE_PREFIX << boardSuffix << FILE_EXTENSION;
+	cout <<fileName;
 }
 
 /*
@@ -339,7 +339,9 @@ void Game::pause() {
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
 		playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
-		printPlayingBoardName(boardNameIndexPlace, 1, playingBoard.getCurrFileSuffix());
+		playingBoard.setPlayingFileName("");
+		playingBoard.updatePlayingBoardName();
+		printPlayingBoardName(boardNameIndexPlace, 1, playingBoard.getPlayingFileName());
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
@@ -462,7 +464,7 @@ void Game::gameMetadata(const SpaceShip& ship)
 	std::string liveTextDescription = "Lives: ";
 	std::string timeTextDescription = "Time: ";
 	std::string playingShipTextDescription = "Ship: ";
-	std::string playingBoardTextDescription = "Name: ";
+	std::string playingBoardTextDescription = "File: ";
 
 	makeEmptyMetadataSpaces(x, y);
 	printTextDescription(LIVES_X, y, liveTextDescription);
@@ -476,7 +478,7 @@ void Game::gameMetadata(const SpaceShip& ship)
 	printPlayingShip(shipIndexPlace, y, ship);
 	printTextDescription(BOARD_NAME_X, y, playingBoardTextDescription);
 	setBoardNameIndexPlace(BOARD_NAME_X + playingShipTextDescription.length());
-	printPlayingBoardName(boardNameIndexPlace, y,playingBoard.getCurrFileSuffix());
+	printPlayingBoardName(boardNameIndexPlace, y,playingBoard.getPlayingFileName());
 }
 
 

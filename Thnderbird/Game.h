@@ -5,7 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
-#define GAME_SPEED 50
+#define GAME_SPEED 20
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
@@ -89,7 +89,7 @@ private:
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 	void getFileNameFromUser();
 	void printPlayingShip(const int x, const int y, const SpaceShip& ship) const;
-	void printPlayingBoardName(const int x, const int y, char boardPrefix) const;
+	void printPlayingBoardName(const int x, const int y, string fileName) const;
 
 };
 
