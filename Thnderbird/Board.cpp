@@ -290,7 +290,7 @@ bool Board::isInvalidPlace(int x, int y, Block* block, const int& direction, vec
 	bool canMoveMultiBlocks = true;
 	int currObejctId = mat[x][y].getObjecId();
 
-	if (currObejctId == (int)ObjectId::WALL || currObejctId == (int)ObjectId::BIG || currObejctId == (int)ObjectId::SMALL) {
+	if (currObejctId == (int)ObjectId::WALL || currObejctId == (int)ObjectId::BIG || currObejctId == (int)ObjectId::SMALL || currObejctId >= START_GHOST_ID) {
 		return true;
 	}
 	else if (currObejctId != (int)ObjectId::EMPTY) {
@@ -688,6 +688,8 @@ Board::~Board() {
 	deleteExistDataFromBoard();
 }
 
+/* Free existing Board Data
+*/
 void Board::deleteExistDataFromBoard()
 {
 	for (int i = 0; i < allBlocks.size(); i++) {
