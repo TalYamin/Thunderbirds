@@ -3,6 +3,7 @@
 #include "Point.h"
 #include "Board.h"
 #include "Direction.h"
+#define START_GHOST_ID 1000
 
 class Point;
 
@@ -35,6 +36,7 @@ public:
 	int getSize();
 	int getId();
 	vector<Point*> getListPoints();	
+	void setFigure(char _figure);
 
 private:
 

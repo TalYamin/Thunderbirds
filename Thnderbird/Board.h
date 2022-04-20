@@ -95,7 +95,9 @@ public:
 	void updatePlayingBoardName();
 	void deleteExistDataFromBoard();
 	Block* getBlockById(const int& objectId) const;
+	Ghost* getGhostById(const int& objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
+	void removeGhostFromBoard(Ghost* ghost);
 	bool checkExit(SpaceShip* ship);
 	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost);
 	void initBoard();

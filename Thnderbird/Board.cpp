@@ -203,6 +203,12 @@ bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId,
 		if (find((*shipInvolved).begin(), (*shipInvolved).end(), bigShip) == (*shipInvolved).end())
 			(*shipInvolved).push_back(bigShip);
 	}
+	if (point.getObjecId() >= START_GHOST_ID)
+	{
+		Ghost* ghost = getGhostById(point.getObjecId());
+		removeGhostFromBoard(ghost);
+		return true;
+	}
 	return false;
 }
 
@@ -525,12 +531,37 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 }
 
 /*
+This function is used to remove Ghost from board view.
+Passing on matrix points of board, make them emptyand draw spaces on board.
+*/
+void Board::removeGhostFromBoard(Ghost* ghost) {
+
+	for (int i = 0; i < ghost->getListPoints().size(); i++)
+	{
+		ghost->getListPoints()[i]->draw((char)BoardFigure::EMPTY);
+		allGhosts.erase(remove(allGhosts.begin(), allGhosts.end(), ghost), allGhosts.end());
+		mat[ghost->getListPoints()[i]->getX()][ghost->getListPoints()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+	}
+}
+
+/*
 This function is used to get block by its id.
 */
 Block* Board::getBlockById(const int& objectId) const {
 	for (int i = 0; i < allBlocks.size(); i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
+		}
+	}
+	return nullptr;
+}
+/*
+This function is used to get Ghost by its id.
+*/
+Ghost* Board::getGhostById(const int& objectId) const {
+	for (int i = 0; i < allGhosts.size(); i++) {
+		if (allGhosts[i]->getId() == objectId) {
+			return allGhosts[i];
 		}
 	}
 	return nullptr;

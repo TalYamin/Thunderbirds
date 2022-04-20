@@ -1,6 +1,6 @@
 #include "Ghost.h"
 
-int Ghost::idGenerator = 1000;
+int Ghost::idGenerator = START_GHOST_ID;
 
 Ghost::Ghost(vector <Point*> _list_points, int _size)
 {
@@ -53,6 +53,11 @@ int Ghost::getId()
 vector<Point*> Ghost::getListPoints()
 {
 	return list_points;
+}
+
+void Ghost::setFigure(char _figure)
+{
+	figure = _figure;
 }
 
 void Ghost::MoveGhost(Board* board) {
