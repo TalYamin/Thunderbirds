@@ -129,9 +129,9 @@ void Board::draw() const
 		{
 			mat[j][i].draw();
 		}
-		cout << endl;
+		if (i != maxVerticalSize - 1)
+			cout << endl;
 	}
-	cout << endl;
 }
 
 /*
@@ -444,7 +444,7 @@ int Board::initGhost(const int& x, const int& y) {
 	int size = 1;
 
 	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
-	Point* ghostList[] = { ghostPoint };
+	vector<Point*> ghostList = { ghostPoint };
 	Ghost* ghost = new Ghost(ghostList, size);
 
 	allGhosts.push_back(ghost);
@@ -654,10 +654,22 @@ Distruction of Board.
 */
 Board::~Board() {
 
+	deleteExistDataFromBoard();
+}
+
+void Board::deleteExistDataFromBoard()
+{
 	for (int i = 0; i < allBlocks.size(); i++) {
 		delete allBlocks[i];
 	}
-
+	for (int j = 0;j < allGhosts.size();j++) {
+		Ghost* currGhost = allGhosts[j];
+		for (int k = 0;k < currGhost->getListPoints().size();k++)
+		{
+			delete(currGhost->getListPoints()[k]);
+		}
+		delete(currGhost);
+	}
 	delete bigShip;
 	delete smallShip;
 }

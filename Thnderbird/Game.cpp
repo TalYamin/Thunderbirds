@@ -123,8 +123,7 @@ void Game::printMenu() const {
 This function is used to receive a selection from user according to menu options.
 */
 void Game::makeSelection() {
-	int userInput;
-	string fileName;
+	int userInput;;
 	cin >> userInput;
 	userSelection = static_cast<GameStatus>(userInput);
 	switch (userSelection)
@@ -211,12 +210,15 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		}
 	}
 	if (isOnMoving && isStart) {
-		shipToMove.move(&playingBoard);
-		playingBoard.fallBlocksIfNoFloor();
 		playingBoard.moveGhosts();
-		Sleep(GAME_SPEED);
-		playingBoard.timeDown();
-		printTime(timeIndexPlace, TIME_Y);
+		if (!playingBoard.getBigShip()->getIsDie() && !playingBoard.getSmallShip()->getIsDie())
+		{
+			shipToMove.move(&playingBoard);
+			playingBoard.fallBlocksIfNoFloor();
+			Sleep(GAME_SPEED);
+			playingBoard.timeDown();
+			printTime(timeIndexPlace, TIME_Y);
+		}
 	}
 	return key;
 }
@@ -378,6 +380,7 @@ void Game::pauseCheck(int logY)
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
 	case GameStatus::NEXT_LEVEL:
+		playingBoard.deleteExistDataFromBoard();
 		init();
 		gameStatus = GameStatus::RUNNING;
 		isBigMove = true;
@@ -412,7 +415,6 @@ void Game::pauseCheck(int logY)
 	}
 	}
 }
-
 
 /*
 This function is used to print time.
@@ -581,6 +583,7 @@ void Game::checkVictory(SpaceShip* ship) {
 		ship->setIsExit(playingBoard.checkExit(ship));
 	}
 	if (playingBoard.getBigShip()->getIsExit() == true && playingBoard.getSmallShip()->getIsExit() == true) {
+		numOfWins++;
 		gameStatus = GameStatus::VICTORY;
 	}
 }

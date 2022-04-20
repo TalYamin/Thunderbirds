@@ -93,6 +93,7 @@ public:
 
 	//public methods
 	void updatePlayingBoardName();
+	void deleteExistDataFromBoard();
 	Block* getBlockById(const int& objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
 	bool checkExit(SpaceShip* ship);

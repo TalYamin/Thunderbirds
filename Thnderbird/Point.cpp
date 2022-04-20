@@ -103,7 +103,7 @@ This function is used to draw point.
 void Point::draw() const {
 	gotoxy(x, y);
 	setTextColor(color);
-	cout << figure << endl;
+	cout << figure;
 }
 
 /*
@@ -112,7 +112,7 @@ This function is used to dreaw point with figure parameter.
 void Point::draw(char _fig)
 {
 	gotoxy(x, y);
-	cout << _fig << endl;
+	cout << _fig;
 }
 
 /*
