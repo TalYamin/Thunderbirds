@@ -25,6 +25,7 @@ void Board::initBoard()
 	}
 }
 
+/* Update the plating board name by the convenction.*/
 void Board::updatePlayingBoardName()
 {
 	playingFileName += FILE_PREFIX;
@@ -32,7 +33,7 @@ void Board::updatePlayingBoardName()
 	playingFileName += FILE_EXTENSION;
 }
 
-
+/*Load board matrix from file*/
 void Board::loadBoardFromTextFile(string fileName)
 {
 	int y = 0;
@@ -109,7 +110,7 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 	}
 }
 
-
+/*Place point data on the board matrix*/
 void Board::placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId) {
 	Point* point = new Point(x, y, c, color, objectId);
 	setMatrixPoint(x, y, point);
@@ -359,9 +360,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 }
 
-
-
-
+/*Initialized board Blocks.*/
 int Board::initBlock(int x, int y, char c) {
 
 	Block* block;
@@ -382,6 +381,7 @@ int Board::initBlock(int x, int y, char c) {
 
 }
 
+/*return true if Block already exist, False otherwise.*/
 Block* Board::checkIsBlockExist(const char& c) {
 
 	Block* currBlock;
@@ -398,6 +398,7 @@ Block* Board::checkIsBlockExist(const char& c) {
 	return nullptr;
 }
 
+/*Checking if the point object is a block*/
 bool Board::isBlockFigure(const char& c)
 {
 	if (c >= '0' && c <= '9') {
@@ -406,11 +407,13 @@ bool Board::isBlockFigure(const char& c)
 	return false;
 }
 
+/*Add a single exist point to the list*/
 void Board::addExitPoint(Point* point)
 {
 	exitPoints.push_back(point);
 }
 
+/* Add all exit points to board matrix.*/
 void Board::addAllExitPoints() {
 
 	for (int i = 0; i < maxHorizontalSize; i++) { //downExit
@@ -427,10 +430,8 @@ void Board::addAllExitPoints() {
 
 }
 
-
-
 /*
-This function is used to initialize ships.
+This function responsiable to initialize the ships on the board.
 */
 void Board::initShips()
 {
@@ -443,8 +444,9 @@ void Board::initShips()
 
 }
 
-
-
+/*
+This function responsiable to initialize the ghosts on the board.
+*/
 int Board::initGhost(const int& x, const int& y) {
 
 	int size = 1;
@@ -457,6 +459,7 @@ int Board::initGhost(const int& x, const int& y) {
 	return ghost->getId();
 }
 
+/*Responsible for the movement ghost animation*/
 void Board::moveGhosts() {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
@@ -464,7 +467,6 @@ void Board::moveGhosts() {
 	}
 
 }
-
 
 /*
 This function is used to insert new block to blocks array
@@ -602,37 +604,44 @@ SpaceShip* Board::getSmallShip() const {
 	return smallShip;
 }
 
+/* Get all playing ghost. */
 vector<Ghost*> Board::getAllGhosts() const
 {
 	return allGhosts;
 }
 
+/* Get all exit point. */
 vector<Point*> Board::getExitPoints() const
 {
 	return exitPoints;
 }
 
+/* Get curr unique char in the file name. */
 char Board::getCurrFileSuffix()
 {
 	return currFileSuffix;
 }
 
+/* Set curr unique char in the file name*/
 void Board::setCurrFileSuffix(char _currFileSuffix)
 {
 	currFileSuffix = _currFileSuffix;
 }
 
+/*Indicate if file loaded successfuly*/
 bool Board::getIsFileLoadFail() const
 {
 	return isFileLoadFail;
 }
 
+/*Set the playing file name*/
 void Board::setPlayingFileName(string _playingFileName) {
 
 	playingFileName = _playingFileName;
 
 }
 
+/* Get the playing file name*/
 string Board::getPlayingFileName()
 {
 	return playingFileName;

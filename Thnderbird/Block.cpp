@@ -117,6 +117,9 @@ void Block::fall(Board* board)
 	move(1, board);
 }
 
+/*
+Adding point to the list block point, used for representing the block places points.
+*/
 void Block::addPointToBlock(Point* p)
 {
 	list_points.push_back(p);

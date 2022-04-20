@@ -20,7 +20,9 @@ Ghost::Ghost(vector <Point*> _list_points, char _figure, Color _color, bool _isG
 	isGhostBlock = _isGhostBlock;
 	ghostId = _ghostId;
 }
-
+/*
+d'tor of ghost.
+*/
 Ghost::~Ghost()
 {
 	for (int i = 0;i < size;i++)
@@ -29,6 +31,9 @@ Ghost::~Ghost()
 	}
 }
 
+/*
+Move and check collision of the ghost.
+*/
 void Ghost::Move(Board* board) {
 
 	checkGhostCollision(board);
@@ -40,26 +45,33 @@ void Ghost::Move(Board* board) {
 	}
 }
 
+/*
+Get the size of the ghost.
+*/
 int Ghost::getSize()
 {
 	return size;
 }
 
+/*
+Get the Unique id of the ghost
+*/
 int Ghost::getId()
 {
 	return ghostId;
 }
 
+/*
+Get all of the ghost points.
+*/
 vector<Point*> Ghost::getListPoints()
 {
 	return list_points;
 }
 
-void Ghost::setFigure(char _figure)
-{
-	figure = _figure;
-}
-
+/*
+Responible for the ghost movement animation.
+*/
 void Ghost::MoveGhost(Board* board) {
 
 	for (int i = 0; i < list_points.size(); i++)

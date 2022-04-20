@@ -18,6 +18,10 @@ Point::Point(int _x, int _y, char _fig)
 	y = _y;
 	figure = _fig;
 }
+
+/*
+Constructor of Point with 4 parameters.
+*/
 Point::Point(int _x, int _y, char _fig, Color _color)
 {
 	x = _x;

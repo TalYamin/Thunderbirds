@@ -65,11 +65,17 @@ void Game::setBoardNameIndexPlace(int _boardNameIndexPlace)
 	boardNameIndexPlace = _boardNameIndexPlace;
 }
 
+/*
+Initializes the playing board name log index.
+*/
 int Game::getBoardNameIndexPlace() const
 {
 	return boardNameIndexPlace;
 }
 
+/*
+Initializes the ship log index.
+*/
 void Game::setShipIndexPlace(int _shipIndexPlace) {
 	shipIndexPlace = _shipIndexPlace;
 }
@@ -236,6 +242,9 @@ void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& ship
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
+/*
+Get a file name from user, in case of invalid filename close the program.
+*/
 void Game::getFileNameFromUser()
 {
 	string fileName;
@@ -246,6 +255,9 @@ void Game::getFileNameFromUser()
 	numOfScreens = 1;
 }
 
+/*
+Print the playing ship in the given place.
+*/
 void Game::printPlayingShip(const int x, const int y, const SpaceShip& ship) const
 {
 	gotoxy(x, y);
@@ -261,6 +273,10 @@ void Game::printPlayingShip(const int x, const int y, const SpaceShip& ship) con
 		break;
 	}
 }
+
+/*
+Print the name of the playing board in the given place.
+*/
 void Game::printPlayingBoardName(const int x, const int y, string fileName) const
 {
 	gotoxy(x, y);
@@ -326,14 +342,15 @@ void Game::pause() {
 		setTextColor(Color::YELLOW);
 		cout << "You dead " << endl;
 		gotoxy(LOG_X, ++logY);
-		if (lives > 0)
+		if (lives == 0)
 		{
-			cout << "You have " << lives << " more lives! " << endl;
-			Sleep(TIME_TO_PAUSE);
-		}
-		else {
 			cout << "Game Over, Try your luck next time :)" << endl;
 			gameStatus = GameStatus::GAMEOVER;
+		}
+		else {
+			playingBoard.deleteExistDataFromBoard();
+			cout << "You have " << lives << " more lives! " << endl;
+			Sleep(TIME_TO_PAUSE);
 
 		}
 		gotoxy(LOG_X, ++logY);
@@ -483,7 +500,9 @@ void Game::gameMetadata(const SpaceShip& ship)
 	printPlayingBoardName(boardNameIndexPlace, y,playingBoard.getPlayingFileName());
 }
 
-
+/*
+Create equality spaces blocks in the relevant metadata board places.
+*/
 void Game::makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const
 {
 	for (int metadataBlock = 0;metadataBlock < 4;metadataBlock++)

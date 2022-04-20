@@ -36,7 +36,6 @@ public:
 	int getSize();
 	int getId();
 	vector<Point*> getListPoints();	
-	void setFigure(char _figure);
 
 private:
 
