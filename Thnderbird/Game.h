@@ -52,7 +52,7 @@ public:
 	void setLiveIndexPlace(int _liveIndexPlace);
 	int getLiveIndexPlace() const;
 	void setShipIndexPlace(int _shpiIndexPlace);
-	int getShipIndexPlace() const;	
+	int getShipIndexPlace() const;
 	void setBoardNameIndexPlace(int _boardNameIndexPlace);
 	int getBoardNameIndexPlace() const;
 

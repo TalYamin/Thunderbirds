@@ -281,7 +281,7 @@ void Game::printPlayingBoardName(const int x, const int y, string fileName) cons
 {
 	gotoxy(x, y);
 	setTextColor(Color::LIGHTRED);
-	cout <<fileName;
+	cout << fileName;
 }
 
 /*
@@ -487,17 +487,17 @@ void Game::gameMetadata(const SpaceShip& ship)
 
 	makeEmptyMetadataSpaces(x, y);
 	printTextDescription(LIVES_X, y, liveTextDescription);
-	setLiveIndexPlace(LIVES_X + liveTextDescription.length());
+	setLiveIndexPlace(LIVES_X + (int)liveTextDescription.length());
 	printLives(liveIndexPlace, y);
 	printTextDescription(TIME_X, y, timeTextDescription);
-	setTimeIndexPlace(TIME_X + timeTextDescription.length());
+	setTimeIndexPlace(TIME_X + (int)timeTextDescription.length());
 	printTime(timeIndexPlace, y);
 	printTextDescription(SHIP_X, y, playingShipTextDescription);
-	setShipIndexPlace(SHIP_X + playingShipTextDescription.length());
+	setShipIndexPlace(SHIP_X + (int)playingShipTextDescription.length());
 	printPlayingShip(shipIndexPlace, y, ship);
 	printTextDescription(BOARD_NAME_X, y, playingBoardTextDescription);
-	setBoardNameIndexPlace(BOARD_NAME_X + playingShipTextDescription.length());
-	printPlayingBoardName(boardNameIndexPlace, y,playingBoard.getPlayingFileName());
+	setBoardNameIndexPlace(BOARD_NAME_X + (int)playingShipTextDescription.length());
+	printPlayingBoardName(boardNameIndexPlace, y, playingBoard.getPlayingFileName());
 }
 
 /*

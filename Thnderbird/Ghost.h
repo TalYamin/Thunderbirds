@@ -35,7 +35,7 @@ public:
 	void Move(Board* board);
 	int getSize();
 	int getId();
-	vector<Point*> getListPoints();	
+	vector<Point*> getListPoints();
 
 private:
 

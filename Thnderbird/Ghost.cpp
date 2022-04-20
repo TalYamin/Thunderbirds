@@ -91,7 +91,6 @@ void Ghost::MoveGhost(Board* board) {
 void Ghost::checkGhostCollision(Board* board)
 {
 	vector<Block*> blocksInvolve;
-	bool isShipHit;
 	switch (direction)
 	{
 	case (int)Direction::LEFT:

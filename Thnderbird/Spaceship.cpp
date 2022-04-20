@@ -180,11 +180,11 @@ void SpaceShip::setupShipMat(int x, int y) {
 	switch (type)
 	{
 	case ShipSize::SMALL:
-		shipMat[0] = new Point[2]{ {x,y,figure,color,(int)ObjectId::SMALL},{x+1,y,figure,color,(int)ObjectId::SMALL} }; 
+		shipMat[0] = new Point[2]{ {x,y,figure,color,(int)ObjectId::SMALL},{x + 1,y,figure,color,(int)ObjectId::SMALL} };
 		break;
 	case ShipSize::BIG:
-		shipMat[0] = new Point[2]{ {x,y,figure,color,(int)ObjectId::BIG},{x+1,y,figure,color,(int)ObjectId::BIG} };
-		shipMat[1] = new Point[2]{ {x,y+1,figure,color,(int)ObjectId::BIG},{x+1,y+1,figure,color,(int)ObjectId::BIG} };
+		shipMat[0] = new Point[2]{ {x,y,figure,color,(int)ObjectId::BIG},{x + 1,y,figure,color,(int)ObjectId::BIG} };
+		shipMat[1] = new Point[2]{ {x,y + 1,figure,color,(int)ObjectId::BIG},{x + 1,y + 1,figure,color,(int)ObjectId::BIG} };
 		break;
 	default:
 		break;
@@ -211,13 +211,13 @@ void SpaceShip::move(Board* board) {
 	case ShipSize::SMALL:
 		checkSmallCollision(board);
 		if (!isShipBlock) {
-			moveShip(board,ObjectId::SMALL);
+			moveShip(board, ObjectId::SMALL);
 		}
 		break;
 	case ShipSize::BIG:
 		checkBigCollision(board);
 		if (!isShipBlock) {
-			moveShip(board,ObjectId::BIG);
+			moveShip(board, ObjectId::BIG);
 		}
 		break;
 	default:
@@ -229,7 +229,7 @@ void SpaceShip::move(Board* board) {
 This function is used to draw ships.
 */
 void  SpaceShip::initDraw() const {
-	
+
 	for (int i = 0; i < verticalSize; i++) {
 		for (int j = 0; j < horizontalSize; j++) {
 			shipMat[i][j].draw();
@@ -242,7 +242,7 @@ This function is used to move ship.
 First, function clean the previous location of ship. Remove figures from board and update
 board matrix. Then, function draws ship figure on board in new location and update board matrix.
 */
-void SpaceShip::moveShip(Board* board,ObjectId type) {
+void SpaceShip::moveShip(Board* board, ObjectId type) {
 
 
 	for (int i = 0; i < verticalSize; i++)
@@ -270,17 +270,17 @@ void SpaceShip::moveShip(Board* board,ObjectId type) {
 
 /*
 This function is used to check big ship collision, according to indexes of point that ship is
-going to move to and according to direction. Collision check is done by using isNotEmptyPoint() 
+going to move to and according to direction. Collision check is done by using isNotEmptyPoint()
 function. In case of left and right, if there is no block - checking if shipCanPushMultipleBlocks().
 */
 void SpaceShip::checkBigCollision(Board* board) {
 	vector<Block*> blocksInvolve;
 	bool isGhost = false;
 	switch (direction) {
-	case (int)Direction::UP: 
+	case (int)Direction::UP:
 		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) || (board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost));
 		break;
-	case (int)Direction::DOWN: 
+	case (int)Direction::DOWN:
 		isShipBlock = (board->isNotEmptyPoint(shipMat[1][0].getX(), shipMat[1][0].getY() + 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) || (board->isNotEmptyPoint(shipMat[1][1].getX(), shipMat[1][1].getY() + 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost));
 		break;
 	case (int)Direction::LEFT:
@@ -288,7 +288,7 @@ void SpaceShip::checkBigCollision(Board* board) {
 		if (!isShipBlock)
 			shipCanPushMultipleBlocks(board, blocksInvolve);
 		break;
-	case (int)Direction::RIGHT: 
+	case (int)Direction::RIGHT:
 		isShipBlock = (board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction, blocksInvolve, maxCarringBlockSize, &isGhost)) || (board->isNotEmptyPoint(shipMat[1][1].getX() + 1, shipMat[1][1].getY(), direction, blocksInvolve, maxCarringBlockSize, &isGhost));
 		if (!isShipBlock) {
 			shipCanPushMultipleBlocks(board, blocksInvolve);
@@ -298,7 +298,7 @@ void SpaceShip::checkBigCollision(Board* board) {
 		isShipBlock = false;
 		break;
 	}
-	if (isGhost){
+	if (isGhost) {
 		isDie = true;
 	}
 }
@@ -313,20 +313,20 @@ void SpaceShip::checkSmallCollision(Board* board) {
 	vector<Block*> blocksInvolve;
 	bool isGhost = false;
 	switch (direction) {
-	case (int)Direction::UP: 
+	case (int)Direction::UP:
 		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() - 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) ||
 			(board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() - 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost));
 		break;
-	case (int)Direction::DOWN: 
+	case (int)Direction::DOWN:
 		isShipBlock = (board->isNotEmptyPoint(shipMat[0][0].getX(), shipMat[0][0].getY() + 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) ||
 			(board->isNotEmptyPoint(shipMat[0][1].getX(), shipMat[0][1].getY() + 1, direction, blocksInvolve, maxCarringBlockSize, &isGhost));
 		break;
-	case (int)Direction::LEFT: 
+	case (int)Direction::LEFT:
 		isShipBlock = board->isNotEmptyPoint(shipMat[0][0].getX() - 1, shipMat[0][0].getY(), direction, blocksInvolve, maxCarringBlockSize, &isGhost);
 		if (!isShipBlock)
 			shipCanPushMultipleBlocks(board, blocksInvolve);
 		break;
-	case (int)Direction::RIGHT: 
+	case (int)Direction::RIGHT:
 		isShipBlock = board->isNotEmptyPoint(shipMat[0][1].getX() + 1, shipMat[0][1].getY(), direction, blocksInvolve, maxCarringBlockSize, &isGhost);
 		if (!isShipBlock)
 			shipCanPushMultipleBlocks(board, blocksInvolve);
@@ -364,7 +364,7 @@ void SpaceShip::shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksIn
 /*
 Distructor of SpaceShip.
 */
-SpaceShip::~SpaceShip(){
+SpaceShip::~SpaceShip() {
 	switch (type)
 	{
 	case ShipSize::SMALL:

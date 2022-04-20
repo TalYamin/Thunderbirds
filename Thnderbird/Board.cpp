@@ -253,7 +253,7 @@ Then, passing on any point of block and checking the next index according to dir
 if it is invalid place.
 */
 bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
-	int blockSize = block->getListPoints().size();
+	int blockSize = (int)block->getListPoints().size();
 	if (blockSize > maxCarringBlockSize)
 	{
 		return false;
@@ -319,7 +319,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
 			blocksSum += blocksInvolve[i]->getListPoints().size();
 		}
-		blocksSum += anotherBlock->getListPoints().size();
+		blocksSum += (int)anotherBlock->getListPoints().size();
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{

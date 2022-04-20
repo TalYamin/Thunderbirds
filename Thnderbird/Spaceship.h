@@ -42,7 +42,7 @@ public:
 	SpaceShip& operator=(const SpaceShip& _spaceship) = default;
 	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize, ShipSize _type);
 	~SpaceShip();
-	
+
 
 	//getters + setters
 	int getMaxCarringBlockSize();
@@ -63,7 +63,7 @@ public:
 	void setIsShipBlock();
 	bool getIsShipBlock() const;
 	void setIsExit(bool _isExit);
-	bool getIsExit() const;	
+	bool getIsExit() const;
 	void setIsDie(bool _isDie);
 	bool getIsDie() const;
 	void setupShipMat(int x, int y);

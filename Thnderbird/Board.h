@@ -60,7 +60,7 @@ class Board
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string playingFileName;
-	
+
 
 public:
 
@@ -118,7 +118,7 @@ private:
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	int initGhost(const int& x, const int& y);
 	void loadBoardFromTextFile(string fileName);
-	void setPointAndObject(const int& x, const int& y,const char& c);
+	void setPointAndObject(const int& x, const int& y, const char& c);
 	void placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId);
 	int initBlock(int x, int y, char c);
 	Block* checkIsBlockExist(const char& c);

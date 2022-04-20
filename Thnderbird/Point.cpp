@@ -78,16 +78,16 @@ This function is used to make point movement according to direction.
 */
 void Point::move(int dir) {
 	switch (dir) {
-	case (int)Direction::UP: 
+	case (int)Direction::UP:
 		--y;
 		break;
-	case (int)Direction::DOWN: 
+	case (int)Direction::DOWN:
 		++y;
 		break;
 	case (int)Direction::LEFT:
 		--x;
 		break;
-	case (int)Direction::RIGHT: 
+	case (int)Direction::RIGHT:
 		++x;
 		break;
 	}
@@ -137,7 +137,7 @@ void Point::setObjecId(int _objectId) {
 /*
 This is getter function of object id data member.
 */
-int Point::getObjecId() const{
+int Point::getObjecId() const {
 	return objectId;
 }
 
@@ -145,5 +145,5 @@ int Point::getObjecId() const{
 Distructor of Point.
 */
 Point::~Point() {
-	
+
 }

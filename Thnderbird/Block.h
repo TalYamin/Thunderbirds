@@ -34,15 +34,15 @@ public:
 	void setIsBlock();
 	void setColor(Color c);
 	vector<Point*> getListPoints();
-	
+
 	//public methods
 	void drawBlock() const;
-	int getblockId () const;
+	int getblockId() const;
 	void fall(Board* board);
 	void addPointToBlock(Point* p);
 
 private:
-	
+
 };
 
 
