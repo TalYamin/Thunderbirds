@@ -317,7 +317,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
-			blocksSum += blocksInvolve[i]->getListPoints().size();
+			blocksSum += (int)blocksInvolve[i]->getListPoints().size();
 		}
 		blocksSum += (int)anotherBlock->getListPoints().size();
 		if (blocksSum <= maxCarringBlockSize) {

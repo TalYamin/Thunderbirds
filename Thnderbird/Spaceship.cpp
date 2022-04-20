@@ -348,7 +348,7 @@ so moving blocks. In other case, update isShipBlock to false.
 void SpaceShip::shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksInvolve) {
 	int sumSizeBlocks = 0;
 	for (size_t i = 0; i < blocksInvolve.size(); i++) {
-		sumSizeBlocks += blocksInvolve[i]->getListPoints().size();
+		sumSizeBlocks += (int)blocksInvolve[i]->getListPoints().size();
 	}
 	if (sumSizeBlocks <= board->getBigShip()->getMaxCarringBlockSize()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
