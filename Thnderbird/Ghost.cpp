@@ -1,22 +1,17 @@
 #include "Ghost.h"
 
-int Ghost::idGenerator = 1000;
+int Ghost::idGenerator = START_GHOST_ID;
 
-Ghost::Ghost(Point** _list_points, int _size)
+Ghost::Ghost(vector <Point*> _list_points, int _size)
 {
-	list_points = new Point * ();
-	for (int i = 0; i < _size; i++)
-	{
-		list_points[i] = _list_points[i];
-	}
-	size = _size;
+	list_points = _list_points;
 	ghostId = idGenerator++;
-	for (int i = 0; i < _size; i++) {
+	for (int i = 0; i < list_points.size(); i++) {
 		list_points[i]->setObjecId(ghostId);
 	}
 }
 
-Ghost::Ghost(Point** _list_points, char _figure, Color _color, bool _isGhostBlock, int _ghostId)
+Ghost::Ghost(vector <Point*> _list_points, char _figure, Color _color, bool _isGhostBlock, int _ghostId)
 {
 
 	list_points = _list_points;
@@ -25,35 +20,61 @@ Ghost::Ghost(Point** _list_points, char _figure, Color _color, bool _isGhostBloc
 	isGhostBlock = _isGhostBlock;
 	ghostId = _ghostId;
 }
-
+/*
+d'tor of ghost.
+*/
 Ghost::~Ghost()
 {
+	for (int i = 0;i < size;i++)
+	{
+		delete(list_points[i]);
+	}
 }
 
+/*
+Move and check collision of the ghost.
+*/
 void Ghost::Move(Board* board) {
 
 	checkGhostCollision(board);
 	if (isGhostBlock) {
 		switchDirection();
 	}
-	if (!isGhostHit){
+	if (!isGhostHit) {
 		MoveGhost(board);
 	}
 }
 
+/*
+Get the size of the ghost.
+*/
 int Ghost::getSize()
 {
 	return size;
 }
 
+/*
+Get the Unique id of the ghost
+*/
 int Ghost::getId()
 {
 	return ghostId;
 }
 
+/*
+Get all of the ghost points.
+*/
+vector<Point*> Ghost::getListPoints()
+{
+	return list_points;
+}
+
+/*
+Responible for the ghost movement animation.
+*/
 void Ghost::MoveGhost(Board* board) {
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < list_points.size(); i++)
 	{
 		list_points[i]->draw((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
@@ -70,16 +91,15 @@ void Ghost::MoveGhost(Board* board) {
 void Ghost::checkGhostCollision(Board* board)
 {
 	vector<Block*> blocksInvolve;
-	bool isShipHit;
 	switch (direction)
 	{
 	case (int)Direction::LEFT:
 		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr);
-		if (isGhostBlock){
+		if (isGhostBlock) {
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() - 1, list_points[0]->getY());
 		}
 		break;
-	case (int)Direction::RIGHT: 
+	case (int)Direction::RIGHT:
 		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr);
 		if (isGhostBlock) {
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() + 1, list_points[0]->getY());

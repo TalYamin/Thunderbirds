@@ -8,30 +8,32 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard()
 {
-	string fileName;
-	if (fileNameByUser.empty()){
-		fileName = FILE_PREFIX;
-		fileName.append(1, currFileSuffix);
-		fileName += FILE_EXTENSION;
+	if (playingFileName.empty()) {
+		updatePlayingBoardName();
 	}
-	else {
-		fileName = fileNameByUser;
-	}
+
 	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
 	isSmallShipInitialized = false;
 	initShips();
-	loadBoardFromTextFile(fileName);
-	if (!isFileLoadFail){
+	loadBoardFromTextFile(playingFileName);
+	if (!isFileLoadFail) {
 		addAllExitPoints();
 
 	}
 }
 
+/* Update the plating board name by the convenction.*/
+void Board::updatePlayingBoardName()
+{
+	playingFileName += FILE_PREFIX;
+	playingFileName += currFileSuffix;
+	playingFileName += FILE_EXTENSION;
+}
 
-
+/*Load board matrix from file*/
 void Board::loadBoardFromTextFile(string fileName)
 {
 	int y = 0;
@@ -80,27 +82,27 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		placePointOnBoard(x, y, c, Color::WHITE, objectId);
 		break;
 	case (char)BoardFigure::BIG_SHIP:
-		if (!isBigShipInitialized){		
-			bigShip->setupShipMat(x,y);
+		if (!isBigShipInitialized) {
+			bigShip->setupShipMat(x, y);
 			isBigShipInitialized = true;
 		}
 		objectId = (int)ObjectId::BIG;
 		placePointOnBoard(x, y, c, bigShip->getColor(), objectId);
 		break;
 	case (char)BoardFigure::SMALL_SHIP:
-		if (!isSmallShipInitialized){
+		if (!isSmallShipInitialized) {
 			smallShip->setupShipMat(x, y);
 			isSmallShipInitialized = true;
 		}
 		objectId = (int)ObjectId::SMALL;
 		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
 		break;
-	case (char) BoardFigure::HORIZONTAL_GHOST:
+	case (char)BoardFigure::HORIZONTAL_GHOST:
 		objectId = initGhost(x, y);
 		placePointOnBoard(x, y, c, Color::BROWN, objectId);
 		break;
 	default:
-		if (isBlockFigure(c)){
+		if (isBlockFigure(c)) {
 			objectId = initBlock(x, y, c);
 			placePointOnBoard(x, y, c, Color::RED, objectId);
 		}
@@ -108,8 +110,8 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 	}
 }
 
-
-void Board::placePointOnBoard(const int& x, const int& y,const char& c, const Color& color, const int& objectId) {
+/*Place point data on the board matrix*/
+void Board::placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId) {
 	Point* point = new Point(x, y, c, color, objectId);
 	setMatrixPoint(x, y, point);
 	delete point;
@@ -128,9 +130,9 @@ void Board::draw() const
 		{
 			mat[j][i].draw();
 		}
-		cout << endl;
+		if (i != maxVerticalSize - 1)
+			cout << endl;
 	}
-	cout << endl;
 }
 
 /*
@@ -202,6 +204,12 @@ bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId,
 		if (find((*shipInvolved).begin(), (*shipInvolved).end(), bigShip) == (*shipInvolved).end())
 			(*shipInvolved).push_back(bigShip);
 	}
+	if (point.getObjecId() >= START_GHOST_ID)
+	{
+		Ghost* ghost = getGhostById(point.getObjecId());
+		removeGhostFromBoard(ghost);
+		return true;
+	}
 	return false;
 }
 
@@ -234,7 +242,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 
@@ -245,7 +253,7 @@ Then, passing on any point of block and checking the next index according to dir
 if it is invalid place.
 */
 bool Board::isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize) {
-	int blockSize = block->getListPoints().size();
+	int blockSize = (int)block->getListPoints().size();
 	if (blockSize > maxCarringBlockSize)
 	{
 		return false;
@@ -283,7 +291,7 @@ bool Board::isInvalidPlace(int x, int y, Block* block, const int& direction, vec
 	bool canMoveMultiBlocks = true;
 	int currObejctId = mat[x][y].getObjecId();
 
-	if (currObejctId == (int)ObjectId::WALL || currObejctId == (int)ObjectId::BIG || currObejctId == (int)ObjectId::SMALL) {
+	if (currObejctId == (int)ObjectId::WALL || currObejctId == (int)ObjectId::BIG || currObejctId == (int)ObjectId::SMALL || currObejctId >= START_GHOST_ID) {
 		return true;
 	}
 	else if (currObejctId != (int)ObjectId::EMPTY) {
@@ -309,14 +317,14 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
-			blocksSum += blocksInvolve[i]->getListPoints().size();
+			blocksSum += (int)blocksInvolve[i]->getListPoints().size();
 		}
-		blocksSum += anotherBlock->getListPoints().size();
+		blocksSum += (int)anotherBlock->getListPoints().size();
 		if (blocksSum <= maxCarringBlockSize) {
 			switch (direction)
 			{
-			case (int)Direction::LEFT: 
-				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize,nullptr)) {
+			case (int)Direction::LEFT:
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -327,7 +335,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				}
 				break;
 			case (int)Direction::RIGHT:
-				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize,nullptr)) {
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -352,22 +360,20 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 }
 
-
-
-
+/*Initialized board Blocks.*/
 int Board::initBlock(int x, int y, char c) {
 
 	Block* block;
 	Point* blockPoint = new Point(x, y, c, Color::RED);
 	block = checkIsBlockExist(c);
-	
-	if (block != nullptr){
+
+	if (block != nullptr) {
 		block->addPointToBlock(blockPoint);
 	}
 	else {
 		vector <Point*> blockList;
 		blockList.push_back(blockPoint);
-		block = new Block(blockList,c);
+		block = new Block(blockList, c);
 		insertNewBlock(block);
 	}
 
@@ -375,15 +381,16 @@ int Board::initBlock(int x, int y, char c) {
 
 }
 
+/*return true if Block already exist, False otherwise.*/
 Block* Board::checkIsBlockExist(const char& c) {
 
 	Block* currBlock;
 	vector<Point*> currList;
-	for (int i = 0; i < allBlocks.size(); i++){
+	for (int i = 0; i < allBlocks.size(); i++) {
 		currBlock = allBlocks[i];
 		currList = currBlock->getListPoints();
-		for (int j = 0; j < currList.size(); j++){
-			if (currList[j]->getFigure() == c){
+		for (int j = 0; j < currList.size(); j++) {
+			if (currList[j]->getFigure() == c) {
 				return currBlock;
 			}
 		}
@@ -391,28 +398,31 @@ Block* Board::checkIsBlockExist(const char& c) {
 	return nullptr;
 }
 
+/*Checking if the point object is a block*/
 bool Board::isBlockFigure(const char& c)
 {
-	if (c >= '0' && c <= '9'){
+	if (c >= '0' && c <= '9') {
 		return true;
 	}
 	return false;
 }
 
+/*Add a single exist point to the list*/
 void Board::addExitPoint(Point* point)
 {
 	exitPoints.push_back(point);
 }
 
-void Board::addAllExitPoints(){
+/* Add all exit points to board matrix.*/
+void Board::addAllExitPoints() {
 
 	for (int i = 0; i < maxHorizontalSize; i++) { //downExit
-		if (mat[i][maxVerticalSize-1].getFigure() == (char)BoardFigure::EMPTY) {
+		if (mat[i][maxVerticalSize - 1].getFigure() == (char)BoardFigure::EMPTY) {
 			addExitPoint(&mat[i][maxVerticalSize - 1]);
 		}
 	}
 
-	for (int j = 0; j < maxVerticalSize; j++){ //rightExit
+	for (int j = 0; j < maxVerticalSize; j++) { //rightExit
 		if (mat[maxHorizontalSize - 1][j].getFigure() == (char)BoardFigure::EMPTY) {
 			addExitPoint(&mat[maxHorizontalSize - 1][j]);
 		}
@@ -420,10 +430,8 @@ void Board::addAllExitPoints(){
 
 }
 
-
-
 /*
-This function is used to initialize ships.
+This function responsiable to initialize the ships on the board.
 */
 void Board::initShips()
 {
@@ -436,20 +444,22 @@ void Board::initShips()
 
 }
 
-
-
-int Board::initGhost(const int& x,const int& y) {
+/*
+This function responsiable to initialize the ghosts on the board.
+*/
+int Board::initGhost(const int& x, const int& y) {
 
 	int size = 1;
-	
+
 	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
-	Point* ghostList[] = { ghostPoint };
-	Ghost* ghost = new Ghost(ghostList,size);
-	
+	vector<Point*> ghostList = { ghostPoint };
+	Ghost* ghost = new Ghost(ghostList, size);
+
 	allGhosts.push_back(ghost);
 	return ghost->getId();
 }
 
+/*Responsible for the movement ghost animation*/
 void Board::moveGhosts() {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
@@ -457,7 +467,6 @@ void Board::moveGhosts() {
 	}
 
 }
-
 
 /*
 This function is used to insert new block to blocks array
@@ -488,19 +497,19 @@ bool Board::checkExit(SpaceShip* ship) {
 	int x = ship->getShipMat()[0][0].getX();
 	int y = ship->getShipMat()[0][0].getY();
 	for (int i = 0; i < exitPoints.size(); i++) {
-		if (exitPoints[i]->getX() == maxHorizontalSize-1){
-			if (exitPoints[i]->getX()+1 == x && exitPoints[i]->getY() == y) {
+		if (exitPoints[i]->getX() == maxHorizontalSize - 1) {
+			if (exitPoints[i]->getX() + 1 == x && exitPoints[i]->getY() == y) {
 				removeShipFromBoard(ship);
 				return true;
 			}
 		}
 		else {
-			if (exitPoints[i]->getX() == x && exitPoints[i]->getY()+1 == y) {
+			if (exitPoints[i]->getX() == x && exitPoints[i]->getY() + 1 == y) {
 				removeShipFromBoard(ship);
 				return true;
 			}
 		}
-	
+
 	}
 	return false;
 }
@@ -524,12 +533,37 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 }
 
 /*
+This function is used to remove Ghost from board view.
+Passing on matrix points of board, make them emptyand draw spaces on board.
+*/
+void Board::removeGhostFromBoard(Ghost* ghost) {
+
+	for (int i = 0; i < ghost->getListPoints().size(); i++)
+	{
+		ghost->getListPoints()[i]->draw((char)BoardFigure::EMPTY);
+		allGhosts.erase(remove(allGhosts.begin(), allGhosts.end(), ghost), allGhosts.end());
+		mat[ghost->getListPoints()[i]->getX()][ghost->getListPoints()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+	}
+}
+
+/*
 This function is used to get block by its id.
 */
 Block* Board::getBlockById(const int& objectId) const {
 	for (int i = 0; i < allBlocks.size(); i++) {
 		if (allBlocks[i]->getblockId() == objectId) {
 			return allBlocks[i];
+		}
+	}
+	return nullptr;
+}
+/*
+This function is used to get Ghost by its id.
+*/
+Ghost* Board::getGhostById(const int& objectId) const {
+	for (int i = 0; i < allGhosts.size(); i++) {
+		if (allGhosts[i]->getId() == objectId) {
+			return allGhosts[i];
 		}
 	}
 	return nullptr;
@@ -570,38 +604,48 @@ SpaceShip* Board::getSmallShip() const {
 	return smallShip;
 }
 
+/* Get all playing ghost. */
 vector<Ghost*> Board::getAllGhosts() const
 {
 	return allGhosts;
 }
 
+/* Get all exit point. */
 vector<Point*> Board::getExitPoints() const
 {
 	return exitPoints;
 }
 
+/* Get curr unique char in the file name. */
 char Board::getCurrFileSuffix()
 {
 	return currFileSuffix;
 }
 
+/* Set curr unique char in the file name*/
 void Board::setCurrFileSuffix(char _currFileSuffix)
 {
 	currFileSuffix = _currFileSuffix;
 }
 
+/*Indicate if file loaded successfuly*/
 bool Board::getIsFileLoadFail() const
 {
 	return isFileLoadFail;
 }
 
-void Board::setFileNameByUser(string _fileNameByUser){
+/*Set the playing file name*/
+void Board::setPlayingFileName(string _playingFileName) {
 
-	fileNameByUser = _fileNameByUser;
+	playingFileName = _playingFileName;
 
 }
 
-
+/* Get the playing file name*/
+string Board::getPlayingFileName()
+{
+	return playingFileName;
+}
 
 /*
 This function is used to decrease time.
@@ -650,10 +694,24 @@ Distruction of Board.
 */
 Board::~Board() {
 
-	for (int i = 0; i < allBlocks.size(); i++){
+	deleteExistDataFromBoard();
+}
+
+/* Free existing Board Data
+*/
+void Board::deleteExistDataFromBoard()
+{
+	for (int i = 0; i < allBlocks.size(); i++) {
 		delete allBlocks[i];
 	}
-
+	for (int j = 0;j < allGhosts.size();j++) {
+		Ghost* currGhost = allGhosts[j];
+		for (int k = 0;k < currGhost->getListPoints().size();k++)
+		{
+			delete(currGhost->getListPoints()[k]);
+		}
+		delete(currGhost);
+	}
 	delete bigShip;
 	delete smallShip;
 }

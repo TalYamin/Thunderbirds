@@ -14,7 +14,7 @@ class Point
 	//data members
 	int objectId = (int)ObjectId::EMPTY;
 	int x = 1;
-	int y = 1; 
+	int y = 1;
 	char figure = (char)BoardFigure::EMPTY;
 	Color color = Color::WHITE;
 
@@ -26,8 +26,8 @@ public:
 	Point(int _x, int _y, char _fig, Color _color);
 	Point(int _x, int _y, char _fig, Color _color, int _objectId);
 	Point() = default;
-	Point(const Point & _p) = default;
-	Point& operator=(const Point & _p) = default;
+	Point(const Point& _p) = default;
+	Point& operator=(const Point& _p) = default;
 	~Point();
 
 

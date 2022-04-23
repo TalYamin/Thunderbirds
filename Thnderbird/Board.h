@@ -1,15 +1,19 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 25
-#define LIVES_X 30
-#define LIVES_Y 29
-#define TIME_X 30
-#define TIME_Y 30
+#define LIVES_X 1
+#define LIVES_Y 1
+#define TIME_X 22
+#define TIME_Y 1
+#define SHIP_X 42
+#define SHIP_Y 1
+#define BOARD_NAME_X 62
+#define BOARD_NAME__Y 1
 #define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
 #define LOG_X 30
-#define LOG_Y 33
+#define LOG_Y 27
 #define EXIT_Y 25
 #define EXIT_X1 42
 #define EXIT_X2 43
@@ -55,7 +59,8 @@ class Board
 	vector<Point*> exitPoints;
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
-	string fileNameByUser;
+	string playingFileName;
+
 
 public:
 
@@ -83,11 +88,16 @@ public:
 	char getCurrFileSuffix();
 	void setCurrFileSuffix(char _currFileSuffix);
 	bool getIsFileLoadFail() const;
-	void setFileNameByUser(string _fileNameByUser);
+	void setPlayingFileName(string _playingFileName);
+	string getPlayingFileName();
 
 	//public methods
+	void updatePlayingBoardName();
+	void deleteExistDataFromBoard();
 	Block* getBlockById(const int& objectId) const;
+	Ghost* getGhostById(const int& objectId) const;
 	void removeShipFromBoard(SpaceShip* ship);
+	void removeGhostFromBoard(Ghost* ghost);
 	bool checkExit(SpaceShip* ship);
 	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost);
 	void initBoard();
@@ -108,7 +118,7 @@ private:
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	int initGhost(const int& x, const int& y);
 	void loadBoardFromTextFile(string fileName);
-	void setPointAndObject(const int& x, const int& y,const char& c);
+	void setPointAndObject(const int& x, const int& y, const char& c);
 	void placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId);
 	int initBlock(int x, int y, char c);
 	Block* checkIsBlockExist(const char& c);

@@ -18,6 +18,10 @@ Point::Point(int _x, int _y, char _fig)
 	y = _y;
 	figure = _fig;
 }
+
+/*
+Constructor of Point with 4 parameters.
+*/
 Point::Point(int _x, int _y, char _fig, Color _color)
 {
 	x = _x;
@@ -74,16 +78,16 @@ This function is used to make point movement according to direction.
 */
 void Point::move(int dir) {
 	switch (dir) {
-	case (int)Direction::UP: 
+	case (int)Direction::UP:
 		--y;
 		break;
-	case (int)Direction::DOWN: 
+	case (int)Direction::DOWN:
 		++y;
 		break;
 	case (int)Direction::LEFT:
 		--x;
 		break;
-	case (int)Direction::RIGHT: 
+	case (int)Direction::RIGHT:
 		++x;
 		break;
 	}
@@ -103,7 +107,7 @@ This function is used to draw point.
 void Point::draw() const {
 	gotoxy(x, y);
 	setTextColor(color);
-	cout << figure << endl;
+	cout << figure;
 }
 
 /*
@@ -112,7 +116,7 @@ This function is used to dreaw point with figure parameter.
 void Point::draw(char _fig)
 {
 	gotoxy(x, y);
-	cout << _fig << endl;
+	cout << _fig;
 }
 
 /*
@@ -133,7 +137,7 @@ void Point::setObjecId(int _objectId) {
 /*
 This is getter function of object id data member.
 */
-int Point::getObjecId() const{
+int Point::getObjecId() const {
 	return objectId;
 }
 
@@ -141,5 +145,5 @@ int Point::getObjecId() const{
 Distructor of Point.
 */
 Point::~Point() {
-	
+
 }

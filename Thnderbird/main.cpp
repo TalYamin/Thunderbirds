@@ -7,7 +7,6 @@ Function creates Game object. Function performs color mode selection and then st
 */
 int main()
 {
-
 	Game game;
 	game.selectColorMode();
 	game.start();

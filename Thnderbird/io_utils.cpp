@@ -37,7 +37,7 @@ This function is used to set color to text.
 In case of isBlackAndWhite mode this is disabled.
 */
 void setTextColor(Color colorToSet) {
-	if (!isBlackAndWhite){
+	if (!isBlackAndWhite) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
 	}
 }
@@ -57,7 +57,7 @@ void hideCursor()
 /*
 This function is used to clear screen.
 */
-void clear_screen() 
+void clear_screen()
 {
 	system("cls");
 }
