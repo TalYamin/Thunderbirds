@@ -51,6 +51,12 @@ void Board::loadBoardFromTextFile(string fileName)
 				y++;
 				x = 0;
 			}
+			else if (c == (char)BoardFigure::INFO)
+			{
+				legendXIndexPlace = x;
+				legendYIndexPlace = y;
+
+			}
 			else
 			{
 				setPointAndObject(x, y, c);
@@ -435,11 +441,8 @@ This function responsiable to initialize the ships on the board.
 void Board::initShips()
 {
 	bigShip = new SpaceShip(2, 2, (char)BoardFigure::BIG_SHIP, Color::GREEN, BIG_SHIP_CARRING_SIZE, ShipSize::BIG);
-	bigShip->setArrowKeys("wxad");
-
 
 	smallShip = new SpaceShip(1, 2, (char)BoardFigure::SMALL_SHIP, Color::BLUE, SMALL_SHIP_CARRING_SIZE, ShipSize::SMALL);
-	smallShip->setArrowKeys("wxad");
 
 }
 
@@ -684,7 +687,7 @@ int Board::getMaxVerticalSize() const {
 /*
 This is getter function of points matrix data member.
 */
-Point(*Board::getMat())[VERTICAL_SIZE]{
+Point(*Board::getMat())[VERTICAL_SIZE] {
 	return mat;
 };
 
@@ -716,3 +719,64 @@ void Board::deleteExistDataFromBoard()
 }
 
 
+int Board::getTimeIndexPlace() const
+{
+	return timeIndexPlace;
+}
+
+void Board::setTimeIndexPlace(int _timeIndexPlace) {
+	timeIndexPlace = _timeIndexPlace;
+}
+
+int Board::getLiveIndexPlace() const
+{
+	return liveIndexPlace;
+}
+
+void Board::setLiveIndexPlace(int _liveIndexPlace) {
+	liveIndexPlace = _liveIndexPlace;
+}
+
+int Board::getShipIndexPlace() const
+{
+	return shipIndexPlace;
+}
+
+void Board::setBoardNameIndexPlace(int _boardNameIndexPlace)
+{
+	boardNameIndexPlace = _boardNameIndexPlace;
+}
+
+/*
+Initializes the playing board name log index.
+*/
+int Board::getBoardNameIndexPlace() const
+{
+	return boardNameIndexPlace;
+}
+
+void Board::setLegendXIndexPlace(int _legendIndexPlace)
+{
+	legendXIndexPlace = _legendIndexPlace;
+}
+
+int Board::getLegendXIndexPlace() const
+{
+	return legendXIndexPlace;
+}
+void Board::setLegendYIndexPlace(int _legendIndexPlace)
+{
+	legendYIndexPlace = _legendIndexPlace;
+}
+
+int Board::getLegendYIndexPlace() const
+{
+	return legendYIndexPlace;
+}
+
+/*
+Initializes the ship log index.
+*/
+void Board::setShipIndexPlace(int _shipIndexPlace) {
+	shipIndexPlace = _shipIndexPlace;
+}

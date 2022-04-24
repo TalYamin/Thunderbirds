@@ -4,9 +4,6 @@
 #define LIVES_X 1
 #define TIME_X 22
 #define SHIP_X 42
-#define BOARD_NAME_X 62
-#define METADATA_LOG_Y 1
-#define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
 #define LOG_X 0
@@ -58,6 +55,12 @@ class Board
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string playingFileName;
+	int timeIndexPlace = 0;
+	int liveIndexPlace = 0;
+	int shipIndexPlace = 0;
+	int boardNameIndexPlace = 0;
+	int legendXIndexPlace = 0;
+	int legendYIndexPlace = 0;
 
 
 public:
@@ -88,6 +91,18 @@ public:
 	bool getIsFileLoadFail() const;
 	void setPlayingFileName(string _playingFileName);
 	string getPlayingFileName();
+	void setTimeIndexPlace(int _timeIndexPlace);
+	int getTimeIndexPlace() const;
+	void setLiveIndexPlace(int _liveIndexPlace);
+	int getLiveIndexPlace() const;
+	void setShipIndexPlace(int _shpiIndexPlace);
+	int getShipIndexPlace() const;
+	void setBoardNameIndexPlace(int _boardNameIndexPlace);
+	int getBoardNameIndexPlace() const;
+	void setLegendYIndexPlace(int _legendYIndexPlace);
+	int getLegendYIndexPlace() const;
+	void setLegendXIndexPlace(int _legendXIndexPlace);
+	int getLegendXIndexPlace() const;
 
 	//public methods
 	void updatePlayingBoardName();
