@@ -5,7 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
-#define GAME_SPEED 40
+#define GAME_SPEED 50
 #define TIME_TO_PAUSE 500
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'

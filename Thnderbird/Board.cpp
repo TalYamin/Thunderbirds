@@ -113,7 +113,7 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 /*Place point data on the board matrix*/
 void Board::placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId) {
 	Point* point = new Point(x, y, c, color, objectId);
-	setMatrixPoint(x, y, point);
+	mat[x][y] = *point;
 	delete point;
 }
 
@@ -133,14 +133,6 @@ void Board::draw() const
 		if (i != maxVerticalSize - 1)
 			cout << endl;
 	}
-}
-
-/*
-This function i used to set matrix point.
-*/
-void Board::setMatrixPoint(int _x, int _y, Point* _p)
-{
-	mat[_x][_y] = *_p;
 }
 
 /*
@@ -218,19 +210,19 @@ This function is used to check if point is not empty.
 Checking the figure on board matrix. In case of block, calling to isBlockCanMove() function which
 should check if the the block is able to move or block this point.
 */
-bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost) {
+bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve,
+	const int& maxCarringBlockSize, bool* isGhost) {
 
 	if (mat[x][y].getFigure() == (char)BoardFigure::HORIZONTAL_GHOST) {
 		*isGhost = true;
 	}
-
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
 	}
 	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else if (isBlockFigure(mat[x][y].getFigure()))
+	else if (isBlockFigure(mat[x][y].getFigure()))	
 	{
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);

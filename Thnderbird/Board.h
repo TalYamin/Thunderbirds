@@ -2,13 +2,10 @@
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 25
 #define LIVES_X 1
-#define LIVES_Y 1
 #define TIME_X 22
-#define TIME_Y 1
 #define SHIP_X 42
-#define SHIP_Y 1
 #define BOARD_NAME_X 62
-#define BOARD_NAME__Y 1
+#define METADATA_LOG_Y 1
 #define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
@@ -103,7 +100,6 @@ public:
 	void initBoard();
 	void timeDown();
 	void draw() const;
-	void setMatrixPoint(int _x, int _y, Point* _p);
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
 	void moveGhosts();

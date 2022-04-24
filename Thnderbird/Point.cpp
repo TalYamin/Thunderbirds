@@ -105,9 +105,12 @@ char Point::getFigure() const
 This function is used to draw point.
 */
 void Point::draw() const {
-	gotoxy(x, y);
-	setTextColor(color);
-	cout << figure;
+	if (x < HORIZONTAL_SIZE && y < VERTICAL_SIZE)
+	{
+		gotoxy(x, y);
+		setTextColor(color);
+		cout << figure;
+	}
 }
 
 /*
@@ -115,8 +118,11 @@ This function is used to dreaw point with figure parameter.
 */
 void Point::draw(char _fig)
 {
-	gotoxy(x, y);
-	cout << _fig;
+	if (x < HORIZONTAL_SIZE && y < VERTICAL_SIZE)
+	{
+		gotoxy(x, y);
+		cout << _fig;
+	}
 }
 
 /*

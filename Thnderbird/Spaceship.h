@@ -79,6 +79,7 @@ private:
 	void moveShip(Board* board, ObjectId type);
 	void checkSmallCollision(Board* board);
 	void checkBigCollision(Board* board);
+	void checkCollisionByDirection(Board* board, int xAddtion, int yAddtion, char figure);
 	void shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksInvolve);
 };
 

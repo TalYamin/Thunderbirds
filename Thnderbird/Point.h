@@ -5,6 +5,8 @@
 #include "ObjectId.h"
 #include "BoardFigure.h"
 #include "Direction.h"
+#define HORIZONTAL_SIZE 80
+#define VERTICAL_SIZE 25
 
 using namespace std;
 

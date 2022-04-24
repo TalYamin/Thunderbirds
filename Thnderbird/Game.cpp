@@ -223,7 +223,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			playingBoard.fallBlocksIfNoFloor();
 			Sleep(GAME_SPEED);
 			playingBoard.timeDown();
-			printTime(timeIndexPlace, TIME_Y);
+			printTime(timeIndexPlace, METADATA_LOG_Y);
 		}
 	}
 	return key;
@@ -237,8 +237,7 @@ Function update the active ship icons.
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
 	isOnMoving = true;
-	deleteIcon(shipToMove);
-	printPlayingShip(shipIndexPlace, SHIP_Y, shipToSwitch);
+	printPlayingShip(shipIndexPlace, METADATA_LOG_Y, shipToSwitch);
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
@@ -340,7 +339,7 @@ void Game::pause() {
 		lives--;
 		isBigMove = true;
 		setTextColor(Color::YELLOW);
-		cout << "You dead " << endl;
+		cout << "You died" << endl;
 		gotoxy(LOG_X, ++logY);
 		if (lives == 0)
 		{
@@ -445,7 +444,7 @@ void Game::printTime(const int x, const int y) const
 		cout << ' ';
 	}
 	gotoxy(x, y);
-	cout << playingBoard.getTimeRemains() << endl;
+	cout << playingBoard.getTimeRemains();
 }
 
 /*
@@ -521,7 +520,7 @@ This function is used to delete heart in case of dead and to update it on screen
 void Game::deadHeartHandler()
 {
 	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
-	gotoxy(heartIndexToDelete, LIVES_Y);
+	gotoxy(heartIndexToDelete, METADATA_LOG_Y);
 	cout << "  ";
 	lives--;
 }
