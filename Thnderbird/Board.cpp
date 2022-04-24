@@ -211,14 +211,10 @@ Checking the figure on board matrix. In case of block, calling to isBlockCanMove
 should check if the the block is able to move or block this point.
 */
 bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve,
-	const int& maxCarringBlockSize, bool* isGhost, bool* isWallInvolve) {
+	const int& maxCarringBlockSize, bool* isGhost) {
 
 	if (mat[x][y].getFigure() == (char)BoardFigure::HORIZONTAL_GHOST) {
 		*isGhost = true;
-	}
-	if (mat[x][y].getFigure() == (char)BoardFigure::WALL)
-	{
-		*isWallInvolve = true;
 	}
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
@@ -226,7 +222,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else if (isBlockFigure(mat[x][y].getFigure()))
+	else if (isBlockFigure(mat[x][y].getFigure()))	
 	{
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
@@ -320,7 +316,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 			switch (direction)
 			{
 			case (int)Direction::LEFT:
-				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr, nullptr)) {
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -331,7 +327,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				}
 				break;
 			case (int)Direction::RIGHT:
-				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr, nullptr)) {
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}

@@ -96,7 +96,7 @@ public:
 	void removeShipFromBoard(SpaceShip* ship);
 	void removeGhostFromBoard(Ghost* ghost);
 	bool checkExit(SpaceShip* ship);
-	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost, bool* isWallInvolve);
+	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost);
 	void initBoard();
 	void timeDown();
 	void draw() const;
