@@ -211,23 +211,6 @@ void SpaceShip::move(Board* board) {
 		moveShip(board, ObjectId::SMALL);
 	}
 
-	/*switch (type)
-	{
-	case ShipSize::SMALL:
-		checkSmallCollision(board);
-		if (!isShipBlock) {
-			moveShip(board, ObjectId::SMALL);
-		}
-		break;
-	case ShipSize::BIG:
-		checkBigCollision(board);
-		if (!isShipBlock) {
-			moveShip(board, ObjectId::BIG);
-		}
-		break;
-	default:
-		break;
-	}*/
 }
 
 /*
