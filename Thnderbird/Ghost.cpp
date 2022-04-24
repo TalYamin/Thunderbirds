@@ -91,16 +91,17 @@ void Ghost::MoveGhost(Board* board) {
 void Ghost::checkGhostCollision(Board* board)
 {
 	vector<Block*> blocksInvolve;
+	bool isWallInvolved = false;
 	switch (direction)
 	{
 	case (int)Direction::LEFT:
-		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr);
+		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr, &isWallInvolved);
 		if (isGhostBlock) {
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() - 1, list_points[0]->getY());
 		}
 		break;
 	case (int)Direction::RIGHT:
-		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr);
+		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), direction, blocksInvolve, 0, nullptr, &isWallInvolved);
 		if (isGhostBlock) {
 			isGhostHit = isGhostHitShip(board, list_points[0]->getX() + 1, list_points[0]->getY());
 		}

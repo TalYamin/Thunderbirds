@@ -113,7 +113,7 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 /*Place point data on the board matrix*/
 void Board::placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId) {
 	Point* point = new Point(x, y, c, color, objectId);
-	setMatrixPoint(x, y, point);
+	mat[x][y] = *point;
 	delete point;
 }
 
@@ -133,14 +133,6 @@ void Board::draw() const
 		if (i != maxVerticalSize - 1)
 			cout << endl;
 	}
-}
-
-/*
-This function i used to set matrix point.
-*/
-void Board::setMatrixPoint(int _x, int _y, Point* _p)
-{
-	mat[_x][_y] = *_p;
 }
 
 /*
@@ -218,12 +210,16 @@ This function is used to check if point is not empty.
 Checking the figure on board matrix. In case of block, calling to isBlockCanMove() function which
 should check if the the block is able to move or block this point.
 */
-bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost) {
+bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve,
+	const int& maxCarringBlockSize, bool* isGhost, bool* isWallInvolve) {
 
 	if (mat[x][y].getFigure() == (char)BoardFigure::HORIZONTAL_GHOST) {
 		*isGhost = true;
 	}
-
+	if (mat[x][y].getFigure() == (char)BoardFigure::WALL)
+	{
+		*isWallInvolve = true;
+	}
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
 		return false;
 	}
@@ -324,7 +320,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 			switch (direction)
 			{
 			case (int)Direction::LEFT:
-				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr, nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -335,7 +331,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				}
 				break;
 			case (int)Direction::RIGHT:
-				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr, nullptr)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
