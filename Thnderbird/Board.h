@@ -1,6 +1,6 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
-#define VERTICAL_SIZE 25
+#define VERTICAL_SIZE 23
 #define LIVES_X 1
 #define TIME_X 22
 #define SHIP_X 42
@@ -9,9 +9,9 @@
 #define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
-#define LOG_X 30
-#define LOG_Y 27
-#define EXIT_Y 25
+#define LOG_X 0
+#define LOG_Y 24
+#define EXIT_Y 23
 #define EXIT_X1 42
 #define EXIT_X2 43
 #define EXIT_X3 44
@@ -32,7 +32,8 @@
 #include "Ghost.h"
 #include <vector>
 #include <fstream>
-
+#include <iostream>
+#include <string>
 
 class SpaceShip;
 class Block;
@@ -76,7 +77,7 @@ public:
 	int getMaxVerticalSize() const;
 	void setTimeRemains(long timeToSet);;
 	long getTimeRemains() const;
-	Point(*getMat())[25];
+	Point(*getMat())[VERTICAL_SIZE];
 	int getShipsAmount() const;
 	SpaceShip* getBigShip() const;
 	SpaceShip* getSmallShip() const;
@@ -121,6 +122,7 @@ private:
 	bool isBlockFigure(const char& c);
 	void addExitPoint(Point* point);
 	void addAllExitPoints();
+	void readTimeRemainForFile(ifstream in);
 };
 
 

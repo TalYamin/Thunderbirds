@@ -6,7 +6,7 @@
 #include "BoardFigure.h"
 #include "Direction.h"
 #define HORIZONTAL_SIZE 80
-#define VERTICAL_SIZE 25
+#define VERTICAL_SIZE 23
 
 using namespace std;
 

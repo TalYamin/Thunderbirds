@@ -89,4 +89,15 @@
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="tb_a.screen">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb_b.screen">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb_c.screen">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

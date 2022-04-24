@@ -149,7 +149,7 @@ void Game::makeSelection() {
 		}
 	case GameStatus::EXIT:
 		setTextColor(Color::DARKGREY);
-		cout << "Goodbye !" << endl;
+		cout << "Goodbye !";
 		break;
 	default:
 		cout << "Wrong input, please try again !" << endl << endl;
@@ -339,20 +339,18 @@ void Game::pause() {
 		lives--;
 		isBigMove = true;
 		setTextColor(Color::YELLOW);
-		cout << "You died" << endl;
-		gotoxy(LOG_X, ++logY);
+		cout << "You died ";
 		if (lives == 0)
 		{
-			cout << "Game Over, Try your luck next time :)" << endl;
+			cout << "Game Over, Try your luck next time :) ";
 			gameStatus = GameStatus::GAMEOVER;
 		}
 		else {
 			playingBoard.deleteExistDataFromBoard();
-			cout << "You have " << lives << " more lives! " << endl;
+			cout << "You have " << lives << " more lives! ";
 			Sleep(TIME_TO_PAUSE);
 
 		}
-		gotoxy(LOG_X, ++logY);
 	}
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
@@ -406,7 +404,7 @@ void Game::pauseCheck(int logY)
 		break;
 	default:
 	{
-		cout << "press ESC to continue or 9 to Exit" << endl;
+		cout << "press ESC to continue or 9 to Exit ";
 		do {
 			ch = _getch();
 		} while (ch != (int)GameStatus::ESC && ch != (int)GameStatus::PAUSE_EXIT);
@@ -425,7 +423,6 @@ void Game::pauseCheck(int logY)
 		}
 		else if (ch == (int)GameStatus::PAUSE_EXIT) {
 			setTextColor(Color::DARKGREY);
-			gotoxy(LOG_X, ++logY);
 			userSelection = GameStatus::EXIT;
 		}
 	}

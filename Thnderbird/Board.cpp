@@ -40,8 +40,11 @@ void Board::loadBoardFromTextFile(string fileName)
 	int x = 0;
 	ifstream in(fileName);
 	char c;
+	std::string str;
 
 	if (in.is_open()) {
+		getline(in, str);
+		timeRemains = atoi(str.c_str());
 		while (in.good()) {
 			in.get(c);
 			if (c == '\n') {
@@ -222,7 +225,7 @@ bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& 
 	else if (mat[x][y].getFigure() == (char)BoardFigure::EMPTY) {
 		return false;
 	}
-	else if (isBlockFigure(mat[x][y].getFigure()))	
+	else if (isBlockFigure(mat[x][y].getFigure()))
 	{
 		int BlockId = mat[x][y].getObjecId();
 		Block* block = getBlockById(BlockId);
@@ -420,6 +423,10 @@ void Board::addAllExitPoints() {
 		}
 	}
 
+}
+
+void Board::readTimeRemainForFile(ifstream in)
+{
 }
 
 /*
@@ -677,7 +684,7 @@ int Board::getMaxVerticalSize() const {
 /*
 This is getter function of points matrix data member.
 */
-Point(*Board::getMat())[25]{
+Point(*Board::getMat())[VERTICAL_SIZE]{
 	return mat;
 };
 
