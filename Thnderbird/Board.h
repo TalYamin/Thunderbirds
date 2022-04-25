@@ -131,7 +131,6 @@ private:
 	bool isBlockFigure(const char& c);
 	void addExitPoint(Point* point);
 	void addAllExitPoints();
-	void readTimeRemainForFile(ifstream in);
 };
 
 

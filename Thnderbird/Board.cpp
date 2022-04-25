@@ -432,10 +432,6 @@ void Board::addAllExitPoints() {
 
 }
 
-void Board::readTimeRemainForFile(ifstream in)
-{
-}
-
 /*
 This function responsiable to initialize the ships on the board.
 */
