@@ -215,17 +215,19 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-	if (isOnMoving && isStart) {
-		playingBoard.moveGhosts();
+
+	playingBoard.moveGhosts();
+	playingBoard.fallBlocksIfNoFloor();
+	Sleep(GAME_SPEED);
+	if (isStart && isOnMoving) {
 		if (!playingBoard.getBigShip()->getIsDie() && !playingBoard.getSmallShip()->getIsDie())
 		{
 			shipToMove.move(&playingBoard);
-			playingBoard.fallBlocksIfNoFloor();
-			Sleep(GAME_SPEED);
 			playingBoard.timeDown();
 			printTime(timeIndexPlace, METADATA_LOG_Y);
 		}
 	}
+
 	return key;
 }
 
@@ -504,10 +506,10 @@ Create equality spaces blocks in the relevant metadata board places.
 */
 void Game::makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const
 {
-	for (int metadataBlock = 0;metadataBlock < 4;metadataBlock++)
+	for (int metadataBlock = 0; metadataBlock < 4; metadataBlock++)
 	{
 		gotoxy(startXLog + 1 + (metadataBlock * 20), topYLog);
-		for (int index = 0;index < METADATA_LOG_SIZE;index++)
+		for (int index = 0; index < METADATA_LOG_SIZE; index++)
 		{
 			cout << ' ';
 		}
