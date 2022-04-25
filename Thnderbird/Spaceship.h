@@ -25,7 +25,7 @@ class SpaceShip
 	int horizontalSize = 2;
 	int direction = (int)Direction::RIGHT;
 	char figure = (char)BoardFigure::BIG_SHIP;
-	char arrowKeys[NUM_ARROW_KEYS];
+	char arrowKeys[NUM_ARROW_KEYS] = { 'w','x','a','d' };
 	Color color = Color::GREEN;
 	bool isShipBlock = false;
 	bool isExit = false;
