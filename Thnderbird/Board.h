@@ -2,18 +2,11 @@
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 23
 #define LIVES_X 1
-#define TIME_X 22
-#define SHIP_X 42
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
 #define LOG_X 0
 #define LOG_Y 24
-#define EXIT_Y 23
-#define EXIT_X1 42
-#define EXIT_X2 43
-#define EXIT_X3 44
 #define BLOCKS_AMOUNT 3
-#define MAX_TIME 10000
 #define BIG_SHIP_CARRING_SIZE 6
 #define SMALL_SHIP_CARRING_SIZE 2
 #define FILE_PREFIX "tb_"
@@ -43,7 +36,7 @@ class Board
 	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE];
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
-	long timeRemains = MAX_TIME;
+	long timeRemains = 1;
 	vector <Block*> allBlocks;
 	vector <Ghost*> allGhosts;
 	SpaceShip* smallShip = {};

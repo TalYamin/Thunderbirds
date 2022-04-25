@@ -305,7 +305,6 @@ void Game::pause() {
 			gameStatus = GameStatus::GAMEOVER;
 		}
 		else {
-			playingBoard.deleteExistDataFromBoard();
 			cout << "You have " << lives << " more lives! ";
 			Sleep(TIME_TO_PAUSE);
 
@@ -316,7 +315,6 @@ void Game::pause() {
 		playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
 		playingBoard.setPlayingFileName("");
 		playingBoard.updatePlayingBoardName();
-		printPlayingBoardName(playingBoard.getBoardNameIndexPlace(), 1, playingBoard.getPlayingFileName());
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
@@ -377,6 +375,7 @@ void Game::pauseCheck(int logY)
 			gameStatus = GameStatus::RUNNING;
 			isBigOnMoving = false;
 			isSmallOnMoving = false;
+			playingBoard.deleteExistDataFromBoard();
 			run();
 
 		}
@@ -449,7 +448,7 @@ void Game::gameLegend(const SpaceShip& ship)
 	x += SPACE_BETWEEN_METADATA;
 	printTime(playingBoard.getTimeIndexPlace(), y);
 	printTextDescription(x, y, playingShipTextDescription);
-	playingBoard.setShipIndexPlace(SHIP_X + (int)playingShipTextDescription.length());
+	playingBoard.setShipIndexPlace(x + (int)playingShipTextDescription.length());
 	x += SPACE_BETWEEN_METADATA;
 	printPlayingShip(playingBoard.getShipIndexPlace(), y, ship);
 	printTextDescription(x, y, playingBoardTextDescription);
@@ -457,31 +456,6 @@ void Game::gameLegend(const SpaceShip& ship)
 	printPlayingBoardName(playingBoard.getBoardNameIndexPlace(), y, playingBoard.getPlayingFileName());
 }
 
-/*
-Create equality spaces blocks in the relevant metadata board places.
-*/
-void Game::makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const
-{
-	for (int metadataBlock = 0; metadataBlock < 4; metadataBlock++)
-	{
-		gotoxy(startXLog + 1 + (metadataBlock * 20), topYLog);
-		for (int index = 0; index < METADATA_LOG_SIZE; index++)
-		{
-			cout << ' ';
-		}
-	}
-}
-
-/*
-This function is used to delete heart in case of dead and to update it on screen.
-*/
-void Game::deadHeartHandler()
-{
-	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
-	gotoxy(heartIndexToDelete, playingBoard.getLegendYIndexPlace());
-	cout << "  ";
-	lives--;
-}
 
 /*
 This function is used to check lose situation.

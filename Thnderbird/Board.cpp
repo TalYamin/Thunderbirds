@@ -12,7 +12,6 @@ void Board::initBoard()
 		updatePlayingBoardName();
 	}
 
-	timeRemains = MAX_TIME;
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
