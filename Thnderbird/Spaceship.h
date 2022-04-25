@@ -78,7 +78,8 @@ private:
 	//private methods
 	void moveShip(Board* board, ObjectId type);
 	void checkCollision(Board* board);
-	bool checkShipMatPointCollision(Board* board, int x, int y, vector<Block*>& blocksInvolve, bool* isGhost);
+	bool checkShipMatPointCollision(Board* board, int x, int y, vector<Block*>& blocksInvolve, bool* isGhost, bool& isWallIsInvolved);
 	void shipCanPushMultipleBlocks(Board* board, vector<Block*>& blocksInvolve);
+	void checkWallInvolvement(Board* board, int x, int y, bool& isWallIsInvolved);
 };
 
