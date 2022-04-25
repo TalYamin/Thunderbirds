@@ -681,6 +681,38 @@ Point(*Board::getMat())[25]{
 	return mat;
 };
 
+/*Operator = for Board*/
+Board& Board::operator=(const Board& _board){
+
+	if (this != &_board){
+		delete smallShip;
+		delete bigShip;
+		for (int i = 0; i < VERTICAL_SIZE; i++) {
+			for (int j = 0; j < HORIZONTAL_SIZE; j++) {
+				mat[j][i] = _board.mat[j][i];
+			}
+		}
+		maxHorizontalSize = _board.maxHorizontalSize;
+		maxVerticalSize = _board.maxVerticalSize;
+		timeRemains = _board.timeRemains;
+		allBlocks = _board.allBlocks;
+		allGhosts = _board.allGhosts;
+		shipsAmount = _board.shipsAmount;
+		isBigShipInitialized = _board.isBigShipInitialized;
+		isSmallShipInitialized = _board.isSmallShipInitialized;
+		exitPoints = _board.exitPoints;
+		currFileSuffix = _board.currFileSuffix;
+		isFileLoadFail = _board.isFileLoadFail;
+		playingFileName = _board.playingFileName;
+		smallShip = new SpaceShip();
+		bigShip = new SpaceShip();
+		*smallShip = *(_board.smallShip);
+		*bigShip = *(_board.bigShip);
+	}
+	
+	return *this;
+}
+
 /*
 Distruction of Board.
 */

@@ -25,7 +25,7 @@ class SpaceShip
 	int horizontalSize = 2;
 	int direction = (int)Direction::RIGHT;
 	char figure = (char)BoardFigure::BIG_SHIP;
-	char arrowKeys[4];
+	char arrowKeys[NUM_ARROW_KEYS];
 	Color color = Color::GREEN;
 	bool isShipBlock = false;
 	bool isExit = false;
@@ -39,7 +39,7 @@ public:
 	//ctor + dtor
 	SpaceShip() = default;
 	SpaceShip(const SpaceShip& _spaceship) = default;
-	SpaceShip& operator=(const SpaceShip& _spaceship) = default;
+	SpaceShip& operator=(const SpaceShip& _spaceship);
 	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize, ShipSize _type);
 	~SpaceShip();
 
