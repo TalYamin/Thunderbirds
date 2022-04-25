@@ -1,6 +1,7 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 23
+#define VERTICAL_GAME_DIMENSION_SIZE 25
 #define LIVES_X 1
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20

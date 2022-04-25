@@ -58,7 +58,9 @@ void Board::loadBoardFromTextFile(string fileName)
 			}
 			else
 			{
-				setPointAndObject(x, y, c);
+				if (y < maxVerticalSize) {
+					setPointAndObject(x, y, c);
+				}
 				x++;
 			}
 		}
