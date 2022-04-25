@@ -307,7 +307,6 @@ void Game::pause() {
 		else {
 			cout << "You have " << lives << " more lives! ";
 			Sleep(TIME_TO_PAUSE);
-
 		}
 	}
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
@@ -370,12 +369,12 @@ void Game::pauseCheck(int logY)
 			setTextColor(Color::WHITE);
 			if (gameStatus == GameStatus::DIE)
 			{
+				playingBoard.deleteExistDataFromBoard();
 				init();
 			}
 			gameStatus = GameStatus::RUNNING;
 			isBigOnMoving = false;
 			isSmallOnMoving = false;
-			playingBoard.deleteExistDataFromBoard();
 			run();
 
 		}
