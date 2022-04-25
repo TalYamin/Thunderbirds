@@ -63,7 +63,7 @@ public:
 	Board() = default;
 	Board(int _maxHorizontalSize, int _maxVerticalSize, long _timeRemains, SpaceShip* _smallShip, SpaceShip* bigShip);
 	Board(const Board& _board) = default;
-	Board& operator=(const Board& _board) = default;
+	Board& operator=(const Board& _board);
 	~Board();
 
 

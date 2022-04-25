@@ -14,6 +14,38 @@ SpaceShip::SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color
 	type = _type;
 }
 
+/*Operator = for Spaceship*/
+SpaceShip& SpaceShip::operator=(const SpaceShip& _spaceship) {
+
+
+	if (this != &_spaceship) {
+		for (int i = 0; i < 2; i++) {
+			delete shipMat[i];
+		}
+		type = _spaceship.type;
+		verticalSize = _spaceship.verticalSize;
+		horizontalSize = _spaceship.horizontalSize;
+		direction = _spaceship.direction;
+		figure = _spaceship.figure;
+		color = _spaceship.color;
+		isShipBlock = _spaceship.isShipBlock;
+		isExit = _spaceship.isExit;
+		isDie = _spaceship.isDie;
+		maxCarringBlockSize = _spaceship.maxCarringBlockSize;
+		for (int i = 0; i < NUM_ARROW_KEYS; i++) {
+			arrowKeys[i] = _spaceship.arrowKeys[i];
+		}
+		for (int i = 0; i < 2; i++) {
+			shipMat[i] = new Point[2];
+			for (int j = 0; j < 2; j++) {
+				shipMat[i][j] = _spaceship.shipMat[i][j];
+			}
+		}
+	}
+	return *this;
+}
+
+
 
 /*
 This is setter function for type data member.
