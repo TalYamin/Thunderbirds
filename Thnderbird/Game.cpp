@@ -317,7 +317,7 @@ void Game::pause() {
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
-		cout << "You won !";
+		cout << "You won !!! ";
 	}
 
 	else
