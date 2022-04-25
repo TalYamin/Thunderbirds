@@ -265,41 +265,41 @@ void SpaceShip::checkCollision(Board* board){
 	vector<Block*> blocksInvolve;
 	bool isGhost = false;
 	bool isWallIsInvolved = false;
-	bool blockFromLeft = false;
-	bool blockFromRight = false;
+	bool collisionFromLeft = false;
+	bool collisionFromRight = false;
 	switch (direction) {
 	case (int)Direction::UP:
-		blockFromLeft = checkShipMatPointCollision(board, shipMat[0][0].getX(), shipMat[0][0].getY() - 1, blocksInvolve, &isGhost, isWallIsInvolved);
-		blockFromRight = checkShipMatPointCollision(board, shipMat[0][1].getX(), shipMat[0][1].getY() - 1, blocksInvolve, &isGhost, isWallIsInvolved);
+		collisionFromLeft = checkShipMatPointCollision(board, shipMat[0][0].getX(), shipMat[0][0].getY() - 1, blocksInvolve, &isGhost, isWallIsInvolved);
+		collisionFromRight = checkShipMatPointCollision(board, shipMat[0][1].getX(), shipMat[0][1].getY() - 1, blocksInvolve, &isGhost, isWallIsInvolved);
 		break;
 	case (int)Direction::DOWN:
 		if (type == ShipSize::BIG){
-			blockFromLeft = checkShipMatPointCollision(board, shipMat[1][0].getX(), shipMat[1][0].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
-			blockFromRight = checkShipMatPointCollision(board, shipMat[1][1].getX(), shipMat[1][1].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
+			collisionFromLeft = checkShipMatPointCollision(board, shipMat[1][0].getX(), shipMat[1][0].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
+			collisionFromRight = checkShipMatPointCollision(board, shipMat[1][1].getX(), shipMat[1][1].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
 		}
 		else {
-			blockFromLeft = checkShipMatPointCollision(board, shipMat[0][0].getX(), shipMat[0][0].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
-			blockFromRight = checkShipMatPointCollision(board, shipMat[0][1].getX(), shipMat[0][1].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
+			collisionFromLeft = checkShipMatPointCollision(board, shipMat[0][0].getX(), shipMat[0][0].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
+			collisionFromRight = checkShipMatPointCollision(board, shipMat[0][1].getX(), shipMat[0][1].getY() + 1, blocksInvolve, &isGhost, isWallIsInvolved);
 		}
 		break;
 	case (int)Direction::LEFT:
-		blockFromLeft = checkShipMatPointCollision(board, shipMat[0][0].getX() - 1, shipMat[0][0].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
-		if (type == ShipSize::BIG && !blockFromLeft)
+		collisionFromLeft = checkShipMatPointCollision(board, shipMat[0][0].getX() - 1, shipMat[0][0].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
+		if (type == ShipSize::BIG && !collisionFromLeft)
 		{
-			blockFromLeft = checkShipMatPointCollision(board, shipMat[1][0].getX() - 1, shipMat[1][0].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
+			collisionFromLeft = checkShipMatPointCollision(board, shipMat[1][0].getX() - 1, shipMat[1][0].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
 		}
 		break;
 	case (int)Direction::RIGHT:
-		blockFromRight = checkShipMatPointCollision(board, shipMat[0][1].getX() + 1, shipMat[0][1].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
-		if (type == ShipSize::BIG && !blockFromRight) {
-			blockFromRight = checkShipMatPointCollision(board, shipMat[1][1].getX() + 1, shipMat[1][1].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
+		collisionFromRight = checkShipMatPointCollision(board, shipMat[0][1].getX() + 1, shipMat[0][1].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
+		if (type == ShipSize::BIG && !collisionFromRight) {
+			collisionFromRight = checkShipMatPointCollision(board, shipMat[1][1].getX() + 1, shipMat[1][1].getY(), blocksInvolve, &isGhost, isWallIsInvolved);
 		}
 		break;
 	default:
 		isShipBlock = false;
 		break;
 	}
-	isShipBlock = blockFromLeft || blockFromRight;
+	isShipBlock = collisionFromLeft || collisionFromRight;
 	if (!isShipBlock && (direction == (int)Direction::LEFT || direction == (int)Direction::RIGHT)){
 		shipCanPushMultipleBlocks(board, blocksInvolve);
 	}
