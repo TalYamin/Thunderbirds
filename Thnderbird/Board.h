@@ -1,22 +1,13 @@
 #pragma once
 #define HORIZONTAL_SIZE 80
-#define VERTICAL_SIZE 25
+#define VERTICAL_SIZE 23
+#define VERTICAL_GAME_DIMENSION_SIZE 25
 #define LIVES_X 1
-#define TIME_X 22
-#define SHIP_X 42
-#define BOARD_NAME_X 62
-#define METADATA_LOG_Y 1
-#define SHIP_ICON_X 30
 #define SHIP_ICON_Y 31
 #define SPACE_BETWEEN_METADATA 20
-#define LOG_X 30
-#define LOG_Y 27
-#define EXIT_Y 25
-#define EXIT_X1 42
-#define EXIT_X2 43
-#define EXIT_X3 44
+#define LOG_X 0
+#define LOG_Y 24
 #define BLOCKS_AMOUNT 3
-#define MAX_TIME 10000
 #define BIG_SHIP_CARRING_SIZE 6
 #define SMALL_SHIP_CARRING_SIZE 2
 #define FILE_PREFIX "tb_"
@@ -32,7 +23,8 @@
 #include "Ghost.h"
 #include <vector>
 #include <fstream>
-
+#include <iostream>
+#include <string>
 
 class SpaceShip;
 class Block;
@@ -45,7 +37,7 @@ class Board
 	Point mat[HORIZONTAL_SIZE][VERTICAL_SIZE];
 	int maxHorizontalSize = HORIZONTAL_SIZE;
 	int maxVerticalSize = VERTICAL_SIZE;
-	long timeRemains = MAX_TIME;
+	long timeRemains = 1;
 	vector <Block*> allBlocks;
 	vector <Ghost*> allGhosts;
 	SpaceShip* smallShip = {};
@@ -57,6 +49,12 @@ class Board
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string playingFileName;
+	int timeIndexPlace = 0;
+	int liveIndexPlace = 0;
+	int shipIndexPlace = 0;
+	int boardNameIndexPlace = 0;
+	int legendXIndexPlace = 0;
+	int legendYIndexPlace = 0;
 
 
 public:
@@ -76,7 +74,7 @@ public:
 	int getMaxVerticalSize() const;
 	void setTimeRemains(long timeToSet);;
 	long getTimeRemains() const;
-	Point(*getMat())[25];
+	Point(*getMat())[VERTICAL_SIZE];
 	int getShipsAmount() const;
 	SpaceShip* getBigShip() const;
 	SpaceShip* getSmallShip() const;
@@ -87,6 +85,18 @@ public:
 	bool getIsFileLoadFail() const;
 	void setPlayingFileName(string _playingFileName);
 	string getPlayingFileName();
+	void setTimeIndexPlace(int _timeIndexPlace);
+	int getTimeIndexPlace() const;
+	void setLiveIndexPlace(int _liveIndexPlace);
+	int getLiveIndexPlace() const;
+	void setShipIndexPlace(int _shpiIndexPlace);
+	int getShipIndexPlace() const;
+	void setBoardNameIndexPlace(int _boardNameIndexPlace);
+	int getBoardNameIndexPlace() const;
+	void setLegendYIndexPlace(int _legendYIndexPlace);
+	int getLegendYIndexPlace() const;
+	void setLegendXIndexPlace(int _legendXIndexPlace);
+	int getLegendXIndexPlace() const;
 
 	//public methods
 	void updatePlayingBoardName();

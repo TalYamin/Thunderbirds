@@ -6,7 +6,7 @@
 #include "Board.h"
 #include "GameStatus.h"
 #define GAME_SPEED 50
-#define TIME_TO_PAUSE 500
+#define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
 #define SMALL_SWITCH_KEY 'S'
@@ -32,10 +32,6 @@ class Game
 	int lives = 3;
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
-	int timeIndexPlace = 0;
-	int liveIndexPlace = 0;
-	int shipIndexPlace = 0;
-	int boardNameIndexPlace = 0;
 
 public:
 	//ctors + dtors
@@ -47,14 +43,6 @@ public:
 	//getters + setters
 	void setLives(int _lives);
 	int getLives() const;
-	void setTimeIndexPlace(int _timeIndexPlace);
-	int getTimeIndexPlace() const;
-	void setLiveIndexPlace(int _liveIndexPlace);
-	int getLiveIndexPlace() const;
-	void setShipIndexPlace(int _shpiIndexPlace);
-	int getShipIndexPlace() const;
-	void setBoardNameIndexPlace(int _boardNameIndexPlace);
-	int getBoardNameIndexPlace() const;
 
 	//public methods
 	void selectColorMode() const;
@@ -75,14 +63,11 @@ private:
 	void printTime(const int x, const int y) const;
 	void printTextDescription(const int x, const int y, const std::string text) const;
 	void printLives(const int x, const int y) const;
-	void gameMetadata(const SpaceShip& ship);
-	void makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const;
+	void gameLegend(const SpaceShip& ship);
 	void deadHeartHandler();
 	bool isLose();
 	bool isSomeShipDie();
 	bool timeoutHandler() const;
-	void drawIcon(const SpaceShip& ship) const;
-	void deleteIcon(const SpaceShip& ship) const;
 	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);

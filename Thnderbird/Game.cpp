@@ -37,49 +37,6 @@ int Game::getLives() const
 	return lives;
 }
 
-int Game::getTimeIndexPlace() const
-{
-	return timeIndexPlace;
-}
-
-void Game::setTimeIndexPlace(int _timeIndexPlace) {
-	timeIndexPlace = _timeIndexPlace;
-}
-
-int Game::getLiveIndexPlace() const
-{
-	return timeIndexPlace;
-}
-
-void Game::setLiveIndexPlace(int _liveIndexPlace) {
-	liveIndexPlace = _liveIndexPlace;
-}
-
-int Game::getShipIndexPlace() const
-{
-	return shipIndexPlace;
-}
-
-void Game::setBoardNameIndexPlace(int _boardNameIndexPlace)
-{
-	boardNameIndexPlace = _boardNameIndexPlace;
-}
-
-/*
-Initializes the playing board name log index.
-*/
-int Game::getBoardNameIndexPlace() const
-{
-	return boardNameIndexPlace;
-}
-
-/*
-Initializes the ship log index.
-*/
-void Game::setShipIndexPlace(int _shipIndexPlace) {
-	shipIndexPlace = _shipIndexPlace;
-}
-
 /*
 This function is used to print color menu.
 */
@@ -149,7 +106,7 @@ void Game::makeSelection() {
 		}
 	case GameStatus::EXIT:
 		setTextColor(Color::DARKGREY);
-		cout << "Goodbye !" << endl;
+		cout << "Goodbye !";
 		break;
 	default:
 		cout << "Wrong input, please try again !" << endl << endl;
@@ -224,7 +181,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		{
 			shipToMove.move(&playingBoard);
 			playingBoard.timeDown();
-			printTime(timeIndexPlace, METADATA_LOG_Y);
+			printTime(playingBoard.getTimeIndexPlace(), playingBoard.getLegendYIndexPlace());
 		}
 	}
 
@@ -239,7 +196,7 @@ Function update the active ship icons.
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
 	isOnMoving = true;
-	printPlayingShip(shipIndexPlace, METADATA_LOG_Y, shipToSwitch);
+	printPlayingShip(playingBoard.getShipIndexPlace(), playingBoard.getLegendYIndexPlace(), shipToSwitch);
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
@@ -321,7 +278,7 @@ void Game::init() {
 	if (!playingBoard.getIsFileLoadFail()) {
 		playingBoard.draw();
 
-		gameMetadata(*(playingBoard.getBigShip()));
+		gameLegend(*(playingBoard.getBigShip()));
 		hideCursor();
 	}
 }
@@ -341,31 +298,27 @@ void Game::pause() {
 		lives--;
 		isBigMove = true;
 		setTextColor(Color::YELLOW);
-		cout << "You died" << endl;
-		gotoxy(LOG_X, ++logY);
+		cout << "You died ";
 		if (lives == 0)
 		{
-			cout << "Game Over, Try your luck next time :)" << endl;
+			cout << "Game Over, Try your luck next time :) ";
 			gameStatus = GameStatus::GAMEOVER;
 		}
 		else {
-			playingBoard.deleteExistDataFromBoard();
-			cout << "You have " << lives << " more lives! " << endl;
+			cout << "You have " << lives << " more lives! ";
 			Sleep(TIME_TO_PAUSE);
 
 		}
-		gotoxy(LOG_X, ++logY);
 	}
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
 		playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
 		playingBoard.setPlayingFileName("");
 		playingBoard.updatePlayingBoardName();
-		printPlayingBoardName(boardNameIndexPlace, 1, playingBoard.getPlayingFileName());
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
-		cout << "You win !" << endl;
+		cout << "You won !";
 		gotoxy(LOG_X, ++logY);
 	}
 
@@ -408,7 +361,7 @@ void Game::pauseCheck(int logY)
 		break;
 	default:
 	{
-		cout << "press ESC to continue or 9 to Exit" << endl;
+		cout << "press ESC to continue or 9 to Exit ";
 		do {
 			ch = _getch();
 		} while (ch != (int)GameStatus::ESC && ch != (int)GameStatus::PAUSE_EXIT);
@@ -422,12 +375,12 @@ void Game::pauseCheck(int logY)
 			gameStatus = GameStatus::RUNNING;
 			isBigOnMoving = false;
 			isSmallOnMoving = false;
+			playingBoard.deleteExistDataFromBoard();
 			run();
 
 		}
 		else if (ch == (int)GameStatus::PAUSE_EXIT) {
 			setTextColor(Color::DARKGREY);
-			gotoxy(LOG_X, ++logY);
 			userSelection = GameStatus::EXIT;
 		}
 	}
@@ -478,54 +431,31 @@ void Game::printLives(const int x, const int y) const
 /*
 This function is used to prints all game metadata.
 */
-void Game::gameMetadata(const SpaceShip& ship)
+void Game::gameLegend(const SpaceShip& ship)
 {
-	int x = 0, y = 1, metadataBlock = 0;
+	int x = playingBoard.getLegendXIndexPlace(), y = playingBoard.getLegendYIndexPlace();
 	std::string liveTextDescription = "Lives: ";
 	std::string timeTextDescription = "Time: ";
 	std::string playingShipTextDescription = "Ship: ";
 	std::string playingBoardTextDescription = "File: ";
 
-	makeEmptyMetadataSpaces(x, y);
-	printTextDescription(LIVES_X, y, liveTextDescription);
-	setLiveIndexPlace(LIVES_X + (int)liveTextDescription.length());
-	printLives(liveIndexPlace, y);
-	printTextDescription(TIME_X, y, timeTextDescription);
-	setTimeIndexPlace(TIME_X + (int)timeTextDescription.length());
-	printTime(timeIndexPlace, y);
-	printTextDescription(SHIP_X, y, playingShipTextDescription);
-	setShipIndexPlace(SHIP_X + (int)playingShipTextDescription.length());
-	printPlayingShip(shipIndexPlace, y, ship);
-	printTextDescription(BOARD_NAME_X, y, playingBoardTextDescription);
-	setBoardNameIndexPlace(BOARD_NAME_X + (int)playingShipTextDescription.length());
-	printPlayingBoardName(boardNameIndexPlace, y, playingBoard.getPlayingFileName());
+	printTextDescription(x, y, liveTextDescription);
+	playingBoard.setLiveIndexPlace(x + (int)liveTextDescription.length());
+	x += SPACE_BETWEEN_METADATA;
+	printLives(playingBoard.getLiveIndexPlace(), y);
+	printTextDescription(x, y, timeTextDescription);
+	playingBoard.setTimeIndexPlace(x + (int)timeTextDescription.length());
+	x += SPACE_BETWEEN_METADATA;
+	printTime(playingBoard.getTimeIndexPlace(), y);
+	printTextDescription(x, y, playingShipTextDescription);
+	playingBoard.setShipIndexPlace(x + (int)playingShipTextDescription.length());
+	x += SPACE_BETWEEN_METADATA;
+	printPlayingShip(playingBoard.getShipIndexPlace(), y, ship);
+	printTextDescription(x, y, playingBoardTextDescription);
+	playingBoard.setBoardNameIndexPlace(x + (int)playingShipTextDescription.length());
+	printPlayingBoardName(playingBoard.getBoardNameIndexPlace(), y, playingBoard.getPlayingFileName());
 }
 
-/*
-Create equality spaces blocks in the relevant metadata board places.
-*/
-void Game::makeEmptyMetadataSpaces(const int startXLog, const int topYLog) const
-{
-	for (int metadataBlock = 0; metadataBlock < 4; metadataBlock++)
-	{
-		gotoxy(startXLog + 1 + (metadataBlock * 20), topYLog);
-		for (int index = 0; index < METADATA_LOG_SIZE; index++)
-		{
-			cout << ' ';
-		}
-	}
-}
-
-/*
-This function is used to delete heart in case of dead and to update it on screen.
-*/
-void Game::deadHeartHandler()
-{
-	int heartIndexToDelete = LIVES_X + ((lives - 1) * 2);
-	gotoxy(heartIndexToDelete, METADATA_LOG_Y);
-	cout << "  ";
-	lives--;
-}
 
 /*
 This function is used to check lose situation.
@@ -560,37 +490,6 @@ bool Game::timeoutHandler() const
 	return playingBoard.getTimeRemains() <= 0;
 }
 
-/*
-This function is used to draw ship icon of active ship on screen.
-*/
-void Game::drawIcon(const SpaceShip& ship) const
-{
-	printTextDescription(SHIP_ICON_X - SPACE_BETWEEN_METADATA, SHIP_ICON_Y, "playing ship is: ");
-	for (int j = 0; j < ship.getVerticalSize(); j++)
-	{
-		for (int i = 0; i < ship.getHorizontalSize(); i++)
-		{
-			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
-			setTextColor(ship.getColor());
-			cout << ship.getFigure();
-		}
-	}
-}
-
-/*
-This function is used to delete icon of ship when it is switched.
-*/
-void Game::deleteIcon(const SpaceShip& ship) const
-{
-	for (int j = 0; j < ship.getVerticalSize(); j++)
-	{
-		for (int i = 0; i < ship.getHorizontalSize(); i++)
-		{
-			gotoxy(SHIP_ICON_X + i, SHIP_ICON_Y + j);
-			cout << ' ';
-		}
-	}
-}
 
 /*
 This function is used to check victory.
