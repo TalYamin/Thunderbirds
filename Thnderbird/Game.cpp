@@ -318,7 +318,6 @@ void Game::pause() {
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
 		cout << "You won !";
-		gotoxy(LOG_X, ++logY);
 	}
 
 	else
