@@ -108,7 +108,7 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
 		break;
 	case (char)BoardFigure::HORIZONTAL_GHOST:
-		objectId = initGhost(x, y);
+		objectId = initGhost(x, y,c);
 		placePointOnBoard(x, y, c, Color::BROWN, objectId);
 		break;
 	default:
@@ -400,6 +400,14 @@ Block* Board::checkIsBlockExist(const char& c) {
 	return nullptr;
 }
 
+bool Board::isGhostFigure(const char& c)
+{
+	if (c == (char)BoardFigure::HORIZONTAL_GHOST || c == (char)BoardFigure::VERTICAL_GHOST || c== (char)BoardFigure::WANDER_GHOST) {
+		return true;
+	}
+	return false;
+}
+
 /*Checking if the point object is a block*/
 bool Board::isBlockFigure(const char& c)
 {
@@ -432,6 +440,8 @@ void Board::addAllExitPoints() {
 
 }
 
+
+
 /*
 This function responsiable to initialize the ships on the board.
 */
@@ -446,17 +456,42 @@ void Board::initShips()
 /*
 This function responsiable to initialize the ghosts on the board.
 */
-int Board::initGhost(const int& x, const int& y) {
+int Board::initGhost(const int& x, const int& y, const char& c) {
 
 	int size = 1;
 
-	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostPoint = new Point(x, y, c, Color::BROWN);
 	vector<Point*> ghostList = { ghostPoint };
-	Ghost* ghost = new Ghost(ghostList, size);
+
+	Ghost* ghost = new HorizontalGhost(c, ghostList, size);
 
 	allGhosts.push_back(ghost);
 	return ghost->getId();
 }
+
+
+Ghost* Board::getGhostByChar(const char& c, vector<Point*> ghostList, int& size)
+{
+	Ghost* ghost = nullptr;
+
+	switch (c)
+	{
+	case (char)BoardFigure::HORIZONTAL_GHOST:
+		ghost = new HorizontalGhost(c, ghostList, size);
+		break;
+	case (char)BoardFigure::VERTICAL_GHOST:
+	//	ghost = new VerticalGhost(c, ghostList, size);
+		break;
+	case (char)BoardFigure::WANDER_GHOST:
+		//	ghost = new WanderGhost(c, ghostList, size);
+		break;
+	default:
+		break;
+	}
+
+	return ghost;
+}
+
 
 /*Responsible for the movement ghost animation*/
 void Board::moveGhosts() {
