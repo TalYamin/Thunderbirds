@@ -19,4 +19,5 @@ public:
 	char getFigure() override;
 	int getDirection() override;
 	void switchDirection() override;
+	void checkGhostCollision(Board* board) override;
 };

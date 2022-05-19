@@ -1,6 +1,6 @@
 #include "Board.h"
 #include "HorizontalGhost.h"
-
+#include "VerticalGhost.h"
 
 /*
 This function is used to initialize board.
@@ -108,12 +108,13 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		objectId = (int)ObjectId::SMALL;
 		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
 		break;
-	case (char)BoardFigure::HORIZONTAL_GHOST:
-		objectId = initGhost(x, y,c);
-		placePointOnBoard(x, y, c, Color::BROWN, objectId);
-		break;
 	default:
-		if (isBlockFigure(c)) {
+		if (isGhostFigure(c)) {
+			objectId = initGhost(x, y, c);
+			placePointOnBoard(x, y, c, Color::BROWN, objectId);
+			break;
+		}
+		else if (isBlockFigure(c)) {
 			objectId = initBlock(x, y, c);
 			placePointOnBoard(x, y, c, Color::RED, objectId);
 		}
@@ -224,7 +225,7 @@ should check if the the block is able to move or block this point.
 bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve,
 	const int& maxCarringBlockSize, bool* isGhost) {
 
-	if (mat[x][y].getFigure() == (char)BoardFigure::HORIZONTAL_GHOST) {
+	if (isGhostFigure(mat[x][y].getFigure())) {
 		*isGhost = true;
 	}
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
@@ -317,6 +318,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 	int blocksSum = 0;
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
+	bool isGhost;
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
@@ -327,7 +329,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 			switch (direction)
 			{
 			case (int)Direction::LEFT:
-				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -338,7 +340,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				}
 				break;
 			case (int)Direction::RIGHT:
-				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -481,7 +483,7 @@ Ghost* Board::getGhostByChar(const char& c, vector<Point*> ghostList, int& size)
 		ghost = new HorizontalGhost(c, ghostList, size);
 		break;
 	case (char)BoardFigure::VERTICAL_GHOST:
-	//	ghost = new VerticalGhost(c, ghostList, size);
+		ghost = new VerticalGhost(c, ghostList, size);
 		break;
 	case (char)BoardFigure::WANDER_GHOST:
 		//	ghost = new WanderGhost(c, ghostList, size);

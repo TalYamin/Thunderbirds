@@ -66,6 +66,16 @@ bool Ghost::getIsGhostHit()
 	return isGhostHit;
 }
 
+void Ghost::setIsGhostBlock(bool _isGhostBlock)
+{
+	isGhostBlock = _isGhostBlock;
+}
+
+void Ghost::setIsGhostHit(bool _isGhostHit){
+
+	isGhostHit = _isGhostHit;
+}
+
 /*
 Responible for the ghost movement animation.
 */
@@ -85,30 +95,7 @@ void Ghost::MoveGhost(Board* board) {
 
 }
 
-void Ghost::checkGhostCollision(Board* board)
-{
-	vector<Block*> blocksInvolve;
-	switch (this->getDirection())
-	{
-	case (int)Direction::LEFT:
-		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() - 1, list_points[0]->getY(), this->getDirection(), blocksInvolve, 0, nullptr);
-		if (isGhostBlock) {
-			isGhostHit = isGhostHitShip(board, list_points[0]->getX() - 1, list_points[0]->getY());
-		}
-		break;
-	case (int)Direction::RIGHT:
-		isGhostBlock = board->isNotEmptyPoint(list_points[0]->getX() + 1, list_points[0]->getY(), this->getDirection(), blocksInvolve, 0, nullptr);
-		if (isGhostBlock) {
-			isGhostHit = isGhostHitShip(board, list_points[0]->getX() + 1, list_points[0]->getY());
-		}
-		break;
-	default:
-		isGhostBlock = false;
-		break;
-	}
 
-
-}
 
 
 bool Ghost::isGhostHitShip(Board* board, int x, int y) {

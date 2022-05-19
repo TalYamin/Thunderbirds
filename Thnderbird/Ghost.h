@@ -35,20 +35,20 @@ public:
 	vector<Point*> getListPoints();
 	bool getIsGhostBlock();
 	bool getIsGhostHit();
+	void setIsGhostBlock(bool _isGhostBlock);
+	void setIsGhostHit(bool _isGhostHit);
 	
 	//virtual methods
 	virtual void Move(Board* board) = 0;
 	virtual char getFigure() = 0;
 	virtual int getDirection() = 0;
 	virtual void switchDirection() = 0;
+	virtual void checkGhostCollision(Board* board) = 0;
 
 	//public methods
-	void checkGhostCollision(Board* board);
 	void MoveGhost(Board* board);
+	bool isGhostHitShip(Board* board, int x, int y);
 
 private:
-
-	//private methods
-	bool isGhostHitShip(Board* board, int x, int y);
 
 };
