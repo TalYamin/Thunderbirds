@@ -158,13 +158,14 @@ void Board::fallBlocksIfNoFloor()
 	bool needToFall;
 	bool isWallAlsoInvolved = false;
 	vector<SpaceShip*> shipInvolved;
+	Ghost* ghost = nullptr;
 	for (int i = 0; i < allBlocks.size(); i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
 		for (int j = 0; j < block->getListPoints().size(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved,&ghost))
 			{
 				needToFall = false;
 			}
@@ -179,7 +180,14 @@ void Board::fallBlocksIfNoFloor()
 		}
 		if (needToFall == true)
 		{
+			block->setIsFall(true);
 			block->fall(this);
+			if (ghost != nullptr){
+				removeGhostFromBoard(ghost);
+			}
+		}
+		else {
+			block->setIsFall(false);
 		}
 		isWallAlsoInvolved = false;
 	}
@@ -192,7 +200,7 @@ board and in case point is blocked, to notify that the block can not fall.
 Function checking walls which invloved and other ships and returns the infromation in output
 parameters.
 */
-bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve) {
+bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve, Ghost** _ghost) {
 	Point point = mat[x][y];
 	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
 		return true;
@@ -211,7 +219,7 @@ bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId,
 	if (point.getObjecId() >= START_GHOST_ID)
 	{
 		Ghost* ghost = getGhostById(point.getObjecId());
-		removeGhostFromBoard(ghost);
+		*_ghost = ghost;
 		return true;
 	}
 	return false;
