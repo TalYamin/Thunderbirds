@@ -21,7 +21,6 @@
 #include "Spaceship.h"
 #include "ObjectId.h"
 #include "Ghost.h"
-#include "HorizontalGhost.h"
 #include <vector>
 #include <fstream>
 #include <iostream>

@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "HorizontalGhost.h"
 
 
 /*
@@ -463,7 +464,7 @@ int Board::initGhost(const int& x, const int& y, const char& c) {
 	Point* ghostPoint = new Point(x, y, c, Color::BROWN);
 	vector<Point*> ghostList = { ghostPoint };
 
-	Ghost* ghost = new HorizontalGhost(c, ghostList, size);
+	Ghost* ghost = getGhostByChar(c, ghostList, size);
 
 	allGhosts.push_back(ghost);
 	return ghost->getId();

@@ -1,5 +1,6 @@
 #include "HorizontalGhost.h"
 
+
 HorizontalGhost::HorizontalGhost(char _figure, vector <Point*> _list_points, int _size) : LineGhost(_list_points, _size)
 {
 	figure = _figure;
