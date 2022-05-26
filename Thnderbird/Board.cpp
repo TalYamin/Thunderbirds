@@ -178,7 +178,7 @@ void Board::fallBlocksIfNoFloor()
 		needToFall = true;
 		for (int j = 0; j < block->getListPoints().size(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved,&ghostInvolved))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved, &ghostInvolved))
 			{
 				needToFall = false;
 			}
@@ -463,6 +463,16 @@ void Board::addAllExitPoints() {
 	}
 
 }
+
+/*Responsible for the movement ghost animation*/
+void Board::moveGhosts() {
+
+	for (int i = 0; i < allGhosts.size(); i++) {
+		allGhosts[i]->Move(this);
+	}
+
+}
+
 
 
 
@@ -848,7 +858,7 @@ string Board::getStepsFileName() const
 }
 void Board::setStepsFileName(string _stepsFileName)
 {
-	
+
 	stepsFileName = _stepsFileName;
 }
 

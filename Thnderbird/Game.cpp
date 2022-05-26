@@ -56,19 +56,9 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 
 void Game::load(bool isSilent)
 {
-	int seed;
-	string seedLine;
-	ifstream in(LOADED_FILE_GAME);
-	char key;
-	if (in.is_open()) {
-		getline(in, seedLine);
-		seed = stoi(seedLine);
-		srand(seed);
-		while (!in.eof())
-		{
-			key = getchar();
-			run(key);
-		}
+
+			run();
+		
 		//int key;
 		//vector<int> keys;
 		//vector<MoveIteration*> allIterations;
@@ -84,7 +74,7 @@ void Game::load(bool isSilent)
 		//	getline(in, movementLine);
 		//}
 		//int x = 8;
-	}
+	
 }
 
 
@@ -194,15 +184,13 @@ status. Function manages ship movement, ship switch, victory check, lose check a
 */
 void Game::run() {
 
-	isGameFromFile = true;
+	isGameFromFile = false;
 
 	ifstream in(playingBoard.getStepsFileName());
 	ofstream out;
 	if (!isGameFromFile) {
 		generateSavingFile(out);
 	}
-
-
 
 	char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
@@ -272,7 +260,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-
+	playingBoard.moveGhosts();
 	playingBoard.fallBlocksIfNoFloor();
 	Sleep(GAME_SPEED);
 	if (isStart && isOnMoving) {

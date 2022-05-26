@@ -3,8 +3,8 @@
 
 WonderGhost::WonderGhost(char _figure, vector<Point*> _list_points, int _seed) :Ghost(_list_points)
 {
+	srand(time(NULL));
 	figure = _figure;
-	seed = _seed;
 }
 
 WonderGhost::~WonderGhost()
@@ -65,4 +65,11 @@ void WonderGhost::checkGhostCollision(Board* board)
 
 void WonderGhost::Move(Board* board)
 {
+	do {
+		this->switchDirection();
+		checkGhostCollision(board);
+	} while (getIsGhostBlock());
+	if (!this->getIsGhostHit()) {
+		this->MoveGhost(board);
+	}
 }

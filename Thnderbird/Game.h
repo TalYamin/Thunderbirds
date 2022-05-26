@@ -64,7 +64,7 @@ private:
 	void setColorMode() const;
 	void printMenu() const;
 	void makeSelection();
-	void run(char key=0);
+	void run();
 	void showInfo() const;
 	void init();
 	void pause();
