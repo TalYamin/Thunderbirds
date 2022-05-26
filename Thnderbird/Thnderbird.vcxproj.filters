@@ -57,6 +57,18 @@
     <ClInclude Include="Direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MoveIndexVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveIteration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WonderGhostMovemvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WonderGhost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp">
@@ -83,6 +95,15 @@
     <ClCompile Include="Ghost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MoveIteration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WonderGhostMovemvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WonderGhost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="tb_a.screen">
@@ -92,6 +113,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="tb_c.screen">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb1.step">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

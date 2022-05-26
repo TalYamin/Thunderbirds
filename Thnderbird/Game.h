@@ -5,6 +5,10 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
+#include "MoveIndexVector.h"
+#include "WonderGhostMovement.h"
+#include "MoveIteration.h"
+
 #define GAME_SPEED 50
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
@@ -15,6 +19,9 @@
 #define TIME_LEN 5
 #define NUM_OF_SCREENS 3
 #define METADATA_LOG_SIZE 15
+#define LOADED_FILE_GAME "tb1.step"
+#define MAX_LINE 50
+#define FILE_DELIMITER ','
 
 extern bool isBlackAndWhite;
 
@@ -47,6 +54,12 @@ public:
 	//public methods
 	void selectColorMode() const;
 	void start();
+	void load(bool isSilent);
+	void setAllObjectDirection(WonderGhostMovemvent* om, std::vector<int>& moveObject);
+	vector<WonderGhostMovemvent*> extractObjectMove(string line, char delimiter, int& key);
+	int extractParamFieldFromFile(string& line, size_t pos);
+	void getNextMove(ifstream in);
+
 
 private:
 
@@ -55,7 +68,7 @@ private:
 	void setColorMode() const;
 	void printMenu() const;
 	void makeSelection();
-	void run();
+	void run(char key = 0, vector<WonderGhostMovemvent> wonderGhostMovement = {});
 	void showInfo() const;
 	void init();
 	void pause();

@@ -1,5 +1,5 @@
 #include "Board.h"
-
+#include "WonderGhostMovemvent.h"
 
 /*
 This function is used to initialize board.
@@ -459,8 +459,13 @@ int Board::initGhost(const int& x, const int& y) {
 }
 
 /*Responsible for the movement ghost animation*/
-void Board::moveGhosts() {
+void Board::moveGhosts(vector<WonderGhostMovemvent> wonderGhostMovement = {}) {
+	Ghost* ghost;
+	for (int j = 0;j < wonderGhostMovement.size();j++)
+	{
 
+		ghost = getGhostById(wonderGhostMovement[j].getObjcetId());
+	}
 	for (int i = 0; i < allGhosts.size(); i++) {
 		allGhosts[i]->Move(this);
 	}
@@ -689,9 +694,9 @@ Point(*Board::getMat())[VERTICAL_SIZE] {
 };
 
 /*Operator = for Board*/
-Board& Board::operator=(const Board& _board){
+Board& Board::operator=(const Board& _board) {
 
-	if (this != &_board){
+	if (this != &_board) {
 		delete smallShip;
 		delete bigShip;
 		for (int i = 0; i < VERTICAL_SIZE; i++) {
@@ -716,7 +721,7 @@ Board& Board::operator=(const Board& _board){
 		*smallShip = *(_board.smallShip);
 		*bigShip = *(_board.bigShip);
 	}
-	
+
 	return *this;
 }
 

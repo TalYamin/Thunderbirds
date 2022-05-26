@@ -25,6 +25,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 class SpaceShip;
 class Block;
@@ -112,7 +113,7 @@ public:
 	void draw() const;
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
-	void moveGhosts();
+	void moveGhosts(vector<WonderGhostMovemvent> wonderGhostMovement = {});
 
 private:
 
