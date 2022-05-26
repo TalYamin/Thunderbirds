@@ -12,7 +12,7 @@ void Board::initBoard()
 	if (playingFileName.empty()) {
 		updatePlayingBoardName();
 	}
-	if (savingFileName.empty()) {
+	if (stepsFileName.empty()) {
 		updateSavingFileName();
 	}
 
@@ -40,9 +40,9 @@ void Board::updatePlayingBoardName()
 
 void Board::updateSavingFileName()
 {
-	savingFileName += FILE_PREFIX;
-	savingFileName += currFileSuffix;
-	savingFileName += SAVE_FILE_EXTENSION;
+	stepsFileName += FILE_PREFIX;
+	stepsFileName += currFileSuffix;
+	stepsFileName += SAVE_FILE_EXTENSION;
 }
 
 /*Load board matrix from file*/
@@ -851,14 +851,14 @@ int Board::getLegendXIndexPlace() const
 {
 	return legendXIndexPlace;
 }
-string Board::getSavingFileName() const
+string Board::getStepsFileName() const
 {
-	return savingFileName;
+	return stepsFileName;
 }
-void Board::setSavingFileName(string _savingFileName)
+void Board::setStepsFileName(string _stepsFileName)
 {
 	
-	savingFileName = _savingFileName;
+	stepsFileName = _stepsFileName;
 }
 
 void Board::setLegendYIndexPlace(int _legendIndexPlace)

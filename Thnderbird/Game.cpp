@@ -37,6 +37,11 @@ int Game::getLives() const
 	return lives;
 }
 
+bool Game::getIsGameFromFile()
+{
+	return isGameFromFile;
+}
+
 /*
 This function is used to print color menu.
 */
@@ -122,21 +127,29 @@ status. Function manages ship movement, ship switch, victory check, lose check a
 */
 void Game::run() {
 
-	generateSavingFile();
+	isGameFromFile = true;
+
+	ifstream in(playingBoard.getStepsFileName());
+	ofstream out;
+	if (!isGameFromFile) {
+		generateSavingFile(out);
+	}
+
+
 
 	char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
-			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
+			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY, in);
 			checkVictory(bigShip);
 			if (bigShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isBigOnMoving, *smallShip, *bigShip);
 			}
 		}
 		if (!isBigMove && !smallShip->getIsExit()) { // is small move
-			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
+			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY, in);
 			checkVictory(smallShip);
 			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isSmallOnMoving, *bigShip, *smallShip);
@@ -144,6 +157,9 @@ void Game::run() {
 		}
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
+
+	in.close();
+	out.close();
 }
 
 
@@ -151,7 +167,7 @@ void Game::updateFiles()
 {
 	playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
 	playingBoard.setPlayingFileName("");
-	playingBoard.setSavingFileName("");
+	playingBoard.setStepsFileName("");
 	playingBoard.updatePlayingBoardName();
 	playingBoard.updateSavingFileName();
 }
@@ -162,14 +178,19 @@ Funtion manages movement direction according to keyboard typing from user. In ad
 stop ships according to user keyboard typing of same switch key.In parallel function manages blocks
 falling in whole board and time handle.
 */
-char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey) {
+char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, ifstream& in) {
 	char key = 0;
 	int dir;
-	if (_kbhit())
+	if (_kbhit() || isGameFromFile)
 	{
 
 		isStart = true;
-		key = _getch();
+		if (isGameFromFile) {
+			in.get(key);
+		}
+		else {
+			key = _getch();
+		}
 		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
 			if (shipToSwitch.getIsExit() == false)
 			{
@@ -254,10 +275,9 @@ void Game::printPlayingBoardName(const int x, const int y, string fileName) cons
 	cout << fileName;
 }
 
-void Game::generateSavingFile(){
+void Game::generateSavingFile(ofstream& out) {
 
-	ofstream out;
-	out.open(playingBoard.getSavingFileName());
+	out.open(playingBoard.getStepsFileName());
 }
 
 

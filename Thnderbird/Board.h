@@ -50,7 +50,7 @@ class Board
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string playingFileName;
-	string savingFileName;
+	string stepsFileName;
 	int timeIndexPlace = 0;
 	int liveIndexPlace = 0;
 	int shipIndexPlace = 0;
@@ -99,8 +99,8 @@ public:
 	int getLegendYIndexPlace() const;
 	void setLegendXIndexPlace(int _legendXIndexPlace);
 	int getLegendXIndexPlace() const;
-	string getSavingFileName() const;
-	void setSavingFileName(string _savingFileName);
+	string getStepsFileName() const;
+	void setStepsFileName(string _stepsFileName);
 
 	//public methods
 	void updatePlayingBoardName();
