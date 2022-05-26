@@ -1,5 +1,6 @@
 #include "Board.h"
-
+#include "HorizontalGhost.h"
+#include "VerticalGhost.h"
 
 /*
 This function is used to initialize board.
@@ -107,12 +108,13 @@ void Board::setPointAndObject(const int& x, const int& y, const char& c)
 		objectId = (int)ObjectId::SMALL;
 		placePointOnBoard(x, y, c, smallShip->getColor(), objectId);
 		break;
-	case (char)BoardFigure::HORIZONTAL_GHOST:
-		objectId = initGhost(x, y);
-		placePointOnBoard(x, y, c, Color::BROWN, objectId);
-		break;
 	default:
-		if (isBlockFigure(c)) {
+		if (isGhostFigure(c)) {
+			objectId = initGhost(x, y, c);
+			placePointOnBoard(x, y, c, Color::BROWN, objectId);
+			break;
+		}
+		else if (isBlockFigure(c)) {
 			objectId = initBlock(x, y, c);
 			placePointOnBoard(x, y, c, Color::RED, objectId);
 		}
@@ -156,13 +158,14 @@ void Board::fallBlocksIfNoFloor()
 	bool needToFall;
 	bool isWallAlsoInvolved = false;
 	vector<SpaceShip*> shipInvolved;
+	Ghost* ghost = nullptr;
 	for (int i = 0; i < allBlocks.size(); i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
 		for (int j = 0; j < block->getListPoints().size(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved,&ghost))
 			{
 				needToFall = false;
 			}
@@ -177,7 +180,14 @@ void Board::fallBlocksIfNoFloor()
 		}
 		if (needToFall == true)
 		{
+			block->setIsFall(true);
 			block->fall(this);
+			if (ghost != nullptr){
+				removeGhostFromBoard(ghost);
+			}
+		}
+		else {
+			block->setIsFall(false);
 		}
 		isWallAlsoInvolved = false;
 	}
@@ -190,7 +200,7 @@ board and in case point is blocked, to notify that the block can not fall.
 Function checking walls which invloved and other ships and returns the infromation in output
 parameters.
 */
-bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve) {
+bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve, Ghost** _ghost) {
 	Point point = mat[x][y];
 	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
 		return true;
@@ -209,7 +219,7 @@ bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId,
 	if (point.getObjecId() >= START_GHOST_ID)
 	{
 		Ghost* ghost = getGhostById(point.getObjecId());
-		removeGhostFromBoard(ghost);
+		*_ghost = ghost;
 		return true;
 	}
 	return false;
@@ -223,7 +233,7 @@ should check if the the block is able to move or block this point.
 bool Board::isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve,
 	const int& maxCarringBlockSize, bool* isGhost) {
 
-	if (mat[x][y].getFigure() == (char)BoardFigure::HORIZONTAL_GHOST) {
+	if (isGhostFigure(mat[x][y].getFigure())) {
 		*isGhost = true;
 	}
 	if (x >= HORIZONTAL_SIZE || y >= VERTICAL_SIZE) {
@@ -316,6 +326,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 
 	int blocksSum = 0;
 	Block* anotherBlock = getBlockById(mat[x][y].getObjecId());
+	bool isGhost;
 
 	if (anotherBlock->getblockId() != block->getblockId()) {
 		for (size_t i = 0; i < blocksInvolve.size(); i++) {
@@ -326,7 +337,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 			switch (direction)
 			{
 			case (int)Direction::LEFT:
-				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
+				if (!isNotEmptyPoint(x - 1, y, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -337,7 +348,7 @@ bool Board::canMoveMultipleBlocks(int x, int y, Block* block, const int& directi
 				}
 				break;
 			case (int)Direction::RIGHT:
-				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, nullptr)) {
+				if (!isNotEmptyPoint(x + 1, y, direction, blocksInvolve, maxCarringBlockSize, &isGhost)) {
 					if (find(blocksInvolve.begin(), blocksInvolve.end(), anotherBlock) == blocksInvolve.end()) {
 						blocksInvolve.push_back(anotherBlock);
 					}
@@ -400,6 +411,14 @@ Block* Board::checkIsBlockExist(const char& c) {
 	return nullptr;
 }
 
+bool Board::isGhostFigure(const char& c)
+{
+	if (c == (char)BoardFigure::HORIZONTAL_GHOST || c == (char)BoardFigure::VERTICAL_GHOST || c== (char)BoardFigure::WANDER_GHOST) {
+		return true;
+	}
+	return false;
+}
+
 /*Checking if the point object is a block*/
 bool Board::isBlockFigure(const char& c)
 {
@@ -432,6 +451,8 @@ void Board::addAllExitPoints() {
 
 }
 
+
+
 /*
 This function responsiable to initialize the ships on the board.
 */
@@ -446,17 +467,42 @@ void Board::initShips()
 /*
 This function responsiable to initialize the ghosts on the board.
 */
-int Board::initGhost(const int& x, const int& y) {
+int Board::initGhost(const int& x, const int& y, const char& c) {
 
 	int size = 1;
 
-	Point* ghostPoint = new Point(x, y, (char)BoardFigure::HORIZONTAL_GHOST, Color::BROWN);
+	Point* ghostPoint = new Point(x, y, c, Color::BROWN);
 	vector<Point*> ghostList = { ghostPoint };
-	Ghost* ghost = new Ghost(ghostList, size);
+
+	Ghost* ghost = getGhostByChar(c, ghostList, size);
 
 	allGhosts.push_back(ghost);
 	return ghost->getId();
 }
+
+
+Ghost* Board::getGhostByChar(const char& c, vector<Point*> ghostList, int& size)
+{
+	Ghost* ghost = nullptr;
+
+	switch (c)
+	{
+	case (char)BoardFigure::HORIZONTAL_GHOST:
+		ghost = new HorizontalGhost(c, ghostList, size);
+		break;
+	case (char)BoardFigure::VERTICAL_GHOST:
+		ghost = new VerticalGhost(c, ghostList, size);
+		break;
+	case (char)BoardFigure::WANDER_GHOST:
+		//	ghost = new WanderGhost(c, ghostList, size);
+		break;
+	default:
+		break;
+	}
+
+	return ghost;
+}
+
 
 /*Responsible for the movement ghost animation*/
 void Board::moveGhosts() {

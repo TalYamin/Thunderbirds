@@ -15,6 +15,7 @@ class Block
 	bool isBlock = false;
 	int blockId = (int)ObjectId::EMPTY;
 	static int idGenerator;
+	bool isFall = false;
 
 
 public:
@@ -34,6 +35,9 @@ public:
 	void setIsBlock();
 	void setColor(Color c);
 	vector<Point*> getListPoints();
+	bool getIsFall();
+	void setIsFall(bool _isFall);
+
 
 	//public methods
 	void drawBlock() const;

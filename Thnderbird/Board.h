@@ -117,20 +117,22 @@ public:
 private:
 
 	//private methods
-	bool isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve);
+	bool isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve, Ghost** _ghost);
 	void initShips();
 	void insertNewBlock(Block* block);
 	bool isInvalidPlace(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	bool canMoveMultipleBlocks(int x, int y, Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
-	int initGhost(const int& x, const int& y);
+	int initGhost(const int& x, const int& y, const char& c);
 	void loadBoardFromTextFile(string fileName);
 	void setPointAndObject(const int& x, const int& y, const char& c);
 	void placePointOnBoard(const int& x, const int& y, const char& c, const Color& color, const int& objectId);
 	int initBlock(int x, int y, char c);
 	Block* checkIsBlockExist(const char& c);
+	bool isGhostFigure(const char& c);
 	bool isBlockFigure(const char& c);
 	void addExitPoint(Point* point);
 	void addAllExitPoints();
+	Ghost* getGhostByChar(const char& c, vector<Point*> ghostList, int& size);
 };
 
 
