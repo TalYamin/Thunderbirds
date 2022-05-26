@@ -20,28 +20,30 @@ void Game::start() {
 	makeSelection();
 }
 
-
-vector<WonderGhostMovemvent*> Game::extractObjectMove(string line, char delimiter, int& key)
-{
-	size_t pos = 0;
-	int tokenObject;
-	int tokenDirection;
-	vector<WonderGhostMovemvent*> result;
-	if ((pos = line.find(delimiter)) == string::npos)
-		key = stoi(line);
-	else
-	{
-		key = extractParamFieldFromFile(line, pos);
-	}
-	while ((pos = line.find(delimiter)) != string::npos) {
-		tokenObject = extractParamFieldFromFile(line, pos);
-		pos = line.find(delimiter);
-		tokenDirection = extractParamFieldFromFile(line, pos);
-		WonderGhostMovemvent* om = new WonderGhostMovemvent(tokenObject, tokenDirection);
-		result.push_back(om);
-	}
-	return result;
-}
+//
+//vector<char> Game::inferDataFile(string line, char delimiter, int& key)
+//{
+//	size_t pos = 0;
+//	int seed;
+//	int tokenObject;
+//	int tokenDirection;
+//	vector<char> result;
+//
+//	if ((pos = line.find(delimiter)) == string::npos)
+//		key = stoi(line);
+//	else
+//	{
+//		key = extractParamFieldFromFile(line, pos);
+//	}
+//	while ((pos = line.find(delimiter)) != string::npos) {
+//		tokenObject = extractParamFieldFromFile(line, pos);
+//		pos = line.find(delimiter);
+//		tokenDirection = extractParamFieldFromFile(line, pos);
+//		WonderGhostMovemvent* om = new WonderGhostMovemvent(tokenObject, tokenDirection);
+//		result.push_back(om);
+//	}
+//	return result;
+//}
 
 int Game::extractParamFieldFromFile(string& line, size_t pos)
 {
@@ -54,24 +56,34 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 
 void Game::load(bool isSilent)
 {
+	int seed;
+	string seedLine;
 	ifstream in(LOADED_FILE_GAME);
+	char key;
 	if (in.is_open()) {
-		string movementLine;
-		int key;
-		vector<int> keys;
-		vector<MoveIteration*> allIterations;
-		getline(in, movementLine);
+		getline(in, seedLine);
+		seed = stoi(seedLine);
+		srand(seed);
 		while (!in.eof())
 		{
-			vector<WonderGhostMovemvent*> moveObject = extractObjectMove(movementLine, FILE_DELIMITER, key);
-			keys.push_back(key);
-			MoveIteration* bla = new MoveIteration(key, moveObject);
-			allIterations.push_back(new MoveIteration(key, moveObject));
-
-			//moveAllObjectDirection(om);
-			getline(in, movementLine);
+			key = getchar();
+			run(key);
 		}
-		int x = 8;
+		//int key;
+		//vector<int> keys;
+		//vector<MoveIteration*> allIterations;
+		//getline(in, movementLine);
+		//while (!in.eof())
+		//{
+		//	vector<WonderGhostMovemvent*> moveObject = extractObjectMove(movementLine, FILE_DELIMITER, key);
+		//	keys.push_back(key);
+		//	MoveIteration* bla = new MoveIteration(key, moveObject);
+		//	allIterations.push_back(new MoveIteration(key, moveObject));
+
+		//	//moveAllObjectDirection(om);
+		//	getline(in, movementLine);
+		//}
+		//int x = 8;
 	}
 }
 
@@ -175,16 +187,11 @@ void Game::makeSelection() {
 This function manages the main running of the game by user keyboard typing and according to game
 status. Function manages ship movement, ship switch, victory check, lose check and pasue of the game.
 */
-void Game::run(char key = 0, vector<WonderGhostMovemvent> wonderGhostMovement = {}) {
-
+void Game::run(char key)
+{
+	//char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
-	if (!wonderGhostMovement.empty())
-		playingBoard.moveGhosts();
-	else
-	{
-		playingBoard.moveGhosts();
-	}
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);

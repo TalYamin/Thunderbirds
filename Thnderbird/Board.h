@@ -113,7 +113,6 @@ public:
 	void draw() const;
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
-	void moveGhosts(vector<WonderGhostMovemvent> wonderGhostMovement = {});
 
 private:
 

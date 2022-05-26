@@ -1,6 +1,6 @@
 #include "LineGhost.h"
 
-LineGhost::LineGhost(vector<Point*> _list_points, int _size) : Ghost(_list_points, _size)
+LineGhost::LineGhost(vector<Point*> _list_points, int _size) : Ghost(_list_points)
 {
 }
 

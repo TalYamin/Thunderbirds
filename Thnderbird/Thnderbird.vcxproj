@@ -150,15 +150,12 @@
     <ClInclude Include="HorizontalGhost.h" />
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="LineGhost.h" />
-    <ClInclude Include="MoveIndexVector.h" />
-    <ClInclude Include="MoveIteration.h" />
     <ClInclude Include="ObjectId.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="ShipSize.h" />
     <ClInclude Include="Spaceship.h" />
     <ClInclude Include="WonderGhost.h" />
-    <ClInclude Include="WonderGhostMovemvent.h" />
     <ClInclude Include="VerticalGhost.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,12 +167,11 @@
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="LineGhost.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MoveIteration.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Spaceship.cpp" />
-    <ClCompile Include="WonderGhost.cpp" />
-    <ClCompile Include="WonderGhostMovemvent.cpp" />
     <ClCompile Include="VerticalGhost.cpp" />
+    <ClCompile Include="WonderGhost.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tb1.step" />

@@ -1,7 +1,7 @@
 #include "Board.h"
-#include "WonderGhostMovemvent.h"
 #include "HorizontalGhost.h"
 #include "VerticalGhost.h"
+#include "WonderGhost.h"
 
 /*
 This function is used to initialize board.
@@ -166,7 +166,7 @@ void Board::fallBlocksIfNoFloor()
 		needToFall = true;
 		for (int j = 0; j < block->getListPoints().size(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved,&ghost))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved, &ghost))
 			{
 				needToFall = false;
 			}
@@ -183,7 +183,7 @@ void Board::fallBlocksIfNoFloor()
 		{
 			block->setIsFall(true);
 			block->fall(this);
-			if (ghost != nullptr){
+			if (ghost != nullptr) {
 				removeGhostFromBoard(ghost);
 			}
 		}
@@ -414,7 +414,7 @@ Block* Board::checkIsBlockExist(const char& c) {
 
 bool Board::isGhostFigure(const char& c)
 {
-	if (c == (char)BoardFigure::HORIZONTAL_GHOST || c == (char)BoardFigure::VERTICAL_GHOST || c== (char)BoardFigure::WANDER_GHOST) {
+	if (c == (char)BoardFigure::HORIZONTAL_GHOST || c == (char)BoardFigure::VERTICAL_GHOST || c == (char)BoardFigure::WANDER_GHOST) {
 		return true;
 	}
 	return false;
@@ -495,28 +495,13 @@ Ghost* Board::getGhostByChar(const char& c, vector<Point*> ghostList, int& size)
 		ghost = new VerticalGhost(c, ghostList, size);
 		break;
 	case (char)BoardFigure::WANDER_GHOST:
-		//	ghost = new WanderGhost(c, ghostList, size);
+		ghost = new WonderGhost(c, ghostList, size);
 		break;
 	default:
 		break;
 	}
 
 	return ghost;
-}
-
-
-/*Responsible for the movement ghost animation*/
-void Board::moveGhosts(vector<WonderGhostMovemvent> wonderGhostMovement = {}) {
-	Ghost* ghost;
-	for (int j = 0;j < wonderGhostMovement.size();j++)
-	{
-
-		ghost = getGhostById(wonderGhostMovement[j].getObjcetId());
-	}
-	for (int i = 0; i < allGhosts.size(); i++) {
-		allGhosts[i]->Move(this);
-	}
-
 }
 
 /*
