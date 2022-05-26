@@ -74,7 +74,8 @@ private:
 	void getFileNameFromUser();
 	void printPlayingShip(const int x, const int y, const SpaceShip& ship) const;
 	void printPlayingBoardName(const int x, const int y, string fileName) const;
-
+	void generateSavingFile();
+	void updateFiles();
 };
 
 

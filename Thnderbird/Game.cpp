@@ -122,6 +122,8 @@ status. Function manages ship movement, ship switch, victory check, lose check a
 */
 void Game::run() {
 
+	generateSavingFile();
+
 	char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
@@ -142,6 +144,16 @@ void Game::run() {
 		}
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
+}
+
+
+void Game::updateFiles()
+{
+	playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
+	playingBoard.setPlayingFileName("");
+	playingBoard.setSavingFileName("");
+	playingBoard.updatePlayingBoardName();
+	playingBoard.updateSavingFileName();
 }
 
 /*
@@ -242,6 +254,13 @@ void Game::printPlayingBoardName(const int x, const int y, string fileName) cons
 	cout << fileName;
 }
 
+void Game::generateSavingFile(){
+
+	ofstream out;
+	out.open(playingBoard.getSavingFileName());
+}
+
+
 /*
 This function is used to show game instructions and keys.
 */
@@ -311,9 +330,7 @@ void Game::pause() {
 	}
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
-		playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
-		playingBoard.setPlayingFileName("");
-		playingBoard.updatePlayingBoardName();
+		updateFiles();
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);

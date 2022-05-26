@@ -12,6 +12,9 @@ void Board::initBoard()
 	if (playingFileName.empty()) {
 		updatePlayingBoardName();
 	}
+	if (savingFileName.empty()) {
+		updateSavingFileName();
+	}
 
 	allBlocks.clear();
 	allGhosts.clear();
@@ -25,12 +28,21 @@ void Board::initBoard()
 	}
 }
 
+
+
 /* Update the plating board name by the convenction.*/
 void Board::updatePlayingBoardName()
 {
 	playingFileName += FILE_PREFIX;
 	playingFileName += currFileSuffix;
-	playingFileName += FILE_EXTENSION;
+	playingFileName += SCREEN_FILE_EXTENSION;
+}
+
+void Board::updateSavingFileName()
+{
+	savingFileName += FILE_PREFIX;
+	savingFileName += currFileSuffix;
+	savingFileName += SAVE_FILE_EXTENSION;
 }
 
 /*Load board matrix from file*/
@@ -839,6 +851,16 @@ int Board::getLegendXIndexPlace() const
 {
 	return legendXIndexPlace;
 }
+string Board::getSavingFileName() const
+{
+	return savingFileName;
+}
+void Board::setSavingFileName(string _savingFileName)
+{
+	
+	savingFileName = _savingFileName;
+}
+
 void Board::setLegendYIndexPlace(int _legendIndexPlace)
 {
 	legendYIndexPlace = _legendIndexPlace;

@@ -11,7 +11,8 @@
 #define BIG_SHIP_CARRING_SIZE 6
 #define SMALL_SHIP_CARRING_SIZE 2
 #define FILE_PREFIX "tb_"
-#define FILE_EXTENSION ".screen"
+#define SCREEN_FILE_EXTENSION ".screen"
+#define SAVE_FILE_EXTENSION ".steps"
 #define FIRST_BOARD_SUFFIX 'a'
 
 
@@ -49,6 +50,7 @@ class Board
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string playingFileName;
+	string savingFileName;
 	int timeIndexPlace = 0;
 	int liveIndexPlace = 0;
 	int shipIndexPlace = 0;
@@ -97,9 +99,12 @@ public:
 	int getLegendYIndexPlace() const;
 	void setLegendXIndexPlace(int _legendXIndexPlace);
 	int getLegendXIndexPlace() const;
+	string getSavingFileName() const;
+	void setSavingFileName(string _savingFileName);
 
 	//public methods
 	void updatePlayingBoardName();
+	void updateSavingFileName();
 	void deleteExistDataFromBoard();
 	Block* getBlockById(const int& objectId) const;
 	Ghost* getGhostById(const int& objectId) const;
