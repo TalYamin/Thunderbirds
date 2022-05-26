@@ -61,17 +61,6 @@ vector<Point*> Block::getListPoints() {
 	return list_points;
 }
 
-bool Block::getIsFall()
-{
-	return isFall;
-}
-
-void Block::setIsFall(bool _isFall){
-
-	isFall = _isFall;
-
-}
-
 /*
 This function draw blocks.
 */

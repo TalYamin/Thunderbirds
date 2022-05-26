@@ -13,6 +13,9 @@ void Board::initBoard()
 	if (playingFileName.empty()) {
 		updatePlayingBoardName();
 	}
+	if (stepsFileName.empty()) {
+		updateSavingFileName();
+	}
 
 	allBlocks.clear();
 	allGhosts.clear();
@@ -26,12 +29,21 @@ void Board::initBoard()
 	}
 }
 
+
+
 /* Update the plating board name by the convenction.*/
 void Board::updatePlayingBoardName()
 {
 	playingFileName += FILE_PREFIX;
 	playingFileName += currFileSuffix;
-	playingFileName += FILE_EXTENSION;
+	playingFileName += SCREEN_FILE_EXTENSION;
+}
+
+void Board::updateSavingFileName()
+{
+	stepsFileName += FILE_PREFIX;
+	stepsFileName += currFileSuffix;
+	stepsFileName += SAVE_FILE_EXTENSION;
 }
 
 /*Load board matrix from file*/
@@ -159,14 +171,14 @@ void Board::fallBlocksIfNoFloor()
 	bool needToFall;
 	bool isWallAlsoInvolved = false;
 	vector<SpaceShip*> shipInvolved;
-	Ghost* ghost = nullptr;
+	vector<Ghost*> ghostInvolved;
 	for (int i = 0; i < allBlocks.size(); i++)
 	{
 		Block* block = allBlocks[i];
 		needToFall = true;
 		for (int j = 0; j < block->getListPoints().size(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved, &ghost))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved,&ghostInvolved))
 			{
 				needToFall = false;
 			}
@@ -181,14 +193,13 @@ void Board::fallBlocksIfNoFloor()
 		}
 		if (needToFall == true)
 		{
-			block->setIsFall(true);
-			block->fall(this);
-			if (ghost != nullptr) {
-				removeGhostFromBoard(ghost);
+			if (!ghostInvolved.empty()) {
+				for (int i = 0; i < ghostInvolved.size(); i++)
+				{
+					removeGhostFromBoard(ghostInvolved[i]);
+				}
 			}
-		}
-		else {
-			block->setIsFall(false);
+			block->fall(this);
 		}
 		isWallAlsoInvolved = false;
 	}
@@ -201,7 +212,7 @@ board and in case point is blocked, to notify that the block can not fall.
 Function checking walls which invloved and other ships and returns the infromation in output
 parameters.
 */
-bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve, Ghost** _ghost) {
+bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId, vector<SpaceShip*>* shipInvolved, bool& isWallAlsoInvolve, vector<Ghost*>* ghostInvolved) {
 	Point point = mat[x][y];
 	if (point.getObjecId() == (int)ObjectId::EMPTY || point.getObjecId() == blockId)
 		return true;
@@ -220,7 +231,8 @@ bool Board::isBlockPointsNoFloor(const int& x, const int& y, const int& blockId,
 	if (point.getObjecId() >= START_GHOST_ID)
 	{
 		Ghost* ghost = getGhostById(point.getObjecId());
-		*_ghost = ghost;
+		if (find((*ghostInvolved).begin(), (*ghostInvolved).end(), ghost) == (*ghostInvolved).end())
+			(*ghostInvolved).push_back(ghost);
 		return true;
 	}
 	return false;
@@ -830,6 +842,16 @@ int Board::getLegendXIndexPlace() const
 {
 	return legendXIndexPlace;
 }
+string Board::getStepsFileName() const
+{
+	return stepsFileName;
+}
+void Board::setStepsFileName(string _stepsFileName)
+{
+	
+	stepsFileName = _stepsFileName;
+}
+
 void Board::setLegendYIndexPlace(int _legendIndexPlace)
 {
 	legendYIndexPlace = _legendIndexPlace;
