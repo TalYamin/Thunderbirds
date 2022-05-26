@@ -2,4 +2,5 @@
 313307662
 
 Bonous description:
-Coloring mode to game
+1. Coloring mode to game
+2. Kill ghost by block
