@@ -33,6 +33,8 @@ class Game
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
 	bool isGameFromFile = false;
+	ifstream stepsIn;
+	ofstream stepsOut;
 
 public:
 	//ctors + dtors
@@ -70,7 +72,7 @@ private:
 	bool isLose();
 	bool isSomeShipDie();
 	bool timeoutHandler() const;
-	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, ifstream& in);
+	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 	void getFileNameFromUser();
@@ -78,6 +80,7 @@ private:
 	void printPlayingBoardName(const int x, const int y, string fileName) const;
 	void generateSavingFile(ofstream& out);
 	void updateFiles();
+	char handleKey();
 };
 
 

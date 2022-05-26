@@ -127,12 +127,13 @@ status. Function manages ship movement, ship switch, victory check, lose check a
 */
 void Game::run() {
 
-	isGameFromFile = true;
-
-	ifstream in(playingBoard.getStepsFileName());
-	ofstream out;
-	if (!isGameFromFile) {
-		generateSavingFile(out);
+	isGameFromFile = false;
+	
+	if (isGameFromFile){
+		stepsIn.open(playingBoard.getStepsFileName());
+	}
+	else {
+		stepsOut.open(playingBoard.getStepsFileName());
 	}
 
 
@@ -142,14 +143,14 @@ void Game::run() {
 	SpaceShip* smallShip = playingBoard.getSmallShip();
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
-			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY, in);
+			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
 			checkVictory(bigShip);
 			if (bigShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isBigOnMoving, *smallShip, *bigShip);
 			}
 		}
 		if (!isBigMove && !smallShip->getIsExit()) { // is small move
-			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY, in);
+			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
 			checkVictory(smallShip);
 			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isSmallOnMoving, *bigShip, *smallShip);
@@ -158,8 +159,8 @@ void Game::run() {
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
 
-	in.close();
-	out.close();
+	stepsIn.close();
+	stepsOut.close();
 }
 
 
@@ -172,25 +173,33 @@ void Game::updateFiles()
 	playingBoard.updateSavingFileName();
 }
 
+char Game::handleKey()
+{
+	char key;
+	if (isGameFromFile) {
+		stepsIn.get(key);
+	}
+	else {
+		key = _getch();
+		stepsOut << key;
+	}
+	return key;
+}
+
 /*
 This function is generic function for ship movement, handles big or small ship.
 Funtion manages movement direction according to keyboard typing from user. In addition, function can
 stop ships according to user keyboard typing of same switch key.In parallel function manages blocks
 falling in whole board and time handle.
 */
-char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, ifstream& in) {
+char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey) {
 	char key = 0;
 	int dir;
 	if (_kbhit() || isGameFromFile)
 	{
 
 		isStart = true;
-		if (isGameFromFile) {
-			in.get(key);
-		}
-		else {
-			key = _getch();
-		}
+		key = handleKey();
 		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
 			if (shipToSwitch.getIsExit() == false)
 			{
@@ -220,6 +229,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 
 	return key;
 }
+
 
 
 /*
@@ -398,7 +408,7 @@ void Game::pauseCheck(int logY)
 	{
 		cout << "press ESC to continue or 9 to Exit ";
 		do {
-			ch = _getch();
+			ch = handleKey();
 		} while (ch != (int)GameStatus::ESC && ch != (int)GameStatus::PAUSE_EXIT);
 		if (ch == (int)GameStatus::ESC) {
 			claer_line(logY);
