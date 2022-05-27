@@ -2,7 +2,7 @@
 
 int Ghost::idGenerator = START_GHOST_ID;
 
-Ghost::Ghost(vector <Point*> _list_points, int _size)
+Ghost::Ghost(vector <Point*> _list_points)
 {
 	list_points = _list_points;
 	ghostId = idGenerator++;

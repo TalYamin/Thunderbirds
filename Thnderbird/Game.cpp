@@ -20,6 +20,63 @@ void Game::start() {
 	makeSelection();
 }
 
+//
+//vector<char> Game::inferDataFile(string line, char delimiter, int& key)
+//{
+//	size_t pos = 0;
+//	int seed;
+//	int tokenObject;
+//	int tokenDirection;
+//	vector<char> result;
+//
+//	if ((pos = line.find(delimiter)) == string::npos)
+//		key = stoi(line);
+//	else
+//	{
+//		key = extractParamFieldFromFile(line, pos);
+//	}
+//	while ((pos = line.find(delimiter)) != string::npos) {
+//		tokenObject = extractParamFieldFromFile(line, pos);
+//		pos = line.find(delimiter);
+//		tokenDirection = extractParamFieldFromFile(line, pos);
+//		WonderGhostMovemvent* om = new WonderGhostMovemvent(tokenObject, tokenDirection);
+//		result.push_back(om);
+//	}
+//	return result;
+//}
+
+int Game::extractParamFieldFromFile(string& line, size_t pos)
+{
+	string token = line.substr(0, pos);
+	line.erase(0, pos + 1);
+	return stoi(token);
+}
+
+
+
+void Game::load(bool isSilent)
+{
+
+			run();
+		
+		//int key;
+		//vector<int> keys;
+		//vector<MoveIteration*> allIterations;
+		//getline(in, movementLine);
+		//while (!in.eof())
+		//{
+		//	vector<WonderGhostMovemvent*> moveObject = extractObjectMove(movementLine, FILE_DELIMITER, key);
+		//	keys.push_back(key);
+		//	MoveIteration* bla = new MoveIteration(key, moveObject);
+		//	allIterations.push_back(new MoveIteration(key, moveObject));
+
+		//	//moveAllObjectDirection(om);
+		//	getline(in, movementLine);
+		//}
+		//int x = 8;
+	
+}
+
 
 /*
 This is setter function of lives data member.
@@ -136,8 +193,6 @@ void Game::run() {
 		stepsOut.open(playingBoard.getStepsFileName());
 	}
 
-
-
 	char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
@@ -214,7 +269,6 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-
 	playingBoard.moveGhosts();
 	playingBoard.fallBlocksIfNoFloor();
 	Sleep(GAME_SPEED);

@@ -5,6 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
+
 #define GAME_SPEED 50
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
@@ -15,6 +16,9 @@
 #define TIME_LEN 5
 #define NUM_OF_SCREENS 3
 #define METADATA_LOG_SIZE 15
+#define LOADED_FILE_GAME "tb1.step"
+#define MAX_LINE 50
+#define FILE_DELIMITER ','
 
 extern bool isBlackAndWhite;
 
@@ -51,6 +55,9 @@ public:
 	//public methods
 	void selectColorMode() const;
 	void start();
+	void load(bool isSilent);
+	int extractParamFieldFromFile(string& line, size_t pos);
+
 
 private:
 
@@ -68,7 +75,6 @@ private:
 	void printTextDescription(const int x, const int y, const std::string text) const;
 	void printLives(const int x, const int y) const;
 	void gameLegend(const SpaceShip& ship);
-	void deadHeartHandler();
 	bool isLose();
 	bool isSomeShipDie();
 	bool timeoutHandler() const;

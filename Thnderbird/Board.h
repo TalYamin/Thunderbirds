@@ -26,6 +26,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 class SpaceShip;
 class Block;
