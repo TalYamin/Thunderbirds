@@ -465,10 +465,20 @@ void Board::addAllExitPoints() {
 }
 
 /*Responsible for the movement ghost animation*/
-void Board::moveGhosts() {
+void Board::moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out) {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
 		allGhosts[i]->Move(this);
+		if (!isGameFromFile){
+			WonderGhost* wg = dynamic_cast<WonderGhost*>(allGhosts[i]);
+			if (wg) {
+				out << " " << allGhosts[i]->getId() << ":" << allGhosts[i]->getDirection();
+			}
+		}
+	}
+
+	if (!isGameFromFile){
+		out << endl;
 	}
 
 }

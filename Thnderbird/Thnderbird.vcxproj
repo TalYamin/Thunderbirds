@@ -174,7 +174,6 @@
     <ClCompile Include="WonderGhost.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="tb1.step" />
     <None Include="tb_a.screen" />
     <None Include="tb_b.screen" />
     <None Include="tb_c.screen" />

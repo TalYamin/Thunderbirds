@@ -16,7 +16,6 @@
 #define TIME_LEN 5
 #define NUM_OF_SCREENS 3
 #define METADATA_LOG_SIZE 15
-#define LOADED_FILE_GAME "tb1.step"
 #define MAX_LINE 50
 #define FILE_DELIMITER ','
 
@@ -78,7 +77,7 @@ private:
 	bool isLose();
 	bool isSomeShipDie();
 	bool timeoutHandler() const;
-	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
+	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, char prevKey);
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 	void getFileNameFromUser();

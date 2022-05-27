@@ -198,14 +198,14 @@ void Game::run() {
 	SpaceShip* smallShip = playingBoard.getSmallShip();
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
-			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY);
+			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY,key);
 			checkVictory(bigShip);
 			if (bigShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isBigOnMoving, *smallShip, *bigShip);
 			}
 		}
 		if (!isBigMove && !smallShip->getIsExit()) { // is small move
-			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY);
+			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY,key);
 			checkVictory(smallShip);
 			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isSmallOnMoving, *bigShip, *smallShip);
@@ -232,11 +232,19 @@ char Game::handleKey()
 {
 	char key;
 	if (isGameFromFile) {
-		stepsIn.get(key);
+		if (stepsIn.good()) {
+			string line;
+			getline(stepsIn, line);
+			key = line.at(0);
+		}
 	}
 	else {
 		key = _getch();
-		stepsOut << key;
+		if (stepsOut.good()){
+			if (key != '\0'){
+				stepsOut << key;
+			}
+		}
 	}
 	return key;
 }
@@ -247,7 +255,7 @@ Funtion manages movement direction according to keyboard typing from user. In ad
 stop ships according to user keyboard typing of same switch key.In parallel function manages blocks
 falling in whole board and time handle.
 */
-char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey) {
+char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey,char prevKey) {
 	char key = 0;
 	int dir;
 	if (_kbhit() || isGameFromFile)
@@ -269,7 +277,18 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-	playingBoard.moveGhosts();
+	else if(!_kbhit() && !isGameFromFile){
+		if (stepsOut.good()) {
+			if (prevKey != '\0'){
+				stepsOut << prevKey;
+
+			}
+		}
+	}
+
+	if (isBigStart || isSmallStart){
+		playingBoard.moveGhosts(isGameFromFile, stepsIn, stepsOut);
+	}
 	playingBoard.fallBlocksIfNoFloor();
 	Sleep(GAME_SPEED);
 	if (isStart && isOnMoving) {
@@ -281,6 +300,9 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		}
 	}
 
+	if (key == '\0'){
+		return prevKey;
+	}
 	return key;
 }
 
