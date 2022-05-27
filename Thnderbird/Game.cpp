@@ -280,8 +280,12 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	else if(!_kbhit() && !isGameFromFile){
 		if (stepsOut.good()) {
 			if (prevKey != '\0'){
-				stepsOut << prevKey;
-
+				if (isOnMoving){
+					stepsOut << shipToMove.getCurrentDirectionKey();
+				}
+				else {
+					stepsOut << "p";
+				}
 			}
 		}
 	}

@@ -72,6 +72,7 @@ public:
 	//public methods
 	void move(Board* board);
 	void initDraw() const;
+	char getCurrentDirectionKey();
 
 private:
 
