@@ -86,6 +86,7 @@ private:
 	void generateSavingFile(ofstream& out);
 	void updateFiles();
 	char handleKey();
+	void handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey);
 };
 
 

@@ -249,6 +249,7 @@ char Game::handleKey()
 	return key;
 }
 
+
 /*
 This function is generic function for ship movement, handles big or small ship.
 Funtion manages movement direction according to keyboard typing from user. In addition, function can
@@ -260,7 +261,6 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	int dir;
 	if (_kbhit() || isGameFromFile)
 	{
-
 		isStart = true;
 		key = handleKey();
 		if (key == tolower(otherShipSwitchKey) || key == toupper(otherShipSwitchKey)) {
@@ -278,16 +278,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		}
 	}
 	else if(!_kbhit() && !isGameFromFile){
-		if (stepsOut.good()) {
-			if (prevKey != '\0'){
-				if (isOnMoving){
-					stepsOut << shipToMove.getCurrentDirectionKey();
-				}
-				else {
-					stepsOut << "p";
-				}
-			}
-		}
+		handleFileInStaticMode(isOnMoving, shipToMove, prevKey);
 	}
 
 	if (isBigStart || isSmallStart){
@@ -308,6 +299,21 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		return prevKey;
 	}
 	return key;
+}
+
+
+void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey){
+
+	if (stepsOut.good()) {
+		if (prevKey != '\0') {
+			if (isOnMoving) {
+				stepsOut << shipToMove.getCurrentDirectionKey();
+			}
+			else {
+				stepsOut << "p";
+			}
+		}
+	}
 }
 
 
