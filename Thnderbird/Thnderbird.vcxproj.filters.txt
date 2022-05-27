@@ -57,13 +57,10 @@
     <ClInclude Include="Direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WonderGhost.h">
+    <ClInclude Include="LineGhost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HorizontalGhost.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LineGhost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VerticalGhost.h">
@@ -95,9 +92,6 @@
     <ClCompile Include="Ghost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HorizontalGhost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,9 +99,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VerticalGhost.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WonderGhost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,9 +110,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="tb_c.screen">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="tb1.step">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

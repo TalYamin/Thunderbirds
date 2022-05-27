@@ -11,7 +11,8 @@
 #define BIG_SHIP_CARRING_SIZE 6
 #define SMALL_SHIP_CARRING_SIZE 2
 #define FILE_PREFIX "tb_"
-#define FILE_EXTENSION ".screen"
+#define SCREEN_FILE_EXTENSION ".screen"
+#define SAVE_FILE_EXTENSION ".steps"
 #define FIRST_BOARD_SUFFIX 'a'
 
 
@@ -25,6 +26,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 class SpaceShip;
 class Block;
@@ -49,6 +51,7 @@ class Board
 	char currFileSuffix = FIRST_BOARD_SUFFIX;
 	bool isFileLoadFail = false;
 	string playingFileName;
+	string stepsFileName;
 	int timeIndexPlace = 0;
 	int liveIndexPlace = 0;
 	int shipIndexPlace = 0;
@@ -97,9 +100,12 @@ public:
 	int getLegendYIndexPlace() const;
 	void setLegendXIndexPlace(int _legendXIndexPlace);
 	int getLegendXIndexPlace() const;
+	string getStepsFileName() const;
+	void setStepsFileName(string _stepsFileName);
 
 	//public methods
 	void updatePlayingBoardName();
+	void updateSavingFileName();
 	void deleteExistDataFromBoard();
 	Block* getBlockById(const int& objectId) const;
 	Ghost* getGhostById(const int& objectId) const;

@@ -22,7 +22,7 @@ class Ghost
 public:
 	//ctors + dtors
 	Ghost() = default;
-	Ghost(vector <Point*> _list_points, int _size);
+	Ghost(vector <Point*> _list_points);
 	Ghost(vector <Point*> _list_points, Color _color, bool _isGhostBlock, int _ghostId);
 	Ghost(const Ghost& _ghost) = default;
 	Ghost& operator=(const Ghost& _ghost) = default;

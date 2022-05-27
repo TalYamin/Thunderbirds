@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "HorizontalGhost.h"
 #include "VerticalGhost.h"
+#include "WonderGhost.h"
 
 /*
 This function is used to initialize board.
@@ -11,6 +12,9 @@ void Board::initBoard()
 {
 	if (playingFileName.empty()) {
 		updatePlayingBoardName();
+	}
+	if (stepsFileName.empty()) {
+		updateSavingFileName();
 	}
 
 	allBlocks.clear();
@@ -25,12 +29,21 @@ void Board::initBoard()
 	}
 }
 
+
+
 /* Update the plating board name by the convenction.*/
 void Board::updatePlayingBoardName()
 {
 	playingFileName += FILE_PREFIX;
 	playingFileName += currFileSuffix;
-	playingFileName += FILE_EXTENSION;
+	playingFileName += SCREEN_FILE_EXTENSION;
+}
+
+void Board::updateSavingFileName()
+{
+	stepsFileName += FILE_PREFIX;
+	stepsFileName += currFileSuffix;
+	stepsFileName += SAVE_FILE_EXTENSION;
 }
 
 /*Load board matrix from file*/
@@ -165,7 +178,7 @@ void Board::fallBlocksIfNoFloor()
 		needToFall = true;
 		for (int j = 0; j < block->getListPoints().size(); j++) {
 
-			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved,&ghostInvolved))
+			if (!isBlockPointsNoFloor(block->getListPoints()[j]->getX(), block->getListPoints()[j]->getY() + 1, block->getblockId(), &shipInvolved, isWallAlsoInvolved, &ghostInvolved))
 			{
 				needToFall = false;
 			}
@@ -413,7 +426,7 @@ Block* Board::checkIsBlockExist(const char& c) {
 
 bool Board::isGhostFigure(const char& c)
 {
-	if (c == (char)BoardFigure::HORIZONTAL_GHOST || c == (char)BoardFigure::VERTICAL_GHOST || c== (char)BoardFigure::WANDER_GHOST) {
+	if (c == (char)BoardFigure::HORIZONTAL_GHOST || c == (char)BoardFigure::VERTICAL_GHOST || c == (char)BoardFigure::WANDER_GHOST) {
 		return true;
 	}
 	return false;
@@ -450,6 +463,16 @@ void Board::addAllExitPoints() {
 	}
 
 }
+
+/*Responsible for the movement ghost animation*/
+void Board::moveGhosts() {
+
+	for (int i = 0; i < allGhosts.size(); i++) {
+		allGhosts[i]->Move(this);
+	}
+
+}
+
 
 
 
@@ -494,23 +517,13 @@ Ghost* Board::getGhostByChar(const char& c, vector<Point*> ghostList, int& size)
 		ghost = new VerticalGhost(c, ghostList, size);
 		break;
 	case (char)BoardFigure::WANDER_GHOST:
-		//	ghost = new WanderGhost(c, ghostList, size);
+		ghost = new WonderGhost(c, ghostList, size);
 		break;
 	default:
 		break;
 	}
 
 	return ghost;
-}
-
-
-/*Responsible for the movement ghost animation*/
-void Board::moveGhosts() {
-
-	for (int i = 0; i < allGhosts.size(); i++) {
-		allGhosts[i]->Move(this);
-	}
-
 }
 
 /*
@@ -735,9 +748,9 @@ Point(*Board::getMat())[VERTICAL_SIZE] {
 };
 
 /*Operator = for Board*/
-Board& Board::operator=(const Board& _board){
+Board& Board::operator=(const Board& _board) {
 
-	if (this != &_board){
+	if (this != &_board) {
 		delete smallShip;
 		delete bigShip;
 		for (int i = 0; i < VERTICAL_SIZE; i++) {
@@ -762,7 +775,7 @@ Board& Board::operator=(const Board& _board){
 		*smallShip = *(_board.smallShip);
 		*bigShip = *(_board.bigShip);
 	}
-	
+
 	return *this;
 }
 
@@ -839,6 +852,16 @@ int Board::getLegendXIndexPlace() const
 {
 	return legendXIndexPlace;
 }
+string Board::getStepsFileName() const
+{
+	return stepsFileName;
+}
+void Board::setStepsFileName(string _stepsFileName)
+{
+
+	stepsFileName = _stepsFileName;
+}
+
 void Board::setLegendYIndexPlace(int _legendIndexPlace)
 {
 	legendYIndexPlace = _legendIndexPlace;

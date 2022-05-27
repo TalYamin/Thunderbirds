@@ -5,6 +5,7 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
+
 #define GAME_SPEED 50
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
@@ -15,6 +16,9 @@
 #define TIME_LEN 5
 #define NUM_OF_SCREENS 3
 #define METADATA_LOG_SIZE 15
+#define LOADED_FILE_GAME "tb1.step"
+#define MAX_LINE 50
+#define FILE_DELIMITER ','
 
 extern bool isBlackAndWhite;
 
@@ -32,6 +36,7 @@ class Game
 	int lives = 3;
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
+	bool isGameFromFile = false;
 
 public:
 	//ctors + dtors
@@ -43,10 +48,14 @@ public:
 	//getters + setters
 	void setLives(int _lives);
 	int getLives() const;
+	bool getIsGameFromFile();
 
 	//public methods
 	void selectColorMode() const;
 	void start();
+	void load(bool isSilent);
+	int extractParamFieldFromFile(string& line, size_t pos);
+
 
 private:
 
@@ -64,17 +73,17 @@ private:
 	void printTextDescription(const int x, const int y, const std::string text) const;
 	void printLives(const int x, const int y) const;
 	void gameLegend(const SpaceShip& ship);
-	void deadHeartHandler();
 	bool isLose();
 	bool isSomeShipDie();
 	bool timeoutHandler() const;
-	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey);
+	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, ifstream& in);
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 	void getFileNameFromUser();
 	void printPlayingShip(const int x, const int y, const SpaceShip& ship) const;
 	void printPlayingBoardName(const int x, const int y, string fileName) const;
-
+	void generateSavingFile(ofstream& out);
+	void updateFiles();
 };
 
 
