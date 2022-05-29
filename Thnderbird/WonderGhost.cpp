@@ -73,3 +73,8 @@ void WonderGhost::Move(Board* board)
 		this->MoveGhost(board);
 	}
 }
+
+void WonderGhost::setDirection(int _direction)
+{
+	direction = _direction;
+}

@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include "WonderGhost.h"
 using namespace std;
 
 
@@ -99,6 +100,11 @@ bool Game::getIsGameFromFile()
 	return isGameFromFile;
 }
 
+void Game::setIsGameFromFile(bool _isGameIsFromFile)
+{
+	isGameFromFile=_isGameIsFromFile;
+}
+
 /*
 This function is used to print color menu.
 */
@@ -184,8 +190,8 @@ status. Function manages ship movement, ship switch, victory check, lose check a
 */
 void Game::run() {
 
-	isGameFromFile = false;
-	
+	init();
+
 	if (isGameFromFile){
 		stepsIn.open(playingBoard.getStepsFileName());
 	}
@@ -230,23 +236,43 @@ void Game::updateFiles()
 
 char Game::handleKey()
 {
-	char key;
+	char directionKey;
+	string token;
+	int ghostId;
+	int ghostDirection;
+	Ghost* ghost;
+	size_t ghostDelimeterPos;
 	if (isGameFromFile) {
 		if (stepsIn.good()) {
 			string line;
 			getline(stepsIn, line);
-			key = line.at(0);
-		}
-	}
-	else {
-		key = _getch();
-		if (stepsOut.good()){
-			if (key != '\0'){
-				stepsOut << key;
+			directionKey=line.at(0);
+			size_t pos = 1;
+			line.erase(0, pos + 1);//delimiter len
+			while ((pos = line.find(' ')) != string::npos) {
+				token = line.substr(0, pos);
+				ghostDelimeterPos = token.find(':');
+				ghostId = stoi(token.substr(0, ghostDelimeterPos));
+				ghost = playingBoard.getGhostById(ghostId);
+				WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
+				if (wg) {
+					ghostDirection = (token[ghostDelimeterPos+1]-'0');
+					wg->setDirection(ghostDirection);
+					wg->Move(&playingBoard);
+				}				
+				line.erase(0, pos + 1);//delimiter len
 			}
 		}
 	}
-	return key;
+	else {
+		directionKey = _getch();
+		if (stepsOut.good()){
+			if (directionKey != '\0'){
+				stepsOut << directionKey;
+			}
+		}
+	}
+	return directionKey;
 }
 
 

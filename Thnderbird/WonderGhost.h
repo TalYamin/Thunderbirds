@@ -13,6 +13,7 @@ public:
 	void switchDirection() override;
 	void checkGhostCollision(Board* board) override;
 	void Move(Board* board) override;
+	void setDirection(int _direction) ;
 private:
 
 };

@@ -1,14 +1,16 @@
 #include "Game.h"
-
+#include "GameMode.h"
 
 /*
 This is main function of Thunderbirds program.
 Function creates Game object. Function performs color mode selection and then starts the game.
 */
-int main(int argc,char*argv[])
+int main(int argc, char* argv[])
 {
 	Game game;
 	bool isSilence = false;
+	string fileName;
+
 	if (argc == 1)
 	{
 		game.selectColorMode();
@@ -16,16 +18,26 @@ int main(int argc,char*argv[])
 	}
 	else
 	{
-		//TODO: make really good switch case
-		switch (1)
+		if (argv[2] == (char*)GameMode::LOAD)
 		{
-		case 1:
-			game.load(isSilence);
-			break;
-		default:
-			break;
+			//fileName = argv[3];
+			game.setIsGameFromFile(true);
+			game.load(false);
+			//if (argc == 4)//silence mode
+			//{
+			//}
+
 		}
+		else if (argv[2] == (char*)GameMode::SAVE)
+		{
+		}
+		else
+		{
+			cout << "Invliad option, please insert a valid option" << endl;
+		}
+
+
+
+		return 0;
 	}
-	return 0;
-	
 }

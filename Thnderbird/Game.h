@@ -50,6 +50,7 @@ public:
 	void setLives(int _lives);
 	int getLives() const;
 	bool getIsGameFromFile();
+	void setIsGameFromFile(bool _isGameIsFromFile);
 
 	//public methods
 	void selectColorMode() const;
