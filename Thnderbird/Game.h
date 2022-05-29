@@ -57,7 +57,7 @@ public:
 	void start();
 	void load(bool isSilent);
 	int extractParamFieldFromFile(string& line, size_t pos);
-
+	void init();
 
 private:
 
@@ -68,7 +68,6 @@ private:
 	void makeSelection();
 	void run();
 	void showInfo() const;
-	void init();
 	void pause();
 	void pauseCheck(int logY);
 	void printTime(const int x, const int y) const;

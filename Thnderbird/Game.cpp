@@ -190,8 +190,6 @@ status. Function manages ship movement, ship switch, victory check, lose check a
 */
 void Game::run() {
 
-	init();
-
 	if (isGameFromFile){
 		stepsIn.open(playingBoard.getStepsFileName());
 	}
