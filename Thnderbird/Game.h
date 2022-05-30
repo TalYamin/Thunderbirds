@@ -18,6 +18,8 @@
 #define METADATA_LOG_SIZE 15
 #define MAX_LINE 50
 #define FILE_DELIMITER ','
+#define STAY_KEY 'p'
+
 
 extern bool isBlackAndWhite;
 
