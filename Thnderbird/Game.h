@@ -6,7 +6,7 @@
 #include "Board.h"
 #include "GameStatus.h"
 
-#define GAME_SPEED 50
+#define GAME_SPEED 200
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
@@ -16,9 +16,10 @@
 #define TIME_LEN 5
 #define NUM_OF_SCREENS 3
 #define METADATA_LOG_SIZE 15
-#define LOADED_FILE_GAME "tb1.step"
 #define MAX_LINE 50
 #define FILE_DELIMITER ','
+#define STAY_KEY 'p'
+
 
 extern bool isBlackAndWhite;
 
@@ -37,6 +38,8 @@ class Game
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
 	bool isGameFromFile = false;
+	ifstream stepsIn;
+	ofstream stepsOut;
 
 public:
 	//ctors + dtors
@@ -49,13 +52,14 @@ public:
 	void setLives(int _lives);
 	int getLives() const;
 	bool getIsGameFromFile();
+	void setIsGameFromFile(bool _isGameIsFromFile);
 
 	//public methods
 	void selectColorMode() const;
 	void start();
 	void load(bool isSilent);
 	int extractParamFieldFromFile(string& line, size_t pos);
-
+	void init();
 
 private:
 
@@ -64,9 +68,8 @@ private:
 	void setColorMode() const;
 	void printMenu() const;
 	void makeSelection();
-	void run();
+	void run(char key = 0);
 	void showInfo() const;
-	void init();
 	void pause();
 	void pauseCheck(int logY);
 	void printTime(const int x, const int y) const;
@@ -76,7 +79,7 @@ private:
 	bool isLose();
 	bool isSomeShipDie();
 	bool timeoutHandler() const;
-	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, ifstream& in);
+	char moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, char prevKey);
 	void checkVictory(SpaceShip* ship);
 	void switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove);
 	void getFileNameFromUser();
@@ -84,6 +87,8 @@ private:
 	void printPlayingBoardName(const int x, const int y, string fileName) const;
 	void generateSavingFile(ofstream& out);
 	void updateFiles();
+	char handleKey();
+	void handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey);
 };
 
 

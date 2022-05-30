@@ -8,8 +8,9 @@ This function is used to initialize board.
 Funtion creats matrix of points according to string which contains board draw.
 Then function calls to initBlocks() and initShips() functions.
 */
-void Board::initBoard()
+void Board::initBoard(bool isGameFromFile)
 {
+	setIsLoadFromFile(isGameFromFile);
 	if (playingFileName.empty()) {
 		updatePlayingBoardName();
 	}
@@ -465,10 +466,20 @@ void Board::addAllExitPoints() {
 }
 
 /*Responsible for the movement ghost animation*/
-void Board::moveGhosts() {
+void Board::moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out) {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
 		allGhosts[i]->Move(this);
+		if (!isGameFromFile) {
+			WonderGhost* wg = dynamic_cast<WonderGhost*>(allGhosts[i]);
+			if (wg) {
+				out << " " << allGhosts[i]->getId() << ":" << allGhosts[i]->getDirection();
+			}
+		}
+	}
+
+	if (!isGameFromFile) {
+		out << endl;
 	}
 
 }
@@ -498,7 +509,10 @@ int Board::initGhost(const int& x, const int& y, const char& c) {
 	vector<Point*> ghostList = { ghostPoint };
 
 	Ghost* ghost = getGhostByChar(c, ghostList, size);
-
+	WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
+	if (wg) {
+		wg->setLoadFromFile(isLoadFromFile);
+	}
 	allGhosts.push_back(ghost);
 	return ghost->getId();
 }
@@ -860,6 +874,11 @@ void Board::setStepsFileName(string _stepsFileName)
 {
 
 	stepsFileName = _stepsFileName;
+}
+
+void Board::setIsLoadFromFile(bool _isLoadFromFile)
+{
+	isLoadFromFile = _isLoadFromFile;
 }
 
 void Board::setLegendYIndexPlace(int _legendIndexPlace)

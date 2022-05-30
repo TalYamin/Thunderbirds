@@ -257,6 +257,11 @@ void  SpaceShip::initDraw() const {
 	}
 }
 
+char SpaceShip::getCurrentDirectionKey()
+{
+	return arrowKeys[direction];
+}
+
 /*
 This function is used to move ship.
 First, function clean the previous location of ship. Remove figures from board and update

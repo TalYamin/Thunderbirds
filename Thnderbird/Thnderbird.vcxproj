@@ -146,6 +146,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMode.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="HorizontalGhost.h" />
     <ClInclude Include="io_utils.h" />
@@ -168,14 +169,13 @@
     <ClCompile Include="LineGhost.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="VerticalGhost.cpp" />
     <ClCompile Include="WonderGhost.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="tb1.step" />
     <None Include="tb_a.screen" />
+    <None Include="tb_a.steps" />
     <None Include="tb_b.screen" />
     <None Include="tb_c.screen" />
   </ItemGroup>

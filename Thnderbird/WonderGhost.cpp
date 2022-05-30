@@ -65,11 +65,29 @@ void WonderGhost::checkGhostCollision(Board* board)
 
 void WonderGhost::Move(Board* board)
 {
-	do {
-		this->switchDirection();
+	if (!isLoadFromFile)
+	{
+		do {
+
+			this->switchDirection();
+			checkGhostCollision(board);
+		} while (getIsGhostBlock());
+	}
+	else
+	{
 		checkGhostCollision(board);
-	} while (getIsGhostBlock());
+	}
 	if (!this->getIsGhostHit()) {
 		this->MoveGhost(board);
 	}
+}
+
+void WonderGhost::setDirection(int _direction)
+{
+	direction = _direction;
+}
+
+void WonderGhost::setLoadFromFile(bool _isLoadFromFile)
+{
+	isLoadFromFile = _isLoadFromFile;
 }
