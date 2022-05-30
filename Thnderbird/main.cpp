@@ -21,8 +21,8 @@ int main(int argc, char* argv[])
 		if (argv[2] == (char*)GameMode::LOAD)
 		{
 			//fileName = argv[3];
-			game.init();
 			game.setIsGameFromFile(true);
+			game.init();
 			game.load(false);
 			//if (argc == 4)//silence mode
 			//{

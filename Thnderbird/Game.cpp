@@ -21,31 +21,6 @@ void Game::start() {
 	makeSelection();
 }
 
-//
-//vector<char> Game::inferDataFile(string line, char delimiter, int& key)
-//{
-//	size_t pos = 0;
-//	int seed;
-//	int tokenObject;
-//	int tokenDirection;
-//	vector<char> result;
-//
-//	if ((pos = line.find(delimiter)) == string::npos)
-//		key = stoi(line);
-//	else
-//	{
-//		key = extractParamFieldFromFile(line, pos);
-//	}
-//	while ((pos = line.find(delimiter)) != string::npos) {
-//		tokenObject = extractParamFieldFromFile(line, pos);
-//		pos = line.find(delimiter);
-//		tokenDirection = extractParamFieldFromFile(line, pos);
-//		WonderGhostMovemvent* om = new WonderGhostMovemvent(tokenObject, tokenDirection);
-//		result.push_back(om);
-//	}
-//	return result;
-//}
-
 int Game::extractParamFieldFromFile(string& line, size_t pos)
 {
 	string token = line.substr(0, pos);
@@ -58,24 +33,10 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 void Game::load(bool isSilent)
 {
 
-			run();
-		
-		//int key;
-		//vector<int> keys;
-		//vector<MoveIteration*> allIterations;
-		//getline(in, movementLine);
-		//while (!in.eof())
-		//{
-		//	vector<WonderGhostMovemvent*> moveObject = extractObjectMove(movementLine, FILE_DELIMITER, key);
-		//	keys.push_back(key);
-		//	MoveIteration* bla = new MoveIteration(key, moveObject);
-		//	allIterations.push_back(new MoveIteration(key, moveObject));
-
-		//	//moveAllObjectDirection(om);
-		//	getline(in, movementLine);
-		//}
-		//int x = 8;
-	
+	if (isGameFromFile) {
+		stepsIn.open(playingBoard.getStepsFileName());
+	}
+	run();
 }
 
 
@@ -102,7 +63,7 @@ bool Game::getIsGameFromFile()
 
 void Game::setIsGameFromFile(bool _isGameIsFromFile)
 {
-	isGameFromFile=_isGameIsFromFile;
+	isGameFromFile = _isGameIsFromFile;
 }
 
 /*
@@ -170,6 +131,7 @@ void Game::makeSelection() {
 	case GameStatus::START:
 		init();
 		if (!playingBoard.getIsFileLoadFail()) {
+			stepsOut.open(playingBoard.getStepsFileName());
 			run();
 		}
 	case GameStatus::EXIT:
@@ -188,31 +150,24 @@ void Game::makeSelection() {
 This function manages the main running of the game by user keyboard typing and according to game
 status. Function manages ship movement, ship switch, victory check, lose check and pasue of the game.
 */
-void Game::run() {
+void Game::run(char key) {
 
-	if (isGameFromFile){
-		stepsIn.open(playingBoard.getStepsFileName());
-	}
-	else {
-		stepsOut.open(playingBoard.getStepsFileName());
-	}
 
-	char key = 0;
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
-			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY,key);
+			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY, key);
 			checkVictory(bigShip);
 			if (bigShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
 				switchShip(isBigOnMoving, *smallShip, *bigShip);
 			}
 		}
 		if (!isBigMove && !smallShip->getIsExit()) { // is small move
-			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY,key);
+			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY, key);
 			checkVictory(smallShip);
 			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
-				switchShip(isSmallOnMoving, *bigShip, *smallShip);
+				//switchShip(isSmallOnMoving, *bigShip, *smallShip);
 			}
 		}
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
@@ -244,28 +199,30 @@ char Game::handleKey()
 		if (stepsIn.good()) {
 			string line;
 			getline(stepsIn, line);
-			directionKey=line.at(0);
-			size_t pos = 1;
-			line.erase(0, pos + 1);//delimiter len
-			while ((pos = line.find(' ')) != string::npos) {
-				token = line.substr(0, pos);
-				ghostDelimeterPos = token.find(':');
-				ghostId = stoi(token.substr(0, ghostDelimeterPos));
-				ghost = playingBoard.getGhostById(ghostId);
-				WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
-				if (wg) {
-					ghostDirection = (token[ghostDelimeterPos+1]-'0');
-					wg->setDirection(ghostDirection);
-					wg->Move(&playingBoard);
-				}				
+			if (!line.empty())
+			{
+				directionKey = line.at(0);
+				size_t pos = 1;
 				line.erase(0, pos + 1);//delimiter len
+				while ((pos = line.find(' ')) != string::npos) {
+					token = line.substr(0, pos);
+					ghostDelimeterPos = token.find(':');
+					ghostId = stoi(token.substr(0, ghostDelimeterPos));
+					ghost = playingBoard.getGhostById(ghostId);
+					WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
+					if (wg) {
+						ghostDirection = (token[ghostDelimeterPos + 1] - '0');
+						wg->setDirection(ghostDirection);
+					}
+					line.erase(0, pos + 1);//delimiter len
+				}
 			}
 		}
 	}
 	else {
 		directionKey = _getch();
-		if (stepsOut.good()){
-			if (directionKey != '\0'){
+		if (stepsOut.good()) {
+			if ((directionKey != '\0' && gameStatus != GameStatus::PAUSE) || directionKey == (int)GameStatus::ESC || directionKey == (int)GameStatus::PAUSE_EXIT) {
 				stepsOut << directionKey;
 			}
 		}
@@ -280,7 +237,7 @@ Funtion manages movement direction according to keyboard typing from user. In ad
 stop ships according to user keyboard typing of same switch key.In parallel function manages blocks
 falling in whole board and time handle.
 */
-char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey,char prevKey) {
+char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove, char curShipswitchKey, char otherShipSwitchKey, char prevKey) {
 	char key = 0;
 	int dir;
 	if (_kbhit() || isGameFromFile)
@@ -301,11 +258,11 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-	else if(!_kbhit() && !isGameFromFile){
+	else if (!_kbhit() && !isGameFromFile) {
 		handleFileInStaticMode(isOnMoving, shipToMove, prevKey);
 	}
 
-	if (isBigStart || isSmallStart){
+	if (isBigStart || isSmallStart) {
 		playingBoard.moveGhosts(isGameFromFile, stepsIn, stepsOut);
 	}
 	playingBoard.fallBlocksIfNoFloor();
@@ -319,26 +276,30 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		}
 	}
 
-	if (key == '\0'){
+	if (key == '\0') {
 		return prevKey;
 	}
 	return key;
 }
 
 
-void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey){
+void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey) {
 
 	if (stepsOut.good()) {
-		if (prevKey != '\0') {
+		if (prevKey != '\0' || gameStatus == GameStatus::RUNNING) {
+
 			if (isOnMoving) {
 				stepsOut << shipToMove.getCurrentDirectionKey();
 			}
-			else {
-				stepsOut << "p";
+			else if (prevKey != (int)GameStatus::ESC && prevKey != '\0')
+			{
+				stepsOut << STAY_KEY;
 			}
+			else prevKey = STAY_KEY;
 		}
 	}
 }
+
 
 
 
@@ -432,7 +393,7 @@ game metadata printing.
 */
 void Game::init() {
 	clear_screen();
-	playingBoard.initBoard();
+	playingBoard.initBoard(isGameFromFile);
 
 	if (!playingBoard.getIsFileLoadFail()) {
 		playingBoard.draw();
@@ -516,22 +477,27 @@ void Game::pauseCheck(int logY)
 		break;
 	default:
 	{
+		gameStatus = GameStatus::PAUSE;
+
 		cout << "press ESC to continue or 9 to Exit ";
 		do {
+
 			ch = handleKey();
 		} while (ch != (int)GameStatus::ESC && ch != (int)GameStatus::PAUSE_EXIT);
 		if (ch == (int)GameStatus::ESC) {
 			claer_line(logY);
 			setTextColor(Color::WHITE);
-			if (gameStatus == GameStatus::DIE)
+			
+			if (isLose())
 			{
 				playingBoard.deleteExistDataFromBoard();
 				init();
+				ch = 0;
 			}
 			gameStatus = GameStatus::RUNNING;
 			isBigOnMoving = false;
 			isSmallOnMoving = false;
-			run();
+			run(ch);
 
 		}
 		else if (ch == (int)GameStatus::PAUSE_EXIT) {

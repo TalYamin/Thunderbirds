@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "Direction.h"
 #define START_GHOST_ID 1000
+#define STAY_KEY 'p'
 
 class Point;
 

@@ -6,7 +6,7 @@
 #include "Board.h"
 #include "GameStatus.h"
 
-#define GAME_SPEED 50
+#define GAME_SPEED 200
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
@@ -66,7 +66,7 @@ private:
 	void setColorMode() const;
 	void printMenu() const;
 	void makeSelection();
-	void run();
+	void run(char key = 0);
 	void showInfo() const;
 	void pause();
 	void pauseCheck(int logY);
