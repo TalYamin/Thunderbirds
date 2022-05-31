@@ -5,7 +5,7 @@ enum class GameMode
 {
 	LOAD = 0,
 	SAVE = 1,
-	Error = 2
+	ERROR = 2
 	
 };
 
@@ -16,5 +16,5 @@ inline GameMode getMode(std::string& mode)
 	else if (mode == "save")
 		return GameMode::SAVE;
 	else
-		return GameMode::Error;
+		return GameMode::ERROR;
 }
