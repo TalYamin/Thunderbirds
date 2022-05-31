@@ -13,7 +13,7 @@ inline GameMode getMode(std::string& mode)
 {
 	if (mode == LOAD_MOAD)
 		return GameMode::LOAD;
-	else if (mode == "SAVE_MOAD")
+	else if (mode == SAVE_MOAD)
 		return GameMode::SAVE;
 	else
 		return GameMode::ERROR_MODE;
