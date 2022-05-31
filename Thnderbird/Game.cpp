@@ -503,7 +503,7 @@ void Game::pauseCheck(int logY)
 		isBigMove = true;
 		isBigOnMoving = false;
 		isSmallOnMoving = false;
-		run();
+		run(STAY_KEY);
 		break;
 	default:
 	{
