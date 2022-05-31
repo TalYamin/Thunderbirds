@@ -196,6 +196,8 @@ void Game::updateFiles()
 {
 	playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
 	playingBoard.setPlayingFileName("");
+	stepsIn.close();
+	stepsOut.close();
 	playingBoard.setStepsFileName("");
 	playingBoard.updatePlayingBoardName();
 	playingBoard.updateSavingFileName();
@@ -241,12 +243,15 @@ void Game::inferGhostMovement(string& line, const size_t& pos)
 
 	string token = line.substr(0, pos);
 	size_t ghostDelimeterPos = token.find(':');
-	int ghostId = stoi(token.substr(0, ghostDelimeterPos));
-	Ghost* ghost = playingBoard.getGhostById(ghostId);
-	WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
-	int ghostDirection = (token[ghostDelimeterPos + 1] - '0');
-	wg->setDirection(ghostDirection);
-	line.erase(0, pos + 1);//delimiter len
+	if (ghostDelimeterPos != string::npos)
+	{
+		int ghostId = stoi(token.substr(0, ghostDelimeterPos));
+		Ghost* ghost = playingBoard.getGhostById(ghostId);
+		WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
+		int ghostDirection = (token[ghostDelimeterPos + 1] - '0');
+		wg->setDirection(ghostDirection);
+		line.erase(0, pos + 1);//delimiter len
+	}
 }
 
 
@@ -451,6 +456,12 @@ void Game::pause() {
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
 		updateFiles();
+		if (isGameFromFile) {
+			stepsIn.open(playingBoard.getStepsFileName());
+		}
+		else {
+			stepsOut.open(playingBoard.getStepsFileName());
+		}
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);

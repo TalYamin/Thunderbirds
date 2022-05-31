@@ -176,7 +176,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tb_a.screen" />
-    <None Include="tb_a.steps" />
     <None Include="tb_b.screen" />
     <None Include="tb_c.screen" />
   </ItemGroup>
