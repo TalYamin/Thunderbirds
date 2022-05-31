@@ -469,8 +469,8 @@ void Board::addAllExitPoints() {
 void Board::moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out) {
 
 	for (int i = 0; i < allGhosts.size(); i++) {
-		allGhosts[i]->Move(this);
 		if (!isGameFromFile) {
+			allGhosts[i]->Move(this);
 			WonderGhost* wg = dynamic_cast<WonderGhost*>(allGhosts[i]);
 			if (wg) {
 				out << " " << allGhosts[i]->getId() << ":" << allGhosts[i]->getDirection();

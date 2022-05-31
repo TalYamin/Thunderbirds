@@ -147,6 +147,7 @@
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMode.h" />
+    <ClInclude Include="GameSpeedModes.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="HorizontalGhost.h" />
     <ClInclude Include="io_utils.h" />

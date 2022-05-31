@@ -5,8 +5,8 @@
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
+#include "GameSpeedModes.h"
 
-#define GAME_SPEED 200
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
 #define BIG_SWITCH_KEY 'B'
@@ -19,6 +19,7 @@
 #define MAX_LINE 50
 #define FILE_DELIMITER ','
 #define STAY_KEY 'p'
+#define GHOST_DELIMITER_SYMBOL ' '
 
 
 extern bool isBlackAndWhite;
@@ -40,6 +41,7 @@ class Game
 	bool isGameFromFile = false;
 	ifstream stepsIn;
 	ofstream stepsOut;
+	int gameSpeed = (int)GameSpeedMode::SAVE_SPEED;
 
 public:
 	//ctors + dtors
@@ -49,6 +51,8 @@ public:
 	~Game();
 
 	//getters + setters
+	void setGameSpeed(int _speed);
+	int getGameSpeed() const;	
 	void setLives(int _lives);
 	int getLives() const;
 	bool getIsGameFromFile();
@@ -88,6 +92,7 @@ private:
 	void generateSavingFile(ofstream& out);
 	void updateFiles();
 	char handleKey();
+	void inferGhostMovement(string& line, const size_t& pos);
 	void handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey);
 };
 

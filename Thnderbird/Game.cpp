@@ -32,13 +32,27 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 
 void Game::load(bool isSilent)
 {
-
+	gameSpeed = (int)GameSpeedMode::LOAD_SPEED;
+	if (isSilent)
+	{
+		gameSpeed = (int)GameSpeedMode::SILENCE_SPEED;
+	}
 	if (isGameFromFile) {
 		stepsIn.open(playingBoard.getStepsFileName());
 	}
 	run();
 }
 
+
+void Game::setGameSpeed(int _speed)
+{
+	gameSpeed = _speed;
+}
+
+int Game::getGameSpeed() const
+{
+	return gameSpeed;
+}
 
 /*
 This is setter function of lives data member.
@@ -189,33 +203,25 @@ void Game::updateFiles()
 
 char Game::handleKey()
 {
-	char directionKey;
-	string token;
-	int ghostId;
-	int ghostDirection;
-	Ghost* ghost;
-	size_t ghostDelimeterPos;
+	char directionKey = 0;
 	if (isGameFromFile) {
 		if (stepsIn.good()) {
 			string line;
 			getline(stepsIn, line);
 			if (!line.empty())
 			{
+				if (line[0] == (char)GameStatus::PAUSE_EXIT && line.size() == 1)
+				{
+					return (char)GameStatus::PAUSE_EXIT;
+				}
 				directionKey = line.at(0);
 				size_t pos = 1;
 				line.erase(0, pos + 1);//delimiter len
-				while ((pos = line.find(' ')) != string::npos) {
-					token = line.substr(0, pos);
-					ghostDelimeterPos = token.find(':');
-					ghostId = stoi(token.substr(0, ghostDelimeterPos));
-					ghost = playingBoard.getGhostById(ghostId);
-					WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
-					if (wg) {
-						ghostDirection = (token[ghostDelimeterPos + 1] - '0');
-						wg->setDirection(ghostDirection);
-					}
-					line.erase(0, pos + 1);//delimiter len
+				while ((pos = line.find(GHOST_DELIMITER_SYMBOL)) != string::npos) {
+					inferGhostMovement(line, pos);
 				}
+				inferGhostMovement(line, pos);
+
 			}
 		}
 	}
@@ -228,6 +234,19 @@ char Game::handleKey()
 		}
 	}
 	return directionKey;
+}
+
+void Game::inferGhostMovement(string& line, const size_t& pos)
+{
+
+	string token = line.substr(0, pos);
+	size_t ghostDelimeterPos = token.find(':');
+	int ghostId = stoi(token.substr(0, ghostDelimeterPos));
+	Ghost* ghost = playingBoard.getGhostById(ghostId);
+	WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
+	int ghostDirection = (token[ghostDelimeterPos + 1] - '0');
+	wg->setDirection(ghostDirection);
+	line.erase(0, pos + 1);//delimiter len
 }
 
 
@@ -266,7 +285,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		playingBoard.moveGhosts(isGameFromFile, stepsIn, stepsOut);
 	}
 	playingBoard.fallBlocksIfNoFloor();
-	Sleep(GAME_SPEED);
+	Sleep(gameSpeed);
 	if (isStart && isOnMoving) {
 		if (!playingBoard.getBigShip()->getIsDie() && !playingBoard.getSmallShip()->getIsDie())
 		{
@@ -487,7 +506,7 @@ void Game::pauseCheck(int logY)
 		if (ch == (int)GameStatus::ESC) {
 			claer_line(logY);
 			setTextColor(Color::WHITE);
-			
+
 			if (isLose())
 			{
 				playingBoard.deleteExistDataFromBoard();
