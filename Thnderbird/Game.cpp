@@ -181,7 +181,7 @@ void Game::run(char key) {
 			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY, key);
 			checkVictory(smallShip);
 			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
-				//switchShip(isSmallOnMoving, *bigShip, *smallShip);
+				switchShip(isSmallOnMoving, *bigShip, *smallShip);
 			}
 		}
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
