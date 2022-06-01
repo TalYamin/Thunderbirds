@@ -313,11 +313,16 @@ void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char&
 		if (prevKey != '\0' || gameStatus == GameStatus::RUNNING) {
 
 			if (isOnMoving) {
-				stepsOut << shipToMove.getCurrentDirectionKey();
-			}
+				if (shipToMove.getDirection(prevKey) == NO_DIRECTION){
+					stepsOut << STAY_KEY;
+				}
+				else {
+					stepsOut << shipToMove.getCurrentDirectionKey();
+				}
+				}
 			else if (prevKey != (int)GameStatus::ESC && prevKey != '\0')
 			{
-				stepsOut << STAY_KEY;
+					stepsOut << STAY_KEY;
 			}
 			else prevKey = STAY_KEY;
 		}
@@ -334,6 +339,7 @@ Function update the active ship icons.
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
 	printPlayingShip(playingBoard.getShipIndexPlace(), playingBoard.getLegendYIndexPlace(), shipToSwitch);
+	isOnMoving = false;
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
