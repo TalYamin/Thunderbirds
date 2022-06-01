@@ -80,6 +80,16 @@ void Game::setIsGameFromFile(bool _isGameIsFromFile)
 	isGameFromFile = _isGameIsFromFile;
 }
 
+bool Game::getIsSaveMode()
+{
+	return isSaveMode;
+}
+
+void Game::setIsSaveMode(bool _isSaveMode)
+{
+	isSaveMode = _isSaveMode;
+}
+
 /*
 This function is used to print color menu.
 */
@@ -145,7 +155,10 @@ void Game::makeSelection() {
 	case GameStatus::START:
 		init();
 		if (!playingBoard.getIsFileLoadFail()) {
-			stepsOut.open(playingBoard.getStepsFileName());
+			if (isSaveMode)
+			{
+				stepsOut.open(playingBoard.getStepsFileName());
+			}
 			run();
 		}
 	case GameStatus::EXIT:
@@ -229,9 +242,12 @@ char Game::handleKey()
 	}
 	else {
 		directionKey = _getch();
-		if (stepsOut.good()) {
-			if ((directionKey != '\0' && gameStatus != GameStatus::PAUSE) || directionKey == (int)GameStatus::ESC || directionKey == (int)GameStatus::PAUSE_EXIT) {
-				stepsOut << directionKey;
+		if (isSaveMode)
+		{
+			if (stepsOut.good()) {
+				if ((directionKey != '\0' && gameStatus != GameStatus::PAUSE) || directionKey == (int)GameStatus::ESC || directionKey == (int)GameStatus::PAUSE_EXIT) {
+					stepsOut << directionKey;
+				}
 			}
 		}
 	}
@@ -282,7 +298,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-	else if (!_kbhit() && !isGameFromFile) {
+	else if (!_kbhit() && !isGameFromFile && isSaveMode) {
 		handleFileInStaticMode(isOnMoving, shipToMove, prevKey);
 	}
 
@@ -464,7 +480,7 @@ void Game::pause() {
 		if (isGameFromFile) {
 			stepsIn.open(playingBoard.getStepsFileName());
 		}
-		else {
+		else if(isSaveMode){
 			stepsOut.open(playingBoard.getStepsFileName());
 		}
 	}

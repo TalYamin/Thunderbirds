@@ -39,6 +39,7 @@ class Game
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
 	bool isGameFromFile = false;
+	bool isSaveMode = false;
 	ifstream stepsIn;
 	ofstream stepsOut;
 	int gameSpeed = (int)GameSpeedMode::SAVE_SPEED;
@@ -57,6 +58,8 @@ public:
 	int getLives() const;
 	bool getIsGameFromFile();
 	void setIsGameFromFile(bool _isGameIsFromFile);
+	bool getIsSaveMode();
+	void setIsSaveMode(bool _isSaveMode);
 
 	//public methods
 	void selectColorMode() const;
