@@ -1,0 +1,7 @@
+The format of the steps files is:
+
+each line symbol is an iteration of the game.
+the line will be in the next format:
+{pressKey} {WonderGhostId}:{wonderGhostDirection} {WonderGhostId}:{wonderGhostDirection}
+
+in the case of killing a wonder ghost, the ghost won't be written in the next lines.
