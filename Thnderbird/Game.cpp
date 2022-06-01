@@ -333,7 +333,6 @@ Function update the active ship icons.
 */
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
-	isOnMoving = true;
 	printPlayingShip(playingBoard.getShipIndexPlace(), playingBoard.getLegendYIndexPlace(), shipToSwitch);
 	shipToMove.setDirection(NO_DIRECTION);
 }
