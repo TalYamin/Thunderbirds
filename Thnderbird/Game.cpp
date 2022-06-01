@@ -39,6 +39,10 @@ void Game::load(bool isSilent)
 	}
 	if (isGameFromFile) {
 		stepsIn.open(playingBoard.getStepsFileName());
+		if (isSilentMode)
+		{
+			resultIn.open(playingBoard.getResultFileName());
+		}
 	}
 	run();
 }
@@ -88,6 +92,16 @@ bool Game::getIsSaveMode()
 void Game::setIsSaveMode(bool _isSaveMode)
 {
 	isSaveMode = _isSaveMode;
+}
+
+bool Game::getIsSilenteMode () const
+{
+	return isSilentMode;
+}
+
+void Game::setIsSilentMode(bool _isSilentMode)
+{
+	isSilentMode = _isSilentMode;
 }
 
 /*
@@ -158,6 +172,7 @@ void Game::makeSelection() {
 			if (isSaveMode)
 			{
 				stepsOut.open(playingBoard.getStepsFileName());
+				resultOut.open(playingBoard.getResultFileName());
 			}
 			run();
 		}
@@ -200,8 +215,7 @@ void Game::run(char key) {
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
 
-	stepsIn.close();
-	stepsOut.close();
+	closeFiles();
 }
 
 
@@ -209,15 +223,19 @@ void Game::updateFiles()
 {
 	playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
 	playingBoard.setPlayingFileName("");
-	stepsIn.close();
-	stepsOut.close();
+	closeFiles();
 	playingBoard.setStepsFileName("");
+	playingBoard.setResultFileName("");
 	playingBoard.updatePlayingBoardName();
 	playingBoard.updateSavingFileName();
+	playingBoard.updateResultFileName();
 }
 
 char Game::handleKey()
 {
+	stepsIn.close();
+	stepsIn.clear();
+	stepsIn.open(playingBoard.getStepsFileName());
 	char directionKey = 0;
 	if (isGameFromFile) {
 		if (stepsIn.good()) {
@@ -311,9 +329,12 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 		if (!playingBoard.getBigShip()->getIsDie() && !playingBoard.getSmallShip()->getIsDie())
 		{
 			shipToMove.move(&playingBoard);
-			playingBoard.timeDown();
-			printTime(playingBoard.getTimeIndexPlace(), playingBoard.getLegendYIndexPlace());
 		}
+	}
+
+	if (isBigStart || isSmallStart) {
+		playingBoard.timeDown();
+		printTime(playingBoard.getTimeIndexPlace(), playingBoard.getLegendYIndexPlace());
 	}
 
 	if (key == '\0') {
@@ -342,6 +363,26 @@ void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char&
 			}
 			else prevKey = STAY_KEY;
 		}
+	}
+}
+
+void Game::closeFiles()
+{
+	if (stepsIn.is_open())
+	{
+		stepsIn.close();
+	}
+	if (stepsOut.is_open())
+	{
+		stepsOut.close();
+	}
+	if (resultIn.is_open())
+	{
+	resultIn.close();
+	}
+	if (resultOut.is_open())
+	{
+		resultOut.close();
 	}
 }
 
@@ -460,6 +501,9 @@ void Game::pause() {
 	gotoxy(LOG_X, logY);
 	if (gameStatus == GameStatus::DIE)
 	{
+		if (resultOut.good())		{
+			resultOut << "Die:" << playingBoard.getTimeRemains() << endl;
+		}
 		lives--;
 		isBigMove = true;
 		setTextColor(Color::YELLOW);
@@ -476,12 +520,20 @@ void Game::pause() {
 	}
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
+		if (resultOut.good())
+		{
+			resultOut << "Finish:" << playingBoard.getTimeRemains();
+		}
 		updateFiles();
 		if (isGameFromFile) {
 			stepsIn.open(playingBoard.getStepsFileName());
+			if (isSilentMode){
+				resultIn.open(playingBoard.getResultFileName());
+			}
 		}
 		else if(isSaveMode){
 			stepsOut.open(playingBoard.getStepsFileName());
+			resultOut.open(playingBoard.getResultFileName());
 		}
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
@@ -515,6 +567,10 @@ void Game::pauseCheck(int logY)
 		break;
 	}
 	case GameStatus::VICTORY:
+		if (resultOut.good())
+		{
+			resultOut << "Finish:" << playingBoard.getTimeRemains();
+		}
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
 	case GameStatus::NEXT_LEVEL:

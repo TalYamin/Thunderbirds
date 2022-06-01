@@ -13,6 +13,7 @@
 #define FILE_PREFIX "tb_"
 #define SCREEN_FILE_EXTENSION ".screen"
 #define SAVE_FILE_EXTENSION ".steps"
+#define RESULT_FILE_EXTENSION ".result"
 #define FIRST_BOARD_SUFFIX 'a'
 
 
@@ -52,6 +53,7 @@ class Board
 	bool isFileLoadFail = false;
 	string playingFileName;
 	string stepsFileName;
+	string resultFileName;
 	int timeIndexPlace = 0;
 	int liveIndexPlace = 0;
 	int shipIndexPlace = 0;
@@ -104,10 +106,13 @@ public:
 	string getStepsFileName() const;
 	void setStepsFileName(string _stepsFileName);
 	void setIsLoadFromFile(bool _isLoadFromFile);
+	void setResultFileName(string _resultFileName);
+	string getResultFileName();
 
 	//public methods
 	void updatePlayingBoardName();
 	void updateSavingFileName();
+	void updateResultFileName();
 	void deleteExistDataFromBoard();
 	Block* getBlockById(const int& objectId) const;
 	Ghost* getGhostById(const int& objectId) const;
@@ -121,6 +126,7 @@ public:
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
 	void moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out);
+	void handleFilesOnInit(bool isGameFromFile);
 
 private:
 

@@ -35,6 +35,7 @@ int main(int argc, char* argv[])
 			if (argc > 2 && argv[3] == SILENT_ARG)
 			{
 				isSilent = true;
+				game.setIsSilentMode(true);
 				game.setGameSpeed((int)GameSpeedMode::SILENCE_SPEED);
 			}
 			game.load(isSilent);

@@ -40,8 +40,11 @@ class Game
 	int numOfWins = 0;
 	bool isGameFromFile = false;
 	bool isSaveMode = false;
+	bool isSilentMode = false;
 	ifstream stepsIn;
 	ofstream stepsOut;
+	ifstream resultIn;
+	ofstream resultOut;
 	int gameSpeed = (int)GameSpeedMode::SAVE_SPEED;
 
 public:
@@ -60,6 +63,8 @@ public:
 	void setIsGameFromFile(bool _isGameIsFromFile);
 	bool getIsSaveMode();
 	void setIsSaveMode(bool _isSaveMode);
+	bool getIsSilenteMode() const;
+	void setIsSilentMode(bool _isSilentMode);
 
 	//public methods
 	void selectColorMode() const;
@@ -97,6 +102,7 @@ private:
 	char handleKey();
 	void inferGhostMovement(string& line, const size_t& pos);
 	void handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey);
+	void closeFiles();
 };
 
 
