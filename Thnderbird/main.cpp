@@ -40,6 +40,9 @@ int main(int argc, char* argv[])
 			game.load(isSilent);
 			break;
 		case GameMode::SAVE:
+			game.setIsSaveMode(true);
+			game.selectColorMode();
+			game.start();
 			break;
 		default:
 			cout << "Invliad option, please insert a valid option" << endl;

@@ -124,8 +124,5 @@
     <None Include="tb_c.screen">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="tb_a.steps">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

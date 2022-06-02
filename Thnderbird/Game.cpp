@@ -80,6 +80,16 @@ void Game::setIsGameFromFile(bool _isGameIsFromFile)
 	isGameFromFile = _isGameIsFromFile;
 }
 
+bool Game::getIsSaveMode()
+{
+	return isSaveMode;
+}
+
+void Game::setIsSaveMode(bool _isSaveMode)
+{
+	isSaveMode = _isSaveMode;
+}
+
 /*
 This function is used to print color menu.
 */
@@ -145,7 +155,10 @@ void Game::makeSelection() {
 	case GameStatus::START:
 		init();
 		if (!playingBoard.getIsFileLoadFail()) {
-			stepsOut.open(playingBoard.getStepsFileName());
+			if (isSaveMode)
+			{
+				stepsOut.open(playingBoard.getStepsFileName());
+			}
 			run();
 		}
 	case GameStatus::EXIT:
@@ -181,7 +194,7 @@ void Game::run(char key) {
 			key = moveShip(isSmallStart, isSmallOnMoving, *bigShip, *smallShip, SMALL_SWITCH_KEY, BIG_SWITCH_KEY, key);
 			checkVictory(smallShip);
 			if (smallShip->getIsExit() && gameStatus != GameStatus::VICTORY) {
-				//switchShip(isSmallOnMoving, *bigShip, *smallShip);
+				switchShip(isSmallOnMoving, *bigShip, *smallShip);
 			}
 		}
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
@@ -196,6 +209,8 @@ void Game::updateFiles()
 {
 	playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
 	playingBoard.setPlayingFileName("");
+	stepsIn.close();
+	stepsOut.close();
 	playingBoard.setStepsFileName("");
 	playingBoard.updatePlayingBoardName();
 	playingBoard.updateSavingFileName();
@@ -227,9 +242,12 @@ char Game::handleKey()
 	}
 	else {
 		directionKey = _getch();
-		if (stepsOut.good()) {
-			if ((directionKey != '\0' && gameStatus != GameStatus::PAUSE) || directionKey == (int)GameStatus::ESC || directionKey == (int)GameStatus::PAUSE_EXIT) {
-				stepsOut << directionKey;
+		if (isSaveMode)
+		{
+			if (stepsOut.good()) {
+				if ((directionKey != '\0' && gameStatus != GameStatus::PAUSE) || directionKey == (int)GameStatus::ESC || directionKey == (int)GameStatus::PAUSE_EXIT) {
+					stepsOut << directionKey;
+				}
 			}
 		}
 	}
@@ -241,12 +259,15 @@ void Game::inferGhostMovement(string& line, const size_t& pos)
 
 	string token = line.substr(0, pos);
 	size_t ghostDelimeterPos = token.find(':');
-	int ghostId = stoi(token.substr(0, ghostDelimeterPos));
-	Ghost* ghost = playingBoard.getGhostById(ghostId);
-	WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
-	int ghostDirection = (token[ghostDelimeterPos + 1] - '0');
-	wg->setDirection(ghostDirection);
-	line.erase(0, pos + 1);//delimiter len
+	if (ghostDelimeterPos != string::npos)
+	{
+		int ghostId = stoi(token.substr(0, ghostDelimeterPos));
+		Ghost* ghost = playingBoard.getGhostById(ghostId);
+		WonderGhost* wg = dynamic_cast<WonderGhost*>(ghost);
+		int ghostDirection = (token[ghostDelimeterPos + 1] - '0');
+		wg->setDirection(ghostDirection);
+		line.erase(0, pos + 1);//delimiter len
+	}
 }
 
 
@@ -277,7 +298,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 			shipToMove.setDirection(dir);
 		}
 	}
-	else if (!_kbhit() && !isGameFromFile) {
+	else if (!_kbhit() && !isGameFromFile && isSaveMode) {
 		handleFileInStaticMode(isOnMoving, shipToMove, prevKey);
 	}
 
@@ -308,11 +329,16 @@ void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char&
 		if (prevKey != '\0' || gameStatus == GameStatus::RUNNING) {
 
 			if (isOnMoving) {
-				stepsOut << shipToMove.getCurrentDirectionKey();
-			}
+				if (shipToMove.getDirection(prevKey) == NO_DIRECTION){
+					stepsOut << STAY_KEY;
+				}
+				else {
+					stepsOut << shipToMove.getCurrentDirectionKey();
+				}
+				}
 			else if (prevKey != (int)GameStatus::ESC && prevKey != '\0')
 			{
-				stepsOut << STAY_KEY;
+					stepsOut << STAY_KEY;
 			}
 			else prevKey = STAY_KEY;
 		}
@@ -328,8 +354,8 @@ Function update the active ship icons.
 */
 void Game::switchShip(bool& isOnMoving, SpaceShip& shipToSwitch, SpaceShip& shipToMove) {
 	isBigMove = !isBigMove;
-	isOnMoving = true;
 	printPlayingShip(playingBoard.getShipIndexPlace(), playingBoard.getLegendYIndexPlace(), shipToSwitch);
+	isOnMoving = false;
 	shipToMove.setDirection(NO_DIRECTION);
 }
 
@@ -451,6 +477,12 @@ void Game::pause() {
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
 		updateFiles();
+		if (isGameFromFile) {
+			stepsIn.open(playingBoard.getStepsFileName());
+		}
+		else if(isSaveMode){
+			stepsOut.open(playingBoard.getStepsFileName());
+		}
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
 		setTextColor(Color::YELLOW);
@@ -492,7 +524,7 @@ void Game::pauseCheck(int logY)
 		isBigMove = true;
 		isBigOnMoving = false;
 		isSmallOnMoving = false;
-		run();
+		run(STAY_KEY);
 		break;
 	default:
 	{
