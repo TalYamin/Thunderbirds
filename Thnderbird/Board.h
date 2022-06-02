@@ -126,7 +126,6 @@ public:
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);
 	void fallBlocksIfNoFloor();
 	void moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out);
-	void handleFilesOnInit(bool isGameFromFile);
 
 private:
 

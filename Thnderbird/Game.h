@@ -23,6 +23,7 @@
 
 
 extern bool isBlackAndWhite;
+extern bool isSilent;
 
 class Game
 {
@@ -40,7 +41,6 @@ class Game
 	int numOfWins = 0;
 	bool isGameFromFile = false;
 	bool isSaveMode = false;
-	bool isSilentMode = false;
 	ifstream stepsIn;
 	ofstream stepsOut;
 	ifstream resultIn;
@@ -63,15 +63,16 @@ public:
 	void setIsGameFromFile(bool _isGameIsFromFile);
 	bool getIsSaveMode();
 	void setIsSaveMode(bool _isSaveMode);
-	bool getIsSilenteMode() const;
-	void setIsSilentMode(bool _isSilentMode);
+	void setIsSilent(bool _s);
 
 	//public methods
 	void selectColorMode() const;
 	void start();
-	void load(bool isSilent);
+	void load();
 	int extractParamFieldFromFile(string& line, size_t pos);
 	void init();
+	void handleFilesOnInit();
+
 
 private:
 

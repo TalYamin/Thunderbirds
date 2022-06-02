@@ -124,6 +124,15 @@
     <None Include="tb_c.screen">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="tb_a.steps">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb_b.steps">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb_c.steps">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="file_format.txt">

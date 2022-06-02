@@ -10,7 +10,6 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard(bool isGameFromFile)
 {
-	handleFilesOnInit(isGameFromFile);
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
@@ -483,22 +482,6 @@ void Board::moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out) {
 	}
 
 }
-
-void Board::handleFilesOnInit(bool isGameFromFile)
-{
-	setIsLoadFromFile(isGameFromFile);
-	if (playingFileName.empty()) {
-		updatePlayingBoardName();
-	}
-	if (stepsFileName.empty()) {
-		updateSavingFileName();
-	}
-	if (resultFileName.empty()){
-		updateResultFileName();
-	}
-}
-
-
 
 
 /*

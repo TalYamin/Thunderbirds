@@ -29,16 +29,14 @@ int main(int argc, char* argv[])
 		switch (getMode(args))
 		{
 		case GameMode::LOAD:
-
 			game.setIsGameFromFile(true);
-			game.init();
-			if (argc > 2 && argv[3] == SILENT_ARG)
+			if (argc > 2 && string(argv[2]) == SILENT_ARG)
 			{
 				isSilent = true;
-				game.setIsSilentMode(true);
+				game.setIsSilent(true);
 				game.setGameSpeed((int)GameSpeedMode::SILENCE_SPEED);
 			}
-			game.load(isSilent);
+			game.load();
 			break;
 		case GameMode::SAVE:
 			game.setIsSaveMode(true);
