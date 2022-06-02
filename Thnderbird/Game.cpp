@@ -162,6 +162,7 @@ void Game::makeSelection() {
 	case GameStatus::START_FILE_NAME:
 		getFileNameFromUser();
 	case GameStatus::START:
+		handleFilesOnInit();
 		init();
 		if (!playingBoard.getIsFileLoadFail()) {
 			if (isSaveMode)
