@@ -20,6 +20,8 @@
 #define FILE_DELIMITER ','
 #define STAY_KEY 'p'
 #define GHOST_DELIMITER_SYMBOL ' '
+#define FINISH_KEY 'F'
+#define DIE_KEY 'D'
 
 
 extern bool isBlackAndWhite;
@@ -36,6 +38,7 @@ class Game
 	bool isSmallOnMoving = false;
 	bool isBigStart = false;
 	bool isSmallStart = false;
+	bool isSilentTestPass = true;
 	int lives = 3;
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
@@ -64,6 +67,8 @@ public:
 	bool getIsSaveMode();
 	void setIsSaveMode(bool _isSaveMode);
 	void setIsSilent(bool _s);
+	bool getIsSilentTestPass();
+	void setIsSilentTestPass(bool _isTestPass);
 
 	//public methods
 	void selectColorMode() const;
@@ -72,7 +77,7 @@ public:
 	int extractParamFieldFromFile(string& line, size_t pos);
 	void init();
 	void handleFilesOnInit();
-
+	void printSilentTestResult();
 
 private:
 
@@ -104,6 +109,8 @@ private:
 	void inferGhostMovement(string& line, const size_t& pos);
 	void handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey);
 	void closeFiles();
+	bool isValidSilentTest(char requiredKey);
+	long inferTimeFromResFile(string& line);
 };
 
 

@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
 		{
 		case GameMode::LOAD:
 			game.setIsGameFromFile(true);
+			game.setGameSpeed((int)GameSpeedMode::LOAD_SPEED);
 			if (argc > 2 && string(argv[2]) == SILENT_ARG)
 			{
 				isSilent = true;
@@ -37,6 +38,10 @@ int main(int argc, char* argv[])
 				game.setGameSpeed((int)GameSpeedMode::SILENCE_SPEED);
 			}
 			game.load();
+			if (isSilent)
+			{
+				game.printSilentTestResult();
+			}
 			break;
 		case GameMode::SAVE:
 			game.setIsSaveMode(true);
