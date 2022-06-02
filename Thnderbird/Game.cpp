@@ -32,9 +32,8 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 
 void Game::load()
 {
-
+	handleFilesOnInit();
 	if (isGameFromFile) {
-		handleFilesOnInit();
 		stepsIn.open(playingBoard.getStepsFileName());
 		if (isSilent)
 		{
@@ -511,6 +510,8 @@ void Game::handleFilesOnInit()
 
 void Game::printSilentTestResult(){
 	clear_screen();
+	isSilent = false;
+	setTextColor(Color::WHITE);
 	if (isSilentTestPass){
 		cout << "test pass";
 	}
