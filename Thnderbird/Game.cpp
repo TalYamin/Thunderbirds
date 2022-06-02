@@ -566,7 +566,7 @@ void Game::pause() {
 		if (resultOut.is_open()) {
 			resultOut << DIE_KEY << ":" << playingBoard.getTimeRemains() << endl;
 		}
-		else if (resultIn.is_open() && resultIn.good()) {
+		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
 			isSilentTestPass = isValidSilentTest(DIE_KEY);
 		}
 		lives--;
@@ -667,6 +667,11 @@ void Game::pauseCheck(int logY)
 
 			if (isLose())
 			{
+				if (stepsOut.is_open() && stepsOut.good()) {
+					stepsOut << endl; 
+					stepsOut << STAY_KEY;
+
+				}
 				playingBoard.deleteExistDataFromBoard();
 				handleFilesOnInit();
 				init();

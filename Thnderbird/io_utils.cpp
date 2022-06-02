@@ -38,11 +38,11 @@ This function is used to set color to text.
 In case of isBlackAndWhite mode this is disabled.
 */
 void setTextColor(Color colorToSet) {
-	if (isSilent)
+	/*if (isSilent)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Color::BLACK);
 	}
-	else if (!isBlackAndWhite) {
+	else */if (!isBlackAndWhite) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
 	}
 }
