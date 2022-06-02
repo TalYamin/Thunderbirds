@@ -1,11 +1,15 @@
 #pragma once
 #include <iostream>
+#include <fstream>
+#include <conio.h>
 #include <conio.h>
 #include "Spaceship.h"
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
 #include "GameSpeedModes.h"
+#include "BoardFiles.h"
+#include <map>
 
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
@@ -44,10 +48,7 @@ class Game
 	int numOfWins = 0;
 	bool isGameFromFile = false;
 	bool isSaveMode = false;
-	ifstream stepsIn;
-	ofstream stepsOut;
-	ifstream resultIn;
-	ofstream resultOut;
+	map<string, BoardFiles> files;
 	int gameSpeed = (int)GameSpeedMode::SAVE_SPEED;
 
 public:
