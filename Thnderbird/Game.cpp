@@ -35,7 +35,7 @@ void Game::load()
 
 	gameSpeed = (int)GameSpeedMode::LOAD_SPEED;
 	if (isGameFromFile) {
-		handleFilesOnInit(isGameFromFile);
+		handleFilesOnInit();
 		stepsIn.open(playingBoard.getStepsFileName());
 		if (isSilent)
 		{
@@ -485,7 +485,7 @@ void Game::init() {
 	}
 }
 
-void Game::handleFilesOnInit(bool isGameFromFile)
+void Game::handleFilesOnInit()
 {
 	playingBoard.setIsLoadFromFile(isGameFromFile);
 	if (playingBoard.getPlayingFileName().empty()) {

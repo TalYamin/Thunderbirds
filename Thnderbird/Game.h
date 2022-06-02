@@ -63,8 +63,6 @@ public:
 	void setIsGameFromFile(bool _isGameIsFromFile);
 	bool getIsSaveMode();
 	void setIsSaveMode(bool _isSaveMode);
-	bool getIsSilenteMode() const;
-	void setIsSilentMode(bool _isSilentMode);
 	void setIsSilent(bool _s);
 
 	//public methods
@@ -73,7 +71,7 @@ public:
 	void load();
 	int extractParamFieldFromFile(string& line, size_t pos);
 	void init();
-	void handleFilesOnInit(bool isGameFromFile);
+	void handleFilesOnInit();
 
 
 private:
