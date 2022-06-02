@@ -667,6 +667,7 @@ void Game::pauseCheck(int logY)
 			if (isLose())
 			{
 				playingBoard.deleteExistDataFromBoard();
+				handleFilesOnInit();
 				init();
 				ch = 0;
 			}
