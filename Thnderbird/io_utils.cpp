@@ -4,6 +4,7 @@
 using namespace std;
 
 bool isBlackAndWhite;
+bool isSilent;
 
 #ifndef WINDOWS
 void gotoxy(int x, int y) {}
@@ -37,7 +38,11 @@ This function is used to set color to text.
 In case of isBlackAndWhite mode this is disabled.
 */
 void setTextColor(Color colorToSet) {
-	if (!isBlackAndWhite) {
+	if (isSilent)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Color::BLACK);
+	}
+	else if (!isBlackAndWhite) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)colorToSet);
 	}
 }

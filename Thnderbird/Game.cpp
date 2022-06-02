@@ -30,20 +30,20 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 
 
 
-void Game::load(bool isSilent)
+void Game::load()
 {
+
 	gameSpeed = (int)GameSpeedMode::LOAD_SPEED;
-	if (isSilent)
-	{
-		gameSpeed = (int)GameSpeedMode::SILENCE_SPEED;
-	}
 	if (isGameFromFile) {
+		handleFilesOnInit(isGameFromFile);
 		stepsIn.open(playingBoard.getStepsFileName());
-		if (isSilentMode)
+		if (isSilent)
 		{
+			gameSpeed = (int)GameSpeedMode::SILENCE_SPEED;
 			resultIn.open(playingBoard.getResultFileName());
 		}
 	}
+	init();
 	run();
 }
 
@@ -94,14 +94,9 @@ void Game::setIsSaveMode(bool _isSaveMode)
 	isSaveMode = _isSaveMode;
 }
 
-bool Game::getIsSilenteMode () const
+void Game::setIsSilent(bool _s)
 {
-	return isSilentMode;
-}
-
-void Game::setIsSilentMode(bool _isSilentMode)
-{
-	isSilentMode = _isSilentMode;
+	isSilent = _s;
 }
 
 /*
@@ -233,9 +228,6 @@ void Game::updateFiles()
 
 char Game::handleKey()
 {
-	stepsIn.close();
-	stepsIn.clear();
-	stepsIn.open(playingBoard.getStepsFileName());
 	char directionKey = 0;
 	if (isGameFromFile) {
 		if (stepsIn.good()) {
@@ -350,16 +342,16 @@ void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char&
 		if (prevKey != '\0' || gameStatus == GameStatus::RUNNING) {
 
 			if (isOnMoving) {
-				if (shipToMove.getDirection(prevKey) == NO_DIRECTION){
+				if (shipToMove.getDirection(prevKey) == NO_DIRECTION) {
 					stepsOut << STAY_KEY;
 				}
 				else {
 					stepsOut << shipToMove.getCurrentDirectionKey();
 				}
-				}
+			}
 			else if (prevKey != (int)GameStatus::ESC && prevKey != '\0')
 			{
-					stepsOut << STAY_KEY;
+				stepsOut << STAY_KEY;
 			}
 			else prevKey = STAY_KEY;
 		}
@@ -370,18 +362,22 @@ void Game::closeFiles()
 {
 	if (stepsIn.is_open())
 	{
+		stepsIn.clear();
 		stepsIn.close();
 	}
 	if (stepsOut.is_open())
 	{
+		stepsOut.clear();
 		stepsOut.close();
 	}
 	if (resultIn.is_open())
 	{
-	resultIn.close();
+		resultIn.clear();
+		resultIn.close();
 	}
 	if (resultOut.is_open())
 	{
+		resultOut.clear();
 		resultOut.close();
 	}
 }
@@ -489,6 +485,20 @@ void Game::init() {
 	}
 }
 
+void Game::handleFilesOnInit(bool isGameFromFile)
+{
+	playingBoard.setIsLoadFromFile(isGameFromFile);
+	if (playingBoard.getPlayingFileName().empty()) {
+		playingBoard.updatePlayingBoardName();
+	}
+	if (playingBoard.getStepsFileName().empty()) {
+		playingBoard.updateSavingFileName();
+	}
+	if (playingBoard.getResultFileName().empty()) {
+		playingBoard.updateResultFileName();
+	}
+}
+
 /*
 This function is used to handle pause situation.
 Function checks the game status - die situation, victory situation or pause situation
@@ -501,7 +511,7 @@ void Game::pause() {
 	gotoxy(LOG_X, logY);
 	if (gameStatus == GameStatus::DIE)
 	{
-		if (resultOut.good())		{
+		if (resultOut.good()) {
 			resultOut << "Die:" << playingBoard.getTimeRemains() << endl;
 		}
 		lives--;
@@ -526,12 +536,11 @@ void Game::pause() {
 		}
 		updateFiles();
 		if (isGameFromFile) {
-			stepsIn.open(playingBoard.getStepsFileName());
-			if (isSilentMode){
+			if (isSilent) {
 				resultIn.open(playingBoard.getResultFileName());
 			}
 		}
-		else if(isSaveMode){
+		else if (isSaveMode) {
 			stepsOut.open(playingBoard.getStepsFileName());
 			resultOut.open(playingBoard.getResultFileName());
 		}
