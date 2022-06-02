@@ -10,14 +10,7 @@ Then function calls to initBlocks() and initShips() functions.
 */
 void Board::initBoard(bool isGameFromFile)
 {
-	setIsLoadFromFile(isGameFromFile);
-	if (playingFileName.empty()) {
-		updatePlayingBoardName();
-	}
-	if (stepsFileName.empty()) {
-		updateSavingFileName();
-	}
-
+	handleFilesOnInit(isGameFromFile);
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
@@ -45,6 +38,13 @@ void Board::updateSavingFileName()
 	stepsFileName += FILE_PREFIX;
 	stepsFileName += currFileSuffix;
 	stepsFileName += SAVE_FILE_EXTENSION;
+}
+
+void Board::updateResultFileName()
+{
+	resultFileName += FILE_PREFIX;
+	resultFileName += currFileSuffix;
+	resultFileName += RESULT_FILE_EXTENSION;
 }
 
 /*Load board matrix from file*/
@@ -484,6 +484,20 @@ void Board::moveGhosts(bool isGameFromFile, ifstream& in, ofstream& out) {
 
 }
 
+void Board::handleFilesOnInit(bool isGameFromFile)
+{
+	setIsLoadFromFile(isGameFromFile);
+	if (playingFileName.empty()) {
+		updatePlayingBoardName();
+	}
+	if (stepsFileName.empty()) {
+		updateSavingFileName();
+	}
+	if (resultFileName.empty()){
+		updateResultFileName();
+	}
+}
+
 
 
 
@@ -879,6 +893,16 @@ void Board::setStepsFileName(string _stepsFileName)
 void Board::setIsLoadFromFile(bool _isLoadFromFile)
 {
 	isLoadFromFile = _isLoadFromFile;
+}
+
+void Board::setResultFileName(string _resultFileName)
+{
+	resultFileName = _resultFileName;
+}
+
+string Board::getResultFileName()
+{
+	return resultFileName;
 }
 
 void Board::setLegendYIndexPlace(int _legendIndexPlace)
