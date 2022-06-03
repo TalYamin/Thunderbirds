@@ -95,6 +95,7 @@ private:
 	void showInfo() const;
 	void pause();
 	void pauseCheck(int logY);
+	void handleNewBoardMovement();
 	void printTime(const int x, const int y) const;
 	void printTextDescription(const int x, const int y, const std::string text) const;
 	void printLives(const int x, const int y) const;

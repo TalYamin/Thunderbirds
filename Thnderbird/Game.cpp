@@ -663,16 +663,14 @@ void Game::pauseCheck(int logY)
 			resultOut << FINISH_KEY << ":" << playingBoard.getTimeRemains();
 		}
 		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
-			isSilentTestPass = isValidSilentTest(DIE_KEY);
+			isSilentTestPass = isValidSilentTest(FINISH_KEY);
 		}
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
 	case GameStatus::NEXT_LEVEL:
 		playingBoard.deleteExistDataFromBoard();
 		handleFilesOnInit();
-		//getline(stepsIn, ss);
 		init();
-		getline(stepsIn, ss);
 		gameStatus = GameStatus::RUNNING;
 		isBigMove = true;
 		isBigOnMoving = false;
@@ -696,11 +694,7 @@ void Game::pauseCheck(int logY)
 
 			if (isLose())
 			{
-				if (stepsOut.is_open() && stepsOut.good()) {
-					stepsOut << endl;
-					stepsOut << STAY_KEY;
-
-				}
+				handleNewBoardMovement();
 				playingBoard.deleteExistDataFromBoard();
 				handleFilesOnInit();
 				init();
@@ -717,6 +711,15 @@ void Game::pauseCheck(int logY)
 			userSelection = GameStatus::EXIT;
 		}
 	}
+	}
+}
+
+void Game::handleNewBoardMovement()
+{
+	if (stepsOut.is_open() && stepsOut.good()) {
+		stepsOut << endl;
+		stepsOut << STAY_KEY;
+
 	}
 }
 
