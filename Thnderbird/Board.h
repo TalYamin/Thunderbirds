@@ -61,6 +61,7 @@ class Board
 	int legendXIndexPlace = 0;
 	int legendYIndexPlace = 0;
 	bool isLoadFromFile = false;
+	bool isSilent = false;
 
 
 public:
@@ -108,6 +109,7 @@ public:
 	void setIsLoadFromFile(bool _isLoadFromFile);
 	void setResultFileName(string _resultFileName);
 	string getResultFileName();
+	bool getIsSilent();
 
 	//public methods
 	void updatePlayingBoardName();
@@ -120,7 +122,7 @@ public:
 	void removeGhostFromBoard(Ghost* ghost);
 	bool checkExit(SpaceShip* ship);
 	bool isNotEmptyPoint(int x, int y, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize, bool* isGhost);
-	void initBoard(bool isGameFromFile);
+	void initBoard(bool isGameFromFile, bool isSilentGame);
 	void timeDown();
 	void draw() const;
 	bool isBlockCanMove(Block* block, const int& direction, vector<Block*>& blocksInvolve, const int& maxCarringBlockSize);

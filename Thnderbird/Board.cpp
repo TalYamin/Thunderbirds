@@ -8,8 +8,9 @@ This function is used to initialize board.
 Funtion creats matrix of points according to string which contains board draw.
 Then function calls to initBlocks() and initShips() functions.
 */
-void Board::initBoard(bool isGameFromFile)
+void Board::initBoard(bool isGameFromFile, bool isSilentGame)
 {
+	isSilent = isSilentGame;
 	allBlocks.clear();
 	allGhosts.clear();
 	isBigShipInitialized = false;
@@ -595,7 +596,9 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 	for (int i = 0; i < shipVerticaSize; i++)
 	{
 		for (int j = 0; j < shipHorizontalSize; j++) {
+			if (!isSilent){
 			ship->getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
+			}
 			mat[ship->getShipMat()[i][j].getX()][ship->getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
 		}
 	}
@@ -609,7 +612,9 @@ void Board::removeGhostFromBoard(Ghost* ghost) {
 
 	for (int i = 0; i < ghost->getListPoints().size(); i++)
 	{
+		if (!isSilent){
 		ghost->getListPoints()[i]->draw((char)BoardFigure::EMPTY);
+		}
 		allGhosts.erase(remove(allGhosts.begin(), allGhosts.end(), ghost), allGhosts.end());
 		mat[ghost->getListPoints()[i]->getX()][ghost->getListPoints()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 	}
@@ -886,6 +891,11 @@ void Board::setResultFileName(string _resultFileName)
 string Board::getResultFileName()
 {
 	return resultFileName;
+}
+
+bool Board::getIsSilent()
+{
+	return isSilent;
 }
 
 void Board::setLegendYIndexPlace(int _legendIndexPlace)

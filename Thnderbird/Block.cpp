@@ -96,14 +96,18 @@ board matrix. Then, function draws block figure on board in new location and upd
 void Block::move(int direction, Board* board)
 {
 	for (int i = 0; i < list_points.size(); i++) {
+		if (!board->getIsSilent()){
 		list_points[i]->draw((char)BoardFigure::EMPTY);
+		}
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId((int)ObjectId::EMPTY);
 	}
 
 	for (int i = 0; i < list_points.size(); i++) {
 		list_points[i]->move(direction);
+		if (!board->getIsSilent()){
 		list_points[i]->draw();
+		}
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(figure);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId(blockId);
 	}

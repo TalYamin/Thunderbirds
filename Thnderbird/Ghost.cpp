@@ -83,12 +83,16 @@ void Ghost::MoveGhost(Board* board) {
 
 	for (int i = 0; i < list_points.size(); i++)
 	{
+		if (!board->getIsSilent()){
 		list_points[i]->draw((char)BoardFigure::EMPTY);
+		}
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure((char)BoardFigure::EMPTY);
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId((int)ObjectId::EMPTY);
 
 		list_points[i]->move(this->getDirection());
+		if (!board->getIsSilent()){
 		list_points[i]->draw();
+		}
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setFigure(this->getFigure());
 		board->getMat()[list_points[i]->getX()][list_points[i]->getY()].setObjecId(ghostId);
 	}
