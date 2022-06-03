@@ -4,7 +4,7 @@
 #include <algorithm>
 
 #define SILENT_ARG "silent"
-
+#define BLACK_WHITE_ARG "no-color"
 /*
 This is main function of Thunderbirds program.
 Function creates Game object. Function performs color mode selection and then starts the game.
@@ -36,6 +36,9 @@ int main(int argc, char* argv[])
 				isSilent = true;
 				game.setIsSilent(true);
 				game.setGameSpeed((int)GameSpeedMode::SILENCE_SPEED);
+			}
+			else if (argc > 2 && string(argv[2]) == BLACK_WHITE_ARG) {
+				isBlackAndWhite = true;
 			}
 			game.load();
 			if (isSilent)
