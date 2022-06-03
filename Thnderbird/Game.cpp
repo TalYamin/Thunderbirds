@@ -221,7 +221,7 @@ void Game::run(char key) {
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
 
-	closeFiles();
+	//closeFiles();
 }
 
 
@@ -375,6 +375,7 @@ void Game::closeFiles()
 {
 	if (stepsIn.is_open())
 	{
+		stepsIn.trunc;
 		stepsIn.clear();
 		stepsIn.close();
 	}
@@ -578,9 +579,9 @@ void Game::pause() {
 		}
 		lives--;
 		isBigMove = true;
-		if (!isSilent){
-		setTextColor(Color::YELLOW);
-		cout << "You died ";
+		if (!isSilent) {
+			setTextColor(Color::YELLOW);
+			cout << "You died ";
 		}
 		if (lives == 0)
 		{
@@ -607,6 +608,10 @@ void Game::pause() {
 		}
 		updateFiles();
 		if (isGameFromFile) {
+			if (!stepsIn.is_open())
+			{
+				stepsIn.open(playingBoard.getStepsFileName());
+			}
 			if (isSilent) {
 				resultIn.open(playingBoard.getResultFileName());
 			}
@@ -642,6 +647,8 @@ run() function to continue the game.
 */
 void Game::pauseCheck(int logY)
 {
+	string ss;
+
 	char ch = -1;
 	switch (gameStatus)
 	{
@@ -662,7 +669,11 @@ void Game::pauseCheck(int logY)
 		break;
 	case GameStatus::NEXT_LEVEL:
 		playingBoard.deleteExistDataFromBoard();
+		handleFilesOnInit();
+		getline(stepsIn, ss);
 		init();
+		handleFilesOnInit();
+		getline(stepsIn, ss);
 		gameStatus = GameStatus::RUNNING;
 		isBigMove = true;
 		isBigOnMoving = false;
