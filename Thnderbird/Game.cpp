@@ -589,7 +589,7 @@ void Game::pause() {
 		{
 			resultOut << FINISH_KEY << ":" << playingBoard.getTimeRemains();
 		}
-		else if (resultIn.is_open() && resultIn.good()) {
+		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
 			isSilentTestPass = isValidSilentTest(FINISH_KEY);
 		}
 		updateFiles();
@@ -638,7 +638,7 @@ void Game::pauseCheck(int logY)
 		{
 			resultOut << FINISH_KEY << ":" << playingBoard.getTimeRemains();
 		}
-		else if (resultIn.is_open() && resultIn.good()) {
+		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
 			isSilentTestPass = isValidSilentTest(DIE_KEY);
 		}
 		gameStatus = GameStatus::PAUSE_EXIT;
