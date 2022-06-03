@@ -177,10 +177,13 @@
     <ClCompile Include="WonderGhost.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="tb_a.result" />
     <None Include="tb_a.screen" />
     <None Include="tb_a.steps" />
+    <None Include="tb_b.result" />
     <None Include="tb_b.screen" />
     <None Include="tb_b.steps" />
+    <None Include="tb_c.result" />
     <None Include="tb_c.screen" />
     <None Include="tb_c.steps" />
   </ItemGroup>

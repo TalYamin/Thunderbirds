@@ -546,8 +546,8 @@ bool Game::isValidSilentTest(char requiredKey)
 				return false;
 			}
 		}
-		return true;
 	}
+		return true;
 
 }
 
@@ -670,9 +670,8 @@ void Game::pauseCheck(int logY)
 	case GameStatus::NEXT_LEVEL:
 		playingBoard.deleteExistDataFromBoard();
 		handleFilesOnInit();
-		getline(stepsIn, ss);
+		//getline(stepsIn, ss);
 		init();
-		handleFilesOnInit();
 		getline(stepsIn, ss);
 		gameStatus = GameStatus::RUNNING;
 		isBigMove = true;

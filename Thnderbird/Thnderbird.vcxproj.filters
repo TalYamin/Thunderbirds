@@ -139,6 +139,15 @@
     <None Include="tb_c.steps">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="tb_a.result">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb_b.result">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tb_c.result">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="file_format.txt">

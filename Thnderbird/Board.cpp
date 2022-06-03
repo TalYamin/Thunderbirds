@@ -52,7 +52,7 @@ void Board::loadBoardFromTextFile(string fileName)
 {
 	int y = 0;
 	int x = 0;
-	ifstream in(fileName);
+	fstream in(fileName, ios_base::in);
 	char c;
 	std::string str;
 
@@ -596,8 +596,8 @@ void Board::removeShipFromBoard(SpaceShip* ship) {
 	for (int i = 0; i < shipVerticaSize; i++)
 	{
 		for (int j = 0; j < shipHorizontalSize; j++) {
-			if (!isSilent){
-			ship->getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
+			if (!isSilent) {
+				ship->getShipMat()[i][j].draw((char)BoardFigure::EMPTY);
 			}
 			mat[ship->getShipMat()[i][j].getX()][ship->getShipMat()[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
 		}
@@ -612,8 +612,8 @@ void Board::removeGhostFromBoard(Ghost* ghost) {
 
 	for (int i = 0; i < ghost->getListPoints().size(); i++)
 	{
-		if (!isSilent){
-		ghost->getListPoints()[i]->draw((char)BoardFigure::EMPTY);
+		if (!isSilent) {
+			ghost->getListPoints()[i]->draw((char)BoardFigure::EMPTY);
 		}
 		allGhosts.erase(remove(allGhosts.begin(), allGhosts.end(), ghost), allGhosts.end());
 		mat[ghost->getListPoints()[i]->getX()][ghost->getListPoints()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
