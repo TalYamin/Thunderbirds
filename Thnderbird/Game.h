@@ -1,11 +1,15 @@
 #pragma once
 #include <iostream>
+#include <fstream>
+#include <conio.h>
 #include <conio.h>
 #include "Spaceship.h"
 #include "io_utils.h"
 #include "Board.h"
 #include "GameStatus.h"
 #include "GameSpeedModes.h"
+#include "BoardFiles.h"
+#include <map>
 
 #define TIME_TO_PAUSE 1000
 #define NO_DIRECTION -1
@@ -20,6 +24,8 @@
 #define FILE_DELIMITER ','
 #define STAY_KEY 'p'
 #define GHOST_DELIMITER_SYMBOL ' '
+#define FINISH_KEY 'F'
+#define DIE_KEY 'D'
 
 
 extern bool isBlackAndWhite;
@@ -36,15 +42,13 @@ class Game
 	bool isSmallOnMoving = false;
 	bool isBigStart = false;
 	bool isSmallStart = false;
+	bool isSilentTestPass = true;
 	int lives = 3;
 	int numOfScreens = NUM_OF_SCREENS;
 	int numOfWins = 0;
 	bool isGameFromFile = false;
 	bool isSaveMode = false;
-	ifstream stepsIn;
-	ofstream stepsOut;
-	ifstream resultIn;
-	ofstream resultOut;
+	map<string, BoardFiles> files;
 	int gameSpeed = (int)GameSpeedMode::SAVE_SPEED;
 
 public:
@@ -64,6 +68,8 @@ public:
 	bool getIsSaveMode();
 	void setIsSaveMode(bool _isSaveMode);
 	void setIsSilent(bool _s);
+	bool getIsSilentTestPass();
+	void setIsSilentTestPass(bool _isTestPass);
 
 	//public methods
 	void selectColorMode() const;
@@ -72,7 +78,7 @@ public:
 	int extractParamFieldFromFile(string& line, size_t pos);
 	void init();
 	void handleFilesOnInit();
-
+	void printSilentTestResult();
 
 private:
 
@@ -104,6 +110,8 @@ private:
 	void inferGhostMovement(string& line, const size_t& pos);
 	void handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey);
 	void closeFiles();
+	bool isValidSilentTest(char requiredKey);
+	long inferTimeFromResFile(string& line);
 };
 
 

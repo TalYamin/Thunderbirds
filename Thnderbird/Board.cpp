@@ -58,7 +58,7 @@ void Board::loadBoardFromTextFile(string fileName)
 	if (in.is_open()) {
 		getline(in, str);
 		timeRemains = atoi(str.c_str());
-		while (in.good()) {
+		while (in.is_open() && in.good()) {
 			in.get(c);
 			if (c == '\n') {
 				y++;

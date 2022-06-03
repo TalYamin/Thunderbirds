@@ -32,10 +32,8 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 
 void Game::load()
 {
-
-	gameSpeed = (int)GameSpeedMode::LOAD_SPEED;
+	handleFilesOnInit();
 	if (isGameFromFile) {
-		handleFilesOnInit();
 		stepsIn.open(playingBoard.getStepsFileName());
 		if (isSilent)
 		{
@@ -97,6 +95,16 @@ void Game::setIsSaveMode(bool _isSaveMode)
 void Game::setIsSilent(bool _s)
 {
 	isSilent = _s;
+}
+
+bool Game::getIsSilentTestPass()
+{
+	return isSilentTestPass;
+}
+
+void Game::setIsSilentTestPass(bool _isTestPass)
+{
+	isSilentTestPass = _isTestPass;
 }
 
 /*
@@ -231,7 +239,7 @@ char Game::handleKey()
 {
 	char directionKey = 0;
 	if (isGameFromFile) {
-		if (stepsIn.good()) {
+		if (stepsIn.is_open() && stepsIn.good()) {
 			string line;
 			getline(stepsIn, line);
 			if (!line.empty())
@@ -255,7 +263,7 @@ char Game::handleKey()
 		directionKey = _getch();
 		if (isSaveMode)
 		{
-			if (stepsOut.good()) {
+			if (stepsOut.is_open() && stepsOut.good()) {
 				if ((directionKey != '\0' && gameStatus != GameStatus::PAUSE) || directionKey == (int)GameStatus::ESC || directionKey == (int)GameStatus::PAUSE_EXIT) {
 					stepsOut << directionKey;
 				}
@@ -339,7 +347,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 
 void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey) {
 
-	if (stepsOut.good()) {
+	if (stepsOut.is_open() && stepsOut.good()) {
 		if (prevKey != '\0' || gameStatus == GameStatus::RUNNING) {
 
 			if (isOnMoving) {
@@ -500,6 +508,49 @@ void Game::handleFilesOnInit()
 	}
 }
 
+void Game::printSilentTestResult(){
+	clear_screen();
+	isSilent = false;
+	setTextColor(Color::WHITE);
+	if (isSilentTestPass){
+		cout << "test pass";
+	}
+	else {
+		cout << "test failed";
+	}
+}
+
+bool Game::isValidSilentTest(char requiredKey)
+{
+		if (resultIn.is_open() && resultIn.good()) {
+			char key;
+			string line;
+			getline(resultIn, line);
+			if (line.empty()){
+				return false;
+			}
+			else{
+				key = line.at(0);
+				if (key != requiredKey){
+					return false;
+				}
+				if (inferTimeFromResFile(line) != playingBoard.getTimeRemains()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+}
+
+long Game::inferTimeFromResFile(string &line)
+{
+	size_t pos = 1;
+	line.erase(0, pos + 1);//delimiter 
+	long timeFromFile = stol(line);
+	return timeFromFile;
+}
+
 /*
 This function is used to handle pause situation.
 Function checks the game status - die situation, victory situation or pause situation
@@ -512,8 +563,11 @@ void Game::pause() {
 	gotoxy(LOG_X, logY);
 	if (gameStatus == GameStatus::DIE)
 	{
-		if (resultOut.good()) {
-			resultOut << "Die:" << playingBoard.getTimeRemains() << endl;
+		if (resultOut.is_open()) {
+			resultOut << DIE_KEY << ":" << playingBoard.getTimeRemains() << endl;
+		}
+		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
+			isSilentTestPass = isValidSilentTest(DIE_KEY);
 		}
 		lives--;
 		isBigMove = true;
@@ -531,9 +585,12 @@ void Game::pause() {
 	}
 	else if (gameStatus == GameStatus::VICTORY && numOfWins < numOfScreens) {
 		gameStatus = GameStatus::NEXT_LEVEL;
-		if (resultOut.good())
+		if (resultOut.is_open() && resultOut.good())
 		{
-			resultOut << "Finish:" << playingBoard.getTimeRemains();
+			resultOut << FINISH_KEY << ":" << playingBoard.getTimeRemains();
+		}
+		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
+			isSilentTestPass = isValidSilentTest(FINISH_KEY);
 		}
 		updateFiles();
 		if (isGameFromFile) {
@@ -577,9 +634,12 @@ void Game::pauseCheck(int logY)
 		break;
 	}
 	case GameStatus::VICTORY:
-		if (resultOut.good())
+		if (resultOut.is_open() && resultOut.good())
 		{
-			resultOut << "Finish:" << playingBoard.getTimeRemains();
+			resultOut << FINISH_KEY << ":" << playingBoard.getTimeRemains();
+		}
+		else if (resultIn.is_open() && resultIn.good() && isSilentTestPass) {
+			isSilentTestPass = isValidSilentTest(DIE_KEY);
 		}
 		gameStatus = GameStatus::PAUSE_EXIT;
 		break;
@@ -607,7 +667,13 @@ void Game::pauseCheck(int logY)
 
 			if (isLose())
 			{
+				if (stepsOut.is_open() && stepsOut.good()) {
+					stepsOut << endl; 
+					stepsOut << STAY_KEY;
+
+				}
 				playingBoard.deleteExistDataFromBoard();
+				handleFilesOnInit();
 				init();
 				ch = 0;
 			}
