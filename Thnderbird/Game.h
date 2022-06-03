@@ -48,8 +48,12 @@ class Game
 	int numOfWins = 0;
 	bool isGameFromFile = false;
 	bool isSaveMode = false;
-	map<string, BoardFiles> files;
+//	map<string, BoardFiles> files;
 	int gameSpeed = (int)GameSpeedMode::SAVE_SPEED;
+	ifstream stepsIn;
+	ofstream stepsOut;
+	ifstream resultIn;
+	ofstream resultOut;
 
 public:
 	//ctors + dtors
