@@ -273,7 +273,9 @@ void SpaceShip::moveShip(Board* board, ObjectId type) {
 	for (int i = 0; i < verticalSize; i++)
 	{
 		for (int j = 0; j < horizontalSize; j++) {
+			if (!board->getIsSilent()){
 			shipMat[i][j].draw((char)BoardFigure::EMPTY);
+			}
 			board->getMat()[shipMat[i][j].getX()][shipMat[i][j].getY()].setFigure((char)BoardFigure::EMPTY);
 			board->getMat()[shipMat[i][j].getX()][shipMat[i][j].getY()].setObjecId((char)ObjectId::EMPTY);
 		}
@@ -284,7 +286,9 @@ void SpaceShip::moveShip(Board* board, ObjectId type) {
 	{
 		for (int j = 0; j < horizontalSize; j++) {
 			shipMat[i][j].move(direction);
+			if (!board->getIsSilent()){
 			shipMat[i][j].draw();
+			}
 			board->getMat()[shipMat[i][j].getX()][shipMat[i][j].getY()].setFigure(figure);
 			board->getMat()[shipMat[i][j].getX()][shipMat[i][j].getY()].setObjecId((int)type);
 

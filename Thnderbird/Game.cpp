@@ -181,8 +181,10 @@ void Game::makeSelection() {
 			run();
 		}
 	case GameStatus::EXIT:
-		setTextColor(Color::DARKGREY);
-		cout << "Goodbye !";
+		if (!isSilent) {
+			setTextColor(Color::DARKGREY);
+			cout << "Goodbye !";
+		}
 		break;
 	default:
 		cout << "Wrong input, please try again !" << endl << endl;
@@ -335,7 +337,9 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 
 	if (isBigStart || isSmallStart) {
 		playingBoard.timeDown();
-		printTime(playingBoard.getTimeIndexPlace(), playingBoard.getLegendYIndexPlace());
+		if (!isSilent) {
+			printTime(playingBoard.getTimeIndexPlace(), playingBoard.getLegendYIndexPlace());
+		}
 	}
 
 	if (key == '\0') {
@@ -484,12 +488,15 @@ game metadata printing.
 */
 void Game::init() {
 	clear_screen();
-	playingBoard.initBoard(isGameFromFile);
+	playingBoard.initBoard(isGameFromFile, isSilent);
 
 	if (!playingBoard.getIsFileLoadFail()) {
-		playingBoard.draw();
 
-		gameLegend(*(playingBoard.getBigShip()));
+		if (!isSilent) {
+			playingBoard.draw();
+			gameLegend(*(playingBoard.getBigShip()));
+		}
+
 		hideCursor();
 	}
 }
@@ -508,11 +515,11 @@ void Game::handleFilesOnInit()
 	}
 }
 
-void Game::printSilentTestResult(){
+void Game::printSilentTestResult() {
 	clear_screen();
 	isSilent = false;
 	setTextColor(Color::WHITE);
-	if (isSilentTestPass){
+	if (isSilentTestPass) {
 		cout << "test pass";
 	}
 	else {
@@ -522,28 +529,28 @@ void Game::printSilentTestResult(){
 
 bool Game::isValidSilentTest(char requiredKey)
 {
-		if (resultIn.is_open() && resultIn.good()) {
-			char key;
-			string line;
-			getline(resultIn, line);
-			if (line.empty()){
+	if (resultIn.is_open() && resultIn.good()) {
+		char key;
+		string line;
+		getline(resultIn, line);
+		if (line.empty()) {
+			return false;
+		}
+		else {
+			key = line.at(0);
+			if (key != requiredKey) {
 				return false;
 			}
-			else{
-				key = line.at(0);
-				if (key != requiredKey){
-					return false;
-				}
-				if (inferTimeFromResFile(line) != playingBoard.getTimeRemains()) {
-					return false;
-				}
+			if (inferTimeFromResFile(line) != playingBoard.getTimeRemains()) {
+				return false;
 			}
-			return true;
 		}
+		return true;
+	}
 
 }
 
-long Game::inferTimeFromResFile(string &line)
+long Game::inferTimeFromResFile(string& line)
 {
 	size_t pos = 1;
 	line.erase(0, pos + 1);//delimiter 
@@ -571,15 +578,21 @@ void Game::pause() {
 		}
 		lives--;
 		isBigMove = true;
+		if (!isSilent){
 		setTextColor(Color::YELLOW);
 		cout << "You died ";
+		}
 		if (lives == 0)
 		{
-			cout << "Game Over, Try your luck next time :) ";
+			if (!isSilent) {
+				cout << "Game Over, Try your luck next time :) ";
+			}
 			gameStatus = GameStatus::GAMEOVER;
 		}
 		else {
-			cout << "You have " << lives << " more lives! ";
+			if (!isSilent) {
+				cout << "You have " << lives << " more lives! ";
+			}
 			Sleep(TIME_TO_PAUSE);
 		}
 	}
@@ -604,14 +617,18 @@ void Game::pause() {
 		}
 	}
 	else if (gameStatus == GameStatus::VICTORY) {
-		setTextColor(Color::YELLOW);
-		cout << "You won !!! ";
+		if (!isSilent) {
+			setTextColor(Color::YELLOW);
+			cout << "You won !!! ";
+		}
 	}
 
 	else
 	{
-		setTextColor(Color::LIGHTBLUE);
-		cout << "Game paused ";
+		if (!isSilent) {
+			setTextColor(Color::LIGHTBLUE);
+			cout << "Game paused ";
+		}
 	}
 	pauseCheck(logY);
 }
@@ -656,7 +673,9 @@ void Game::pauseCheck(int logY)
 	{
 		gameStatus = GameStatus::PAUSE;
 
-		cout << "press ESC to continue or 9 to Exit ";
+		if (!isSilent) {
+			cout << "press ESC to continue or 9 to Exit ";
+		}
 		do {
 
 			ch = handleKey();
@@ -668,7 +687,7 @@ void Game::pauseCheck(int logY)
 			if (isLose())
 			{
 				if (stepsOut.is_open() && stepsOut.good()) {
-					stepsOut << endl; 
+					stepsOut << endl;
 					stepsOut << STAY_KEY;
 
 				}
