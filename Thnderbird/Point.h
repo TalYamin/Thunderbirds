@@ -8,8 +8,6 @@
 #define HORIZONTAL_SIZE 80
 #define VERTICAL_SIZE 23
 
-using namespace std;
-
 
 class Point
 {

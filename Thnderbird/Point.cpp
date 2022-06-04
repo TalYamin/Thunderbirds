@@ -1,5 +1,7 @@
 #include "Point.h"
 
+using namespace std;
+
 /*
 Constructor of Point with 2 parameters.
 */

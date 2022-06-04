@@ -7,6 +7,8 @@
 #define STAY_KEY 'p'
 
 class Point;
+using namespace std;
+
 
 class Ghost
 {

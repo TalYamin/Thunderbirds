@@ -5,6 +5,7 @@
 #include <vector>
 
 class Board;
+using namespace std;
 
 class Block
 {

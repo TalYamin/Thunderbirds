@@ -15,6 +15,8 @@
 
 class Board;
 class Block;
+using namespace std;
+
 
 class SpaceShip
 {
@@ -42,6 +44,7 @@ public:
 	SpaceShip& operator=(const SpaceShip& _spaceship);
 	SpaceShip(int _verticalSize, int _horizontalSize, char _figure, Color _color, int _maxCarringBlockSize, ShipSize _type);
 	~SpaceShip();
+	int getShipSize();
 
 
 	//getters + setters

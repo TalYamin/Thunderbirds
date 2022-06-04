@@ -33,6 +33,7 @@ class SpaceShip;
 class Block;
 class Point;
 class Ghost;
+using namespace std;
 
 class Board
 {

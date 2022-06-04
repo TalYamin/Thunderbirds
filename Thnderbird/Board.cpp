@@ -52,6 +52,7 @@ void Board::loadBoardFromTextFile(string fileName)
 {
 	int y = 0;
 	int x = 0;
+	int smallShipCharAmount = 0, bigShipCharAmount = 0;
 	fstream in(fileName, ios_base::in);
 	char c;
 	std::string str;
@@ -61,6 +62,14 @@ void Board::loadBoardFromTextFile(string fileName)
 		timeRemains = atoi(str.c_str());
 		while (in.is_open() && in.good()) {
 			in.get(c);
+			if (c == (char)BoardFigure::BIG_SHIP)
+			{
+				bigShipCharAmount++;
+			}
+			if (c == (char)BoardFigure::SMALL_SHIP)
+			{
+				smallShipCharAmount++;
+			}
 			if (c == '\n') {
 				y++;
 				x = 0;
@@ -81,10 +90,12 @@ void Board::loadBoardFromTextFile(string fileName)
 		}
 	}
 
-	if (!in.eof() && in.fail()) {
+	if (!in.eof() || !in.fail() || (bigShipCharAmount != bigShip->getShipSize() || smallShipCharAmount != smallShip->getShipSize())) {
 		cout << "error reading " << fileName << endl;
 		isFileLoadFail = true;
 	}
+
+
 
 	in.close();
 }

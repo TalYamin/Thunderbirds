@@ -203,7 +203,7 @@ void Game::run(char key) {
 
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
-	
+
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY, key);
@@ -429,17 +429,20 @@ Print the playing ship in the given place.
 */
 void Game::printPlayingShip(const int x, const int y, const SpaceShip& ship) const
 {
-	gotoxy(x, y);
-	switch (ship.getType())
+	if (!isGameFromFile)
 	{
-	case ShipSize::SMALL:
-		setTextColor(Color::BLUE);
-		cout << "Small";
-		break;
-	default:
-		setTextColor(Color::GREEN);
-		cout << "Big  ";
-		break;
+		gotoxy(x, y);
+		switch (ship.getType())
+		{
+		case ShipSize::SMALL:
+			setTextColor(Color::BLUE);
+			cout << "Small";
+			break;
+		default:
+			setTextColor(Color::GREEN);
+			cout << "Big  ";
+			break;
+		}
 	}
 }
 
@@ -548,7 +551,7 @@ bool Game::isValidSilentTest(char requiredKey)
 			}
 		}
 	}
-		return true;
+	return true;
 
 }
 
