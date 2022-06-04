@@ -71,7 +71,7 @@ void WonderGhost::Move(Board* board)
 
 			this->switchDirection();
 			checkGhostCollision(board);
-		} while (getIsGhostBlock());
+		} while (getIsGhostBlock() && !board->getBigShip()->getIsDie() && !board->getSmallShip()->getIsDie());
 	}
 	else
 	{

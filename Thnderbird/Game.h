@@ -26,6 +26,7 @@
 #define GHOST_DELIMITER_SYMBOL ' '
 #define FINISH_KEY 'F'
 #define DIE_KEY 'D'
+#define FORCE_EXIT_KEY 'E'
 
 
 extern bool isBlackAndWhite;

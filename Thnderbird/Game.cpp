@@ -203,6 +203,7 @@ void Game::run(char key) {
 
 	SpaceShip* bigShip = playingBoard.getBigShip();
 	SpaceShip* smallShip = playingBoard.getSmallShip();
+	
 	do {
 		if (isBigMove && !bigShip->getIsExit()) {
 			key = moveShip(isBigStart, isBigOnMoving, *smallShip, *bigShip, BIG_SWITCH_KEY, SMALL_SWITCH_KEY, key);
@@ -698,7 +699,7 @@ void Game::pauseCheck(int logY)
 				playingBoard.deleteExistDataFromBoard();
 				handleFilesOnInit();
 				init();
-				ch = 0;
+				ch = STAY_KEY;
 			}
 			gameStatus = GameStatus::RUNNING;
 			isBigOnMoving = false;
@@ -718,8 +719,6 @@ void Game::handleNewBoardMovement()
 {
 	if (stepsOut.is_open() && stepsOut.good()) {
 		stepsOut << endl;
-		stepsOut << STAY_KEY;
-
 	}
 }
 
