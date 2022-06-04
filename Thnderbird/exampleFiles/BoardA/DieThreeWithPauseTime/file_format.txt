@@ -1,0 +1,1 @@
+This case playing game of die three times

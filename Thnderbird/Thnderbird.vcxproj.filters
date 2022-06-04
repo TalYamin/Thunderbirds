@@ -13,6 +13,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Resource Files\examplesFiles">
+      <UniqueIdentifier>{61d013de-f0d6-4b66-922a-9844cdff26df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\examplesFiles\boardOneOnly">
+      <UniqueIdentifier>{3f57fd90-92ff-41b7-8766-ea80b179d88b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard">
+      <UniqueIdentifier>{2ed59225-55d4-414a-acbf-be5769e918b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -121,32 +130,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="tb_a.screen">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="tb_b.screen">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="tb_c.screen">
-      <Filter>Resource Files</Filter>
+    <None Include="tb_a.result">
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
     </None>
     <None Include="tb_a.steps">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="tb_b.steps">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="tb_c.steps">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="tb_a.result">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
     </None>
     <None Include="tb_b.result">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
+    </None>
+    <None Include="tb_b.steps">
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
     </None>
     <None Include="tb_c.result">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
+    </None>
+    <None Include="tb_c.steps">
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
+    </None>
+    <None Include="tb_b.screen">
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
+    </None>
+    <None Include="tb_a.screen2">
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
+    </None>
+    <None Include="tb_a.screen">
+      <Filter>Resource Files\examplesFiles\FlowAllBoardsFailOnLastBoard</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

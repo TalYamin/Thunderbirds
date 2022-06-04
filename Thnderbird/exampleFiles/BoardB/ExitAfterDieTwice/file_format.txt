@@ -1,0 +1,1 @@
+This case playing game of die twice and exit the game after it.
