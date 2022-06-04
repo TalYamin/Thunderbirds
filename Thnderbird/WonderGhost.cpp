@@ -20,12 +20,15 @@ int WonderGhost::getDirection()
 {
 	return direction;
 }
+
+//switch the ghost direction by random
 void WonderGhost::switchDirection()
 {
 
 	direction = (rand() % 4);
 }
 
+//checking for collition with object.
 void WonderGhost::checkGhostCollision(Board* board)
 {
 	bool isGhost;
@@ -63,6 +66,7 @@ void WonderGhost::checkGhostCollision(Board* board)
 
 }
 
+//move ghost by his direction.
 void WonderGhost::Move(Board* board)
 {
 	if (!isLoadFromFile)

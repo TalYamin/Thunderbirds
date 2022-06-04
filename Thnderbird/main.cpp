@@ -5,6 +5,9 @@
 
 #define SILENT_ARG "-silent"
 #define BLACK_WHITE_ARG "no-color"
+
+void printInvalidMessage();
+
 /*
 This is main function of Thunderbirds program.
 Function creates Game object. Function performs color mode selection and then starts the game.
@@ -31,11 +34,18 @@ int main(int argc, char* argv[])
 		case GameMode::LOAD:
 			game.setIsGameFromFile(true);
 			game.setGameSpeed((int)GameSpeedMode::LOAD_SPEED);
-			if (argc > 2 && string(argv[2]) == SILENT_ARG)
+			if (argc > 2)
 			{
-				isSilent = true;
-				game.setIsSilent(true);
-				game.setGameSpeed((int)GameSpeedMode::SILENCE_SPEED);
+				if (string(argv[2]) == SILENT_ARG) {
+					isSilent = true;
+					game.setIsSilent(true);
+					game.setGameSpeed((int)GameSpeedMode::SILENCE_SPEED);
+				}
+				else
+				{
+					printInvalidMessage();
+					break;
+				}
 			}
 			else if (argc > 2 && string(argv[2]) == BLACK_WHITE_ARG) {
 				isBlackAndWhite = true;
@@ -47,18 +57,26 @@ int main(int argc, char* argv[])
 			}
 			break;
 		case GameMode::SAVE:
+			if (argc > 2)
+			{
+				printInvalidMessage();
+			}
 			game.setIsSaveMode(true);
 			game.selectColorMode();
 			game.start();
 			break;
 		default:
-			cout << "Invliad option, please insert a valid option" << endl;
+			printInvalidMessage();
 			break;
-
-
 		}
 
 	}
 	return 0;
+
+}
+
+void printInvalidMessage()
+{
+	cout << "Invliad option, please insert a valid option" << endl;
 
 }

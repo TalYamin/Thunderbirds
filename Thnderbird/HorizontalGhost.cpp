@@ -20,6 +20,7 @@ int HorizontalGhost::getDirection()
 	return direction;
 }
 
+//chage the direction of the ghost
 void HorizontalGhost::switchDirection()
 {
 
@@ -27,6 +28,7 @@ void HorizontalGhost::switchDirection()
 
 }
 
+//Checking for collision with objects
 void HorizontalGhost::checkGhostCollision(Board* board)
 {
 	bool isGhost;

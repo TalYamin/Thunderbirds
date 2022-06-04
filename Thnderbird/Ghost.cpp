@@ -2,6 +2,7 @@
 
 int Ghost::idGenerator = START_GHOST_ID;
 
+//constractor
 Ghost::Ghost(vector <Point*> _list_points)
 {
 	list_points = _list_points;
@@ -100,9 +101,7 @@ void Ghost::MoveGhost(Board* board) {
 
 }
 
-
-
-
+//return true if ghost hit ship, false otherwise.
 bool Ghost::isGhostHitShip(Board* board, int x, int y) {
 
 	int currObjectId = board->getMat()[x][y].getObjecId();

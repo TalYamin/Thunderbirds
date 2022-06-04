@@ -8,7 +8,6 @@
 #include "Board.h"
 #include "GameStatus.h"
 #include "GameSpeedModes.h"
-#include "BoardFiles.h"
 #include <map>
 
 #define TIME_TO_PAUSE 1000
@@ -109,7 +108,6 @@ private:
 	void getFileNameFromUser();
 	void printPlayingShip(const int x, const int y, const SpaceShip& ship) const;
 	void printPlayingBoardName(const int x, const int y, string fileName) const;
-	void generateSavingFile(ofstream& out);
 	void updateFiles();
 	char handleKey();
 	void inferGhostMovement(string& line, const size_t& pos);

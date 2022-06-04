@@ -33,6 +33,7 @@ void Board::updatePlayingBoardName()
 	playingFileName += SCREEN_FILE_EXTENSION;
 }
 
+/* Update the saving steps flow name by the convenction.*/
 void Board::updateSavingFileName()
 {
 	stepsFileName += FILE_PREFIX;
@@ -40,6 +41,7 @@ void Board::updateSavingFileName()
 	stepsFileName += SAVE_FILE_EXTENSION;
 }
 
+/* Update the result board name by the convenction.*/
 void Board::updateResultFileName()
 {
 	resultFileName += FILE_PREFIX;
@@ -105,6 +107,7 @@ void Board::loadBoardFromTextFile(string fileName)
 	in.close();
 }
 
+//set the point in the board with it relevant obect id
 void Board::setPointAndObject(const int& x, const int& y, const char& c)
 {
 	int objectId;
@@ -846,7 +849,7 @@ void Board::deleteExistDataFromBoard()
 	delete smallShip;
 }
 
-
+//get time place in the screen
 int Board::getTimeIndexPlace() const
 {
 	return timeIndexPlace;

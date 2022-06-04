@@ -407,6 +407,7 @@ SpaceShip::~SpaceShip() {
 	}
 }
 
+//Calculate the size of the ship
 int SpaceShip::getShipSize()
 {
 	return horizontalSize * verticalSize;

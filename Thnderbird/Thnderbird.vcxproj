@@ -142,7 +142,6 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardFigure.h" />
-    <ClInclude Include="BoardFiles.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Direction.h" />
@@ -164,7 +163,6 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Board.cpp" />
-    <ClCompile Include="BoardFiles.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="HorizontalGhost.cpp" />

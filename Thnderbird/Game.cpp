@@ -29,7 +29,7 @@ int Game::extractParamFieldFromFile(string& line, size_t pos)
 }
 
 
-
+//run the game form load options
 void Game::load()
 {
 	handleFilesOnInit();
@@ -225,7 +225,7 @@ void Game::run(char key) {
 	closeFiles();
 }
 
-
+//Update the file after new level
 void Game::updateFiles()
 {
 	playingBoard.setCurrFileSuffix(playingBoard.getCurrFileSuffix() + 1);
@@ -276,6 +276,7 @@ char Game::handleKey()
 	return directionKey;
 }
 
+//Infer ghost movement by the file line convention
 void Game::inferGhostMovement(string& line, const size_t& pos)
 {
 
@@ -349,7 +350,7 @@ char Game::moveShip(bool& isStart, bool& isOnMoving, SpaceShip& shipToSwitch, Sp
 	return key;
 }
 
-
+//handle game in case of both ship in stay mode
 void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char& prevKey) {
 
 	if (stepsOut.is_open() && stepsOut.good()) {
@@ -372,6 +373,7 @@ void Game::handleFileInStaticMode(bool& isOnMoving, SpaceShip& shipToMove, char&
 	}
 }
 
+//Close all files.
 void Game::closeFiles()
 {
 	if (stepsIn.is_open())
@@ -455,12 +457,6 @@ void Game::printPlayingBoardName(const int x, const int y, string fileName) cons
 	cout << fileName;
 }
 
-void Game::generateSavingFile(ofstream& out) {
-
-	out.open(playingBoard.getStepsFileName());
-}
-
-
 /*
 This function is used to show game instructions and keys.
 */
@@ -505,6 +501,7 @@ void Game::init() {
 	}
 }
 
+//update the files name in case of empty files.
 void Game::handleFilesOnInit()
 {
 	playingBoard.setIsLoadFromFile(isGameFromFile);
@@ -519,6 +516,7 @@ void Game::handleFilesOnInit()
 	}
 }
 
+//Printing the result of the silent validtion
 void Game::printSilentTestResult() {
 	clear_screen();
 	isSilent = false;
@@ -531,6 +529,7 @@ void Game::printSilentTestResult() {
 	}
 }
 
+//silent validation method.
 bool Game::isValidSilentTest(char requiredKey)
 {
 	if (resultIn.is_open() && resultIn.good()) {
@@ -554,6 +553,7 @@ bool Game::isValidSilentTest(char requiredKey)
 
 }
 
+//infer the diretion of a single ghost by his id from the file
 long Game::inferTimeFromResFile(string& line)
 {
 	size_t pos = 1;
@@ -717,6 +717,7 @@ void Game::pauseCheck(int logY)
 	}
 }
 
+//in case of new level we add a new line to the file for the movement ghost.
 void Game::handleNewBoardMovement()
 {
 	if (stepsOut.is_open() && stepsOut.good()) {

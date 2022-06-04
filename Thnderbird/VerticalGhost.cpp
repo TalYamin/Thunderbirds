@@ -19,12 +19,14 @@ int VerticalGhost::getDirection()
     return direction;
 }
 
+//Switch the direction if the ghost
 void VerticalGhost::switchDirection()
 {
     direction = direction == (int)Direction::UP ? (int)Direction::DOWN : (int)Direction::UP;
 
 }
 
+//checking collition with objects
 void VerticalGhost::checkGhostCollision(Board* board){
 
 	bool isGhost;

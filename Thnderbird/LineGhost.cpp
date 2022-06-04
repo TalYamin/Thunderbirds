@@ -7,7 +7,7 @@ LineGhost::LineGhost(vector<Point*> _list_points, int _size) : Ghost(_list_point
 LineGhost::~LineGhost()
 {
 }
-
+//move a ghost by his direction.
 void LineGhost::Move(Board* board)
 {
 	checkGhostCollision(board);

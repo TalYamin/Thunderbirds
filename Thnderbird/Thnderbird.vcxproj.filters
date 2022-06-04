@@ -84,9 +84,6 @@
     <ClInclude Include="GameSpeedModes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoardFiles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp">
@@ -123,9 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WonderGhost.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BoardFiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
