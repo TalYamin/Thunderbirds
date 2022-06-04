@@ -376,7 +376,6 @@ void Game::closeFiles()
 {
 	if (stepsIn.is_open())
 	{
-		stepsIn.trunc;
 		stepsIn.clear();
 		stepsIn.close();
 	}

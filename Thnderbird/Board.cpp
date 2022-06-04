@@ -53,6 +53,7 @@ void Board::loadBoardFromTextFile(string fileName)
 	int y = 0;
 	int x = 0;
 	int smallShipCharAmount = 0, bigShipCharAmount = 0;
+	bool isLargeXIndex = false;
 	fstream in(fileName, ios_base::in);
 	char c;
 	std::string str;
@@ -72,6 +73,10 @@ void Board::loadBoardFromTextFile(string fileName)
 			}
 			if (c == '\n') {
 				y++;
+				if (x > HORIZONTAL_SIZE)
+				{
+					isLargeXIndex = true;
+				}
 				x = 0;
 			}
 			else if (c == (char)BoardFigure::INFO)
@@ -90,7 +95,7 @@ void Board::loadBoardFromTextFile(string fileName)
 		}
 	}
 
-	if (!in.eof() || !in.fail() || (bigShipCharAmount != bigShip->getShipSize() || smallShipCharAmount != smallShip->getShipSize())) {
+	if (!in.eof() || !in.fail() || (bigShipCharAmount != bigShip->getShipSize() || smallShipCharAmount != smallShip->getShipSize()) || isLargeXIndex) {
 		cout << "error reading " << fileName << endl;
 		isFileLoadFail = true;
 	}
@@ -628,6 +633,11 @@ void Board::removeGhostFromBoard(Ghost* ghost) {
 		}
 		allGhosts.erase(remove(allGhosts.begin(), allGhosts.end(), ghost), allGhosts.end());
 		mat[ghost->getListPoints()[i]->getX()][ghost->getListPoints()[i]->getY()].setFigure((char)BoardFigure::EMPTY);
+		for (int k = 0;k < ghost->getListPoints().size();k++)
+		{
+			delete(ghost->getListPoints()[k]);
+		}
+		delete(ghost);
 	}
 }
 
@@ -829,6 +839,9 @@ void Board::deleteExistDataFromBoard()
 		}
 		delete(currGhost);
 	}
+	allGhosts.clear();
+	allBlocks.clear();
+	exitPoints.clear();
 	delete bigShip;
 	delete smallShip;
 }

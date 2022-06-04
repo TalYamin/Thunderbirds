@@ -1,6 +1,6 @@
 #pragma once
-#define LOAD_MOAD "load"
-#define SAVE_MOAD "save"
+#define LOAD_MOAD "-load"
+#define SAVE_MOAD "-save"
 enum class GameMode
 {
 	LOAD = 0,

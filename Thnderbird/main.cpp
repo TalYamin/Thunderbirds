@@ -3,7 +3,7 @@
 #include <string.h>
 #include <algorithm>
 
-#define SILENT_ARG "silent"
+#define SILENT_ARG "-silent"
 #define BLACK_WHITE_ARG "no-color"
 /*
 This is main function of Thunderbirds program.
