@@ -222,7 +222,7 @@ void Game::run(char key) {
 	} while (key != (int)GameStatus::ESC && !isLose() && gameStatus != GameStatus::VICTORY);
 	pause();
 
-	//closeFiles();
+	closeFiles();
 }
 
 
